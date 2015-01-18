@@ -16,7 +16,7 @@ void stocstr(const std::string& s, char* c)
     }
 
     // finish off with NULL char
-    c[s.size()] = NULL;
+    c[s.size()] = '\0';
 }
 
 
