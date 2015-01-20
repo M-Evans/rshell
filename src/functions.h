@@ -19,8 +19,6 @@ struct Command
 };
 
 
-
-
 // copies a string into a cstring, while being careful of
 // memory management. Do NOT write past the end of the cstring
 void stocstr(const std::string& s, char* c)
@@ -37,6 +35,14 @@ void stocstr(const std::string& s, char* c)
     // finish off with NULL char
     c[s.size()] = '\0';
 }
+
+
+bool isConn(char c)
+{
+    return c == ';' || c == '&' || c == '|';
+}
+
+
 
 
 
