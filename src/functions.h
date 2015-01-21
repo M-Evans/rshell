@@ -3,8 +3,9 @@
 #include <vector>
 
 
-#define GETWORD   0
-#define TRIMSPACE 1
+#define GETWORD      0
+#define GETCONNECTOR 1
+#define TRIMSPACE    2
 
 #define NONE 0
 #define AND  1
@@ -41,9 +42,19 @@ char* stocstr(const std::string& s)
 
 bool isConn(char c)
 {
-    return c == ';' || c == '&' || c == '|';
+    switch(c)
+    {
+        case ';':
+        case '&':
+        case '|':
+        case '<':
+        case '>';
+            return true;
+            break;
+        default:
+            return false;
+    }
 }
-
 
 
 
