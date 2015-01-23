@@ -13,6 +13,8 @@
 #define OR   2
 #define SEMI 3
 
+#define debug(A) std::cout << #A << ": " << A << std::endl;
+
 // struct for holding a command and what its connector is
 struct Command
 {
