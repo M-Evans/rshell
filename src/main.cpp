@@ -74,6 +74,11 @@ int main(int argc, char** argv)
       bool con   = isConn(line[i]);
       bool space = isspace(line[i]);
 
+      debug(i);
+      debug(line[i]);
+      debug(con);
+      debug(space);
+
       // if we're getting a word and there's a whitespace or connector here
       if (mode == GETWORD && (space || con))
       {
@@ -98,7 +103,7 @@ int main(int argc, char** argv)
           handleCon(cmds, cmd, line, mode, i, se);
         }
       }
-      else if (mode == TRIMSPACE && (!space && con))
+      else if (mode == TRIMSPACE && (!space || con))
       {
         if (con && cmd.args.empty())
         {
@@ -114,6 +119,9 @@ int main(int argc, char** argv)
           begin = i;
         }
       }
+
+      debug(mode);
+      debug(begin);
     }
 
     // if there was a syntax error
@@ -156,7 +164,7 @@ int main(int argc, char** argv)
     {
       for(unsigned j = 0; j < cmds[i].args.size(); ++j)
       {
-        delete[] cmds[i].args[i];
+        delete[] cmds[i].args[j];
       }
     }
   }
