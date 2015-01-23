@@ -42,6 +42,9 @@ int main(int argc, char** argv)
       line = line.substr(1, line.size() - 1);
     }
 
+    // adding a space to the end makes parsing easier
+    line += ' ';
+
     if (std::cin.fail())
     {
       printf("\nGoodbye!\n");
@@ -60,6 +63,11 @@ int main(int argc, char** argv)
     // syntax error flag
     bool se = false;
 
+    if (line.size() > 0 && isConn(line[0]))
+    {
+      se = true;
+    }
+
     // handle the input
     for(unsigned i = 0; i < line.size() && !se; ++i)
     {
@@ -77,6 +85,7 @@ int main(int argc, char** argv)
         }
         else
         {
+          printf("Oh no! Recieved a word with no length\n");
           break;
         }
 
@@ -95,13 +104,14 @@ int main(int argc, char** argv)
         {
           se = true;
         }
-        else if (con) // it's a valid connector connector
+        else if (con)
         {
           handleCon(cmds, cmd, line, mode, i, se);
         }
         else
         {
           mode = GETWORD;
+          begin = i;
         }
       }
     }
@@ -112,6 +122,8 @@ int main(int argc, char** argv)
       printf("Syntax error detected\n");
       continue;
     }
+
+    cmds.push_back(cmd);
 
     for(unsigned i = 0; i < cmds.size(); ++i)
     {
