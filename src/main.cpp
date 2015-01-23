@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 
     // print prompt and get a line of text (done in condition)
     printf("$ ");
-    getline(std::cin, line); // handles the EOF being passed in
+    getline(std::cin, line);
 
     // look for comments
     if (line.find("#") != std::string::npos)
@@ -42,20 +42,9 @@ int main(int argc, char** argv)
       line = line.substr(1, line.size() - 1);
     }
 
-    // add a space so that every space-separated entity has
-    // at least one space directly to the right of it
-    // (makes parsing easier)
-    line += ' ';
-
-    // if exit was entered properly
-    if (line.substr(0,5) == "exit " || std::cin.fail())
+    if (std::cin.fail())
     {
-      if (std::cin.fail())
-      {
-        printf("\n");
-      }
-      // say goodbye, and quit
-      printf("Goodbye!\n");
+      printf("\nGoodbye!\n");
       exit(0);
     }
 
