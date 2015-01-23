@@ -143,11 +143,6 @@ int main(int argc, char** argv)
       continue;
     }
 
-    printf("Fix:\n");
-    for(unsigned i = 0; i < cmd.args.size(); ++i)
-      printf("\t\"%s\"\n", cmd.args[i]);
-    printf("\n\n");
-
     for(unsigned i = 0; i < cmds.size(); ++i)
     {
       printf("Command %u:\n", i);
