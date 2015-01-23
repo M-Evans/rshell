@@ -114,6 +114,26 @@ int main(int argc, char** argv)
           begin = i;
         }
       }
+      
+      if (i + 1 == line.size() && !cmd.args.empty()) // parsing the last character
+      {
+        // if it has a continuation connector, and we're finished with parsing, syntax error
+        if (cmd.connector == AND || cmd.connector == OR)
+        {
+          se = true;
+        }
+        else
+        {
+          cmds.push_back(cmd);
+        }
+      }
+    }
+
+    // if the last command has a continuation connector, syntax error
+    if (cmds.size() > 0 && (cmds[cmds.size() - 1].connector == AND
+                        ||  cmds[cmds.size() - 1].connector == OR))
+    {
+      se = true;
     }
 
     // if there was a syntax error
@@ -122,6 +142,11 @@ int main(int argc, char** argv)
       printf("Syntax error detected\n");
       continue;
     }
+
+    printf("Fix:\n");
+    for(unsigned i = 0; i < cmd.args.size(); ++i)
+      printf("\t\"%s\"\n", cmd.args[i]);
+    printf("\n\n");
 
     for(unsigned i = 0; i < cmds.size(); ++i)
     {
