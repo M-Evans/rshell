@@ -49,7 +49,7 @@ bool isConn(char c)
         case '&':
         case '|':
         case '<':
-        case '>';
+        case '>':
             return true;
             break;
         default:
@@ -59,7 +59,7 @@ bool isConn(char c)
 
 
 
-void handleCon(vector<Command>& cmds, vector<char*>& cmd, const string& line,
+void handleCon(std::vector<Command>& cmds, Command cmd, const std::string& line,
        int& mode, unsigned& i, bool& se)
 {
   switch(line[i])
@@ -73,7 +73,7 @@ void handleCon(vector<Command>& cmds, vector<char*>& cmd, const string& line,
         if (i + 1 < line.size())
         {
           // there is
-          if (isCon(line[i + 1]))
+          if (isConn(line[i + 1]))
           {
             // unfortunately, the next thing is a connector. This is a syntax error.
             se = true;
@@ -108,7 +108,7 @@ void handleCon(vector<Command>& cmds, vector<char*>& cmd, const string& line,
         if (i + 1 < line.size())
         {
           // there is
-          if (isCon(line[i + 1]))
+          if (isConn(line[i + 1]))
           {
             // unfortunately, the next thing is a connector. This is a syntax error.
             se = true;
@@ -139,7 +139,7 @@ void handleCon(vector<Command>& cmds, vector<char*>& cmd, const string& line,
       if (i + 1 < line.size())
       {
         // there is
-        if (isCon(line[i + 1]))
+        if (isConn(line[i + 1]))
         {
           // unfortunately, the next thing is a connector. This is a syntax error.
           se = true;
