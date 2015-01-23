@@ -1,6 +1,8 @@
 #include <cstdlib>
 #include <string>
 #include <vector>
+#include <cctype>
+
 
 
 #define GETWORD   0
@@ -55,6 +57,114 @@ bool isConn(char c)
     }
 }
 
+
+
+void handleCon(vector<Command>& cmds, vector<char*>& cmd, const string& line,
+       int& mode, unsigned& i, bool& se)
+{
+  switch(line[i])
+  {
+    case '&':
+      // make sure we don't access past what we're supposed to
+      if (i + 1 < line.size() && line[i+1] == '&')
+      {
+        i++;
+        // check if there's more to parse after this command
+        if (i + 1 < line.size())
+        {
+          // there is
+          if (isCon(line[i + 1]))
+          {
+            // unfortunately, the next thing is a connector. This is a syntax error.
+            se = true;
+            break;
+          }
+          else if (isspace(line[i + 1])) // it's a space. go into TRIMSPACE mode
+          {
+            mode = TRIMSPACE;
+          }
+          else // it's neither a connector nor a space: must be a word
+          {
+            mode = GETWORD;
+          }
+        }
+        cmd.connector = AND; // the command has an "and" connector
+        cmds.push_back(cmd); // add the command to the vector of commands that need to be executed
+        // prep cmd for next use
+        cmd.args.clear(); // remove command and arguments for the next bit of parsing
+        cmd.connector = NONE;
+      }
+      else // if the next thing isn't another &, syntax error
+      {
+        se = true;
+      }
+      break;
+    case '|':
+      // make sure we don't access past what we're supposed to
+      if (i + 1 < line.size() && line[i+1] == '|')
+      {
+        i++;
+        // check if there's more to parse after this command
+        if (i + 1 < line.size())
+        {
+          // there is
+          if (isCon(line[i + 1]))
+          {
+            // unfortunately, the next thing is a connector. This is a syntax error.
+            se = true;
+            break;
+          }
+          else if (isspace(line[i + 1])) // it's a space. go into TRIMSPACE mode
+          {
+            mode = TRIMSPACE;
+          }
+          else // it's neither a connector nor a space: must be a word
+          {
+            mode = GETWORD;
+          }
+        }
+        cmd.connector = OR; // the command has an "or" connector
+        cmds.push_back(cmd); // add the command to the vector of commands that need to be executed
+        // prep cmd for next use
+        cmd.args.clear(); // remove command and arguments for the next bit of parsing
+        cmd.connector = NONE;
+      }
+      else // if the next thing isn't another |, syntax error (for now. :P)
+      {
+        se = true;
+      }
+      break;
+    case ';':
+      // check if there's more to parse after this command
+      if (i + 1 < line.size())
+      {
+        // there is
+        if (isCon(line[i + 1]))
+        {
+          // unfortunately, the next thing is a connector. This is a syntax error.
+          se = true;
+          break;
+        }
+        else if (isspace(line[i + 1])) // it's a space. go into TRIMSPACE mode
+        {
+          mode = TRIMSPACE;
+        }
+        else // it's neither a connector nor a space: must be a word
+        {
+          mode = GETWORD;
+        }
+      }
+      cmd.connector = SEMI; // the command has an "and" connector
+      cmds.push_back(cmd); // add the command to the vector of commands that need to be executed
+      // prep cmd for next use
+      cmd.args.clear(); // remove command and arguments for the next bit of parsing
+      cmd.connector = NONE;
+      break;
+    default:
+      printf("There's a connector, but I don't know what it is. help.\n");
+      se = true;
+  }
+}
 
 
 
