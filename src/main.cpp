@@ -63,6 +63,7 @@ int main(int argc, char** argv)
     // syntax error flag
     bool se = false;
 
+    // starts with a connector? I don't think so
     if (line.size() > 0 && isConn(line[0]))
     {
       se = true;
