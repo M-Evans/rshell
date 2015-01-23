@@ -3,9 +3,8 @@
 #include <vector>
 
 
-#define GETWORD      0
-#define GETCONNECTOR 1
-#define TRIMSPACE    2
+#define GETWORD   0
+#define TRIMSPACE 1
 
 #define NONE 0
 #define AND  1
