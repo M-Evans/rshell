@@ -74,11 +74,6 @@ int main(int argc, char** argv)
       bool con   = isConn(line[i]);
       bool space = isspace(line[i]);
 
-      debug(i);
-      debug(line[i]);
-      debug(con);
-      debug(space);
-
       // if we're getting a word and there's a whitespace or connector here
       if (mode == GETWORD && (space || con))
       {
@@ -119,9 +114,6 @@ int main(int argc, char** argv)
           begin = i;
         }
       }
-
-      debug(mode);
-      debug(begin);
     }
 
     // if there was a syntax error
