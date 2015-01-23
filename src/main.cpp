@@ -86,7 +86,7 @@ int main(int argc, char** argv)
         }
         else
         {
-          printf("Oh no! Recieved a word with no length\n");
+          // only happens when nothing is entered. breaks so nothing more happens
           break;
         }
 
@@ -140,7 +140,7 @@ int main(int argc, char** argv)
     // if there was a syntax error
     if (se)
     {
-      printf("Syntax error detected\n");
+      printf("Syntax error\n");
       continue;
     }
 
