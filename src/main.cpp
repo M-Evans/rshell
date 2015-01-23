@@ -123,8 +123,6 @@ int main(int argc, char** argv)
       continue;
     }
 
-    cmds.push_back(cmd);
-
     for(unsigned i = 0; i < cmds.size(); ++i)
     {
       printf("Command %u:\n", i);
