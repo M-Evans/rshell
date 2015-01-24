@@ -54,9 +54,6 @@ int main(int argc, char** argv)
     int mode = GETWORD;
     unsigned begin = 0;
 
-    // temporary: show pre-processed input to know what's being dealt with
-    printf("You entered: \"%s\"\n", line.c_str());
-
     // prepare cmd
     cmd.connector = NONE;
 
@@ -64,7 +61,7 @@ int main(int argc, char** argv)
     bool se = false;
 
     // starts with a connector? I don't think so
-    if (line.size() > 0 && isConn(line[0]))
+    if (line.size() > 0 && isConn(line[0]) && line[0] != ';')
     {
       se = true;
     }
@@ -96,7 +93,7 @@ int main(int argc, char** argv)
         }
         else // it's a connector
         {
-          handleCon(cmds, cmd, line, mode, i, se);
+          handleCon(cmds, cmd, line, mode, begin, i, se);
         }
       }
       else if (mode == TRIMSPACE && (!space || con))
@@ -107,7 +104,7 @@ int main(int argc, char** argv)
         }
         else if (con)
         {
-          handleCon(cmds, cmd, line, mode, i, se);
+          handleCon(cmds, cmd, line, mode, begin, i, se);
         }
         else
         {
@@ -115,21 +112,6 @@ int main(int argc, char** argv)
           begin = i;
         }
       }
-      
-      /*
-      if (i + 1 == line.size() && !cmd.args.empty()) // parsing the last character
-      {
-        // if it has a continuation connector, and we're finished with parsing, syntax error
-        if (cmd.connector == AND || cmd.connector == OR)
-        {
-          se = true;
-        }
-        else
-        {
-          cmds.push_back(cmd);
-        }
-      }
-      */
     }
 
     // if the last command has a continuation connector, syntax error
