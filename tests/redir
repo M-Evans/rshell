@@ -1,0 +1,59 @@
+# comments work
+# test blank line
+
+# test comments
+ls#comment
+ls #comment
+ls# comment
+ls # comment
+# test commands with arguments and comments
+ls -a# comment
+ls -a # comment
+# test 1 arg
+ls -a
+# test 2 args
+ls -a -h
+# test 3 args
+ls -a -a -h
+# test 4 args
+ls -a -a -a -h
+# test 5 args
+ls -a -a -a -a -h
+# test 6 args
+ls -a -a -a -a -a -h
+# test 7 args
+ls -a -a -a -a -a -a -h
+# test 8 args
+ls -a -a -a -a -a -a -a -h
+# test 9 args
+ls -a -a -a -a -a -a -a -a -h
+# test 10 args
+ls -a -a -a -a -a -a -a -a -a -h
+# test 11 args
+ls -a -a -a -a -a -a -a -a -a -a -h
+# test a long command
+reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand
+# test a lot of args
+ls -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a
+# test a long command with lots of args
+reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand_reallylongcommand -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a
+# test preceding spaces
+   ls
+# test spaces after
+ls      
+# test spaces before and after
+      ls     
+# test command with arguments and a lot of spacing everywhere
+      ls        -a       -h        
+# command with semicolons before
+;ls
+# spaces and semicolons before
+ ;ls
+# spaces and semicolons before
+ ; ls
+# spaces and semicolons before
+  ;;  ls
+  ; ; ; ; ; ; ; ; ; ; ; ; ; ls
+# spaces and semicolons and comments
+ ; ;; ; ; ;; ; ; #  ; ;; ; ;; ls
+
