@@ -17,6 +17,31 @@ int main(int argc, char** argv)
   // print welcome message and prompt
   printf("Welcome to rshell!\n");
 
+  std::string prompt;
+
+  char* cbuff = getlogin();
+  if (cbuff == NULL)
+  {
+    perror("getlogin");
+  }
+  else
+  {
+    prompt += cbuff;
+  }
+
+  cbuff = new char[4096];
+  if (gethostname(cbuff, (unsigned)4096) == -1)
+  {
+    perror("gethostname");
+  }
+  else
+  {
+    prompt += '@';
+    prompt += cbuff;
+  }
+
+  prompt += "$ ";
+
   bool ext = false;
 
   while (!ext)
@@ -29,7 +54,7 @@ int main(int argc, char** argv)
     std::string line;
 
     // print prompt and get a line of text (done in condition)
-    printf("$ ");
+    printf("%s", prompt.c_str());
     getline(std::cin, line);
 
     // look for comments
