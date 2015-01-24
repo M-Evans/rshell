@@ -128,10 +128,16 @@ int main(int argc, char** argv)
       {
         if (con && cmd.args.empty())
         {
+
+// (cmds[cmds.size() - 1].connector == AND || cmds[cmds.size() - 1].connector == OR))
+
+          // if (line[i] != ';' || cmds[cmds.size() - 1].connector !=
+          // {
+            // why this test? two reasons:
+            //   1) it 
           if (line[i] != ';')
-          {
             se = true;
-          }
+          // }
         }
         else if (con)
         {
