@@ -61,8 +61,8 @@ bool isConn(char c)
 
 
 
-void handleCon(std::vector<Command>& cmds, Command cmd, const std::string& line,
-       int& mode, unsigned& i, bool& se)
+void handleCon(std::vector<Command>& cmds, Command& cmd, const std::string& line,
+       int& mode, unsigned& begin, unsigned& i, bool& se)
 {
   switch(line[i])
   {
@@ -88,6 +88,7 @@ void handleCon(std::vector<Command>& cmds, Command cmd, const std::string& line,
           else // it's neither a connector nor a space: must be a word
           {
             mode = GETWORD;
+            begin = i + 1;
           }
         }
         cmd.connector = AND; // the command has an "and" connector
@@ -123,6 +124,7 @@ void handleCon(std::vector<Command>& cmds, Command cmd, const std::string& line,
           else // it's neither a connector nor a space: must be a word
           {
             mode = GETWORD;
+            begin = i + 1;
           }
         }
         cmd.connector = OR; // the command has an "or" connector
@@ -137,30 +139,31 @@ void handleCon(std::vector<Command>& cmds, Command cmd, const std::string& line,
       }
       break;
     case ';':
-      // check if there's more to parse after this command
-      if (i + 1 < line.size())
+      // there is always more to parse
+      if (line[i + 1] == '&' || line[i + 1] == '|')
       {
-        // there is
-        if (isConn(line[i + 1]))
-        {
-          // unfortunately, the next thing is a connector. This is a syntax error.
-          se = true;
-          break;
-        }
-        else if (isspace(line[i + 1])) // it's a space. go into TRIMSPACE mode
-        {
-          mode = TRIMSPACE;
-        }
-        else // it's neither a connector nor a space: must be a word
-        {
-          mode = GETWORD;
-        }
+        // unfortunately, the next thing is a continuation connector. This is a syntax error.
+        se = true;
+        break;
       }
-      cmd.connector = SEMI; // the command has an "and" connector
-      cmds.push_back(cmd); // add the command to the vector of commands that need to be executed
-      // prep cmd for next use
-      cmd.args.clear(); // remove command and arguments for the next bit of parsing
-      cmd.connector = NONE;
+      else if (isspace(line[i + 1])) // it's a space. go into TRIMSPACE mode
+      {
+        mode = TRIMSPACE;
+      }
+      else // it's neither a connector nor a space: must be a word
+      {
+        mode = GETWORD;
+        begin = i + 1;
+      }
+
+      if (!cmd.args.empty()) // if there are commands in the command vector
+      {
+        cmd.connector = SEMI; // the current command has an semicolon connector
+        cmds.push_back(cmd); // add the command to the vector of commands that need to be executed
+        // prep cmd for next use
+        cmd.args.clear(); // remove command and arguments for the next bit of parsing
+        cmd.connector = NONE;
+      }
       break;
     default:
       printf("There's a connector, but I don't know what it is. help.\n");
