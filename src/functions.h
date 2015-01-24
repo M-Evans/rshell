@@ -5,8 +5,9 @@
 
 
 
-#define GETWORD   0
-#define TRIMSPACE 1
+#define GETWORD    0
+#define TRIMSPACE  1
+#define HANDLESEMI 2
 
 #define NONE 0
 #define AND  1
@@ -75,7 +76,7 @@ void handleCon(std::vector<Command>& cmds, Command& cmd, const std::string& line
         if (i + 1 < line.size())
         {
           // there is
-          if (isConn(line[i + 1]))
+          if (line[i + 1] == '&' || line[i + 1] == '|')
           {
             // unfortunately, the next thing is a connector. This is a syntax error.
             se = true;
@@ -111,7 +112,7 @@ void handleCon(std::vector<Command>& cmds, Command& cmd, const std::string& line
         if (i + 1 < line.size())
         {
           // there is
-          if (isConn(line[i + 1]))
+          if (line[i + 1] == '&' || line[i + 1] == '|')
           {
             // unfortunately, the next thing is a connector. This is a syntax error.
             se = true;
@@ -149,6 +150,10 @@ void handleCon(std::vector<Command>& cmds, Command& cmd, const std::string& line
       else if (isspace(line[i + 1])) // it's a space. go into TRIMSPACE mode
       {
         mode = TRIMSPACE;
+      }
+      else if (line[i + 1] == ';')
+      {
+        mode = HANDLESEMI;
       }
       else // it's neither a connector nor a space: must be a word
       {
