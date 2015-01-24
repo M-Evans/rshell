@@ -160,11 +160,12 @@ int main(int argc, char** argv)
         ext = true;
         break;
       }
-      char** argv = new char*[cmds[i].args.size()];
+      char** argv = new char*[cmds[i].args.size() + 1];
       for(unsigned j = 0; j < cmds[i].args.size(); ++j)
       {
         argv[j] = cmds[i].args[j];
       }
+      argv[cmds[i].args.size()] = 0;
 
       // arg and argv are now prepared
       pid_t pid = fork();
@@ -206,34 +207,6 @@ int main(int argc, char** argv)
         }
       }
     }
-
-    /* debugging code
-    for(unsigned i = 0; i < cmds.size(); ++i)
-    {
-      printf("Command %u:\n", i);
-      for(unsigned j = 0; j < cmds[i].args.size(); ++j)
-      {
-        printf("\t\"%s\"\n", cmds[i].args[j]);
-      }
-      switch(cmds[i].connector)
-      {
-        case AND:
-          printf("\t&&\n");
-          break;
-        case OR:
-          printf("\t||\n");
-          break;
-        case SEMI:
-          printf("\t;\n");
-          break;
-        case NONE:
-          printf("\tNo connector\n");
-          break;
-        default:
-          printf("\tERROR: no valid connector specified\n");
-      }
-    }
-    */
 
     // deallocate allocated memory
     for(unsigned i = 0; i < cmds.size(); ++i)
