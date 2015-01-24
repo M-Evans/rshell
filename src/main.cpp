@@ -147,6 +147,59 @@ int main(int argc, char** argv)
       continue;
     }
 
+    // now to execute all the commands
+    for(unsigned i = 0; i < cmds.size(); ++i)
+    {
+      int exitStatus = 0;
+      char* arg = cmds[i].args[0];
+      char** argv = new char*[cmds[i].args.size()];
+      for(unsigned j = 0; j < cmds[i].args.size(); ++j)
+      {
+        argv[j] = cmds[i].args[j];
+      }
+
+      // arg and argv are now prepared
+      pid_t pid = fork();
+      if (pid == -1)
+      {
+        perror("fork");
+        exit(1);
+      }
+      else if (pid == 0) // child process
+      {
+        if (execvp(arg, argv) == -1)
+        {
+          // if there's a return value, there was a problem
+          // -1 indicates a problem, specifically
+          perror("execvp");
+          exit(1);
+        }
+      }
+      else // parent process
+      {
+        if (waitpid(pid, &exitStatus, 0) == -1)
+        {
+          perror("waitpid");
+          exit(1);
+        }
+      }
+      if (!exitStatus) // all is good (0)
+      {
+        while (i < cmds.size() && cmds[i].connector == OR)
+        {
+          ++i;
+        }
+      }
+      else // last command failed
+      {
+        while (i < cmds.size() && cmds[i].connector == AND)
+        {
+          ++i;
+        }
+      }
+    }
+
+    /* debugging code
     for(unsigned i = 0; i < cmds.size(); ++i)
     {
       printf("Command %u:\n", i);
@@ -172,6 +225,7 @@ int main(int argc, char** argv)
           printf("\tERROR: no valid connector specified\n");
       }
     }
+    */
 
     // deallocate allocated memory
     for(unsigned i = 0; i < cmds.size(); ++i)
