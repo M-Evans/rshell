@@ -1,0 +1,174 @@
+Script started on Fri 23 Jan 2015 11:32:52 PM PST
+[01;31mroot@Kali[00m:[01;34m~/git/rshell[00m# gi[K[Kmake && lc[K[Kclear && bin/rshell
+mkdir -p bin
+g++ -Wall -Werror -ansi -pedantic src/main.cpp -o bin/rshell
+[H[JWelcome to rshell!
+$ ls
+bin  LICENSE  Makefile	README.md  src	tests
+$ ls -a
+.  ..  bin  .git  LICENSE  Makefile  README.md	src  tests
+$ ls      ls
+bin  LICENSE  Makefile	README.md  src	tests
+$   ls  # comments and spaces after a command
+bin  LICENSE  Makefile	README.md  src	tests
+$ 
+$ bal  lank line
+execvp: No such file or directory
+$ # blank line
+$ 
+$ invalid command
+execvp: No such file or directory
+$ ls#comment
+bin  LICENSE  Makefile	README.md  src	tests
+$ ls #comment
+bin  LICENSE  Makefile	README.md  src	tests
+$ ld s# comment
+bin  LICENSE  Makefile	README.md  src	tests
+$ ls # comment
+bin  LICENSE  Makefile	README.md  src	tests
+$ # ls -a # 1 arg
+.  ..  bin  .git  LICENSE  Makefile  README.md	src  tests
+$ ls -ah  -a # 2 args
+.  ..  bin  .git  LICENSE  Makefile  README.md	src  tests
+$ ls -a -a -a # 3 args
+.  ..  bin  .git  LICENSE  Makefile  README.md	src  tests
+$ ls -a -a -a -a # 4 args
+.  ..  bin  .git  LICENSE  Makefile  README.md	src  tests
+$ ls -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a # a lot of args
+.  ..  bin  .git  LICENSE  Makefile  README.md	src  tests
+$ lllllllllllllllllllllloooooooooooooooooooooooonnnnnnnnnnnnnnnnnggggggggggggggggccccccccccccccooooooooooooommmmmmmmmmmmmmmaaaaaaaaaaaaaaaannnnnnnnnnnnnnnnnndddddddddddddddd
+execvp: No such file or directory
+$ # ^ long command
+$ # long command with lots of args:
+$ lllllllllllllllllllllllllllllllllllllllllllllllloooooooooooooooooooooooooooooooooooooooooooooooooooooonnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnngggggggggggggggggggggggggggggggggggggggggggggggggg -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a
+execvp: No such file or directory
+$        ls          0 -a          -h       # lots of spaces
+.  ..  bin  .git  LICENSE  Makefile  README.md	src  tests
+$                                
+$ # ^just spaces
+$ ;ls # semicolon before
+bin  LICENSE  Makefile	README.md  src	tests
+$ ls  ;;;;; #   ls    # just semicolons
+$  ; ; ; ;  ;; ; ; ;;  ; ; # mis   x of semicolon         just semicolons and spaces
+$ &&  ;;;;;ls # multiple semicolons before
+bin  LICENSE  Makefile	README.md  src	tests
+$ ; ;; ;; ;; ;; ;   ; ;; ;;; ; ls # mis   x of semo icolons ans   d spaces f efore     e before.    (also space between                    
+bin  LICENSE  Makefile	README.md  src	tests
+$ sl  ls; # semicolon afterward
+bin  LICENSE  Makefile	README.md  src	tests
+$ ls;;;;;;;;;;; # multipel  le semicolons afterward
+bin  LICENSE  Makefile	README.md  src	tests
+$ ls;;;;;;; ; ;; ;;;;;;;;  ;;;; ; ; ;; ; ;  ; ; ;;;;;;;;; # mis x of spaces and semicolons afterwarl d
+bin  LICENSE  Makefile	README.md  src	tests
+$ ls;ls # run two commands
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+$ ls ;ls # mess with spacing on two commands and a semicolon
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+$ ls; ls # spacing
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+$ ls l ; ls # spacing again
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+$ ;;ls;;ls;; # semicolong            lots of semicool  lons between
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+$ ;; ls ;; ls ;; $ # semicolons and spaces between
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+$ false  ||ls
+bin  LICENSE  Makefile	README.md  src	tests
+$ false ||ls
+bin  LICENSE  Makefile	README.md  src	tests
+$ false  || ls
+bin  LICENSE  Makefile	README.md  src	tests
+$ false || ls # ls and some permutations of spacei  ing
+bin  LICENSE  Makefile	README.md  src	tests
+$ treu  ue || ls
+$ true &&  || ls -a
+$ false || ls
+bin  LICENSE  Makefile	README.md  src	tests
+$ false || ls;
+bin  LICENSE  Makefile	README.md  src	tests
+$ # ^ test ls with pipes and a semicolon at ht  the end. still workds  s
+$ false|ls
+Syntax error
+$ false |ls #  
+Syntax error
+$ false| ls
+Syntax error
+$ false | ls # permutations on a synta     pipe syntax error
+Syntax error
+$ false ||| ls
+Syntax error
+$ false || ls &&
+Syntax error
+$ false || ls || 
+Syntax error
+$ true && ls
+bin  LICENSE  Makefile	README.md  src	tests
+$ true || ls
+$ false && ls
+$ false || ls
+bin  LICENSE  Makefile	README.md  src	tests
+$ false       treu  ue&&ls # begin space permutations
+bin  LICENSE  Makefile	README.md  src	tests
+$ true &&ls
+bin  LICENSE  Makefile	README.md  src	tests
+$ true&& ls
+bin  LICENSE  Makefile	README.md  src	tests
+$ true && a ls
+bin  LICENSE  Makefile	README.md  src	tests
+$ false && ls;
+$ false && ls ||
+Syntax error
+$ false &l    ls
+Syntax error
+$ false  & ls
+Syntax error
+$ false &ls
+Syntax error
+$ false&ls
+Syntax error
+$ lf  true&&&ls
+Syntax error
+$ false&&&ls
+Syntax error
+$ true && echo success || echo fail
+success
+$ fail  a lse && echo success || echo fail
+fail
+$ true && echo success || echo fail;
+success
+$ true && echo success; || echo fail; 
+Syntax error
+$ true && echo success || echo  ; fail
+success
+execvp: No such file or directory
+$ true      fails   se  lse &&; echo success || echo fial   ail^[[D^[[D^[[D^[[D^[[D^[[D^[[D                             l
+Syntax error
+$ false && ; echo cu  su  success   ss || echo fail
+fail
+$ exit    #exit
+$ exi$ #t
+execvp: No such file or directory
+$ #ex   exitit
+execvp: No such file or directory
+$      exitit
+execvp: No such file or directory
+$      exit
+Goodbye!
+[01;31mroot@Kali[00m:[01;34m~/git/rshell[00m# bin/rshell 
+Welcome to rshell!
+$ exit
+Goodbye!
+[01;31mroot@Kali[00m:[01;34m~/git/rshell[00m# bin/rshell 
+Welcome to rshell!
+$ exit#plus comments
+Goodbye!
+[01;31mroot@Kali[00m:[01;34m~/git/rshell[00m# exit
+exit
+
+Script done on Fri 23 Jan 2015 11:49:25 PM PST
