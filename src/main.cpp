@@ -100,7 +100,10 @@ int main(int argc, char** argv)
       {
         if (con && cmd.args.empty())
         {
-          se = true;
+          if (line[i] != ';')
+          {
+            se = true;
+          }
         }
         else if (con)
         {
