@@ -14,18 +14,19 @@
 
 int main(int argc, char** argv)
 {
-  // hold a raw line of input
-  std::string line;
-
   // print welcome message and prompt
   printf("Welcome to rshell!\n");
 
-  while (true)
+  bool exit = false;
+
+  while (!exit)
   {
     // holds a single command and its arguments
     Command cmd;
     // holds multiple commands
     std::vector<Command> cmds;
+    // hold a raw line of input
+    std::string line;
 
     // print prompt and get a line of text (done in condition)
     printf("$ ");
@@ -154,6 +155,11 @@ int main(int argc, char** argv)
     {
       int exitStatus = 0;
       char* arg = cmds[i].args[0];
+      if (strcmp(arg, "exit") == 0)
+      {
+        exit = true;
+        break;
+      }
       char** argv = new char*[cmds[i].args.size()];
       for(unsigned j = 0; j < cmds[i].args.size(); ++j)
       {
