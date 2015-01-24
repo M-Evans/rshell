@@ -3,6 +3,8 @@
 #include <cctype>
 #include <cstring>
 #include <unistd.h>
+#include <sys/wait.h>
+#include <sys/types.h>
 #include <vector>
 #include <string>
 #include <iostream>
