@@ -65,7 +65,7 @@ int main(int argc, char** argv)
     }
 
     // remove leading whitespace
-    while (line.size() > 0 && (line[0] == ' ' || line[0] == ';'))
+    while (line.size() > 0 && (line[0] == ' ' || line[0] == '\t' || line[0] == ';'))
     {
       line = line.substr(1, line.size() - 1);
     }
