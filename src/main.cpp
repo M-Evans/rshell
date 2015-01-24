@@ -17,9 +17,9 @@ int main(int argc, char** argv)
   // print welcome message and prompt
   printf("Welcome to rshell!\n");
 
-  bool exit = false;
+  bool ext = false;
 
-  while (!exit)
+  while (!ext)
   {
     // holds a single command and its arguments
     Command cmd;
@@ -157,7 +157,7 @@ int main(int argc, char** argv)
       char* arg = cmds[i].args[0];
       if (strcmp(arg, "exit") == 0)
       {
-        exit = true;
+        ext = true;
         break;
       }
       char** argv = new char*[cmds[i].args.size()];
