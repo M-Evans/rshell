@@ -9,3 +9,8 @@ all :
 rshell:
 	mkdir -p bin
 	$(CC) $(CFLAGS) src/main.cpp -o bin/rshell
+
+test:
+	mkdir -p bin
+	$(CC) $(CFLAGS) src/main.cpp -o bin/rshell
+	bin/rshell < tests/redir
