@@ -42,7 +42,7 @@ int main(int argc, char** argv)
       line = line.substr(1, line.size() - 1);
     }
 
-    // adding a space to the end makes parsing easier
+    // adding this makes parsing easier
     line += "; ";
 
     if (std::cin.fail())
@@ -107,6 +107,22 @@ int main(int argc, char** argv)
           handleCon(cmds, cmd, line, mode, begin, i, se);
         }
         else
+        {
+          mode = GETWORD;
+          begin = i;
+        }
+      }
+      else if (mode == HANDLESEMI && line[i] != ';')
+      {
+        if (isConn(line[i]))
+        {
+          se = true;
+        }
+        else if (isspace(line[i]))
+        {
+          mode = TRIMSPACE;
+        }
+        else // it's a word
         {
           mode = GETWORD;
           begin = i;
