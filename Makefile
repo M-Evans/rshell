@@ -14,3 +14,4 @@ test:
 	mkdir -p bin
 	$(CC) $(CFLAGS) src/main.cpp -o bin/rshell
 	bin/rshell < tests/redir > tests/output
+	less tests/output
