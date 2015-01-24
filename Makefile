@@ -19,5 +19,4 @@ test:
 manualtest:
 	mkdir -p bin
 	$(CC) $(CFLAGS) src/main.cpp -o bin/rshell
-	clear
-	bin/rshell
+	clear && bin/rshell
