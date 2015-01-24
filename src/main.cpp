@@ -43,7 +43,7 @@ int main(int argc, char** argv)
     }
 
     // adding a space to the end makes parsing easier
-    line += ' ';
+    line += "; ";
 
     if (std::cin.fail())
     {
@@ -116,6 +116,7 @@ int main(int argc, char** argv)
         }
       }
       
+      /*
       if (i + 1 == line.size() && !cmd.args.empty()) // parsing the last character
       {
         // if it has a continuation connector, and we're finished with parsing, syntax error
@@ -128,6 +129,7 @@ int main(int argc, char** argv)
           cmds.push_back(cmd);
         }
       }
+      */
     }
 
     // if the last command has a continuation connector, syntax error
