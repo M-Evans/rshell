@@ -51,9 +51,144 @@ ls
  ;ls
 # spaces and semicolons before
  ; ls
-# spaces and semicolons before
+# multiple spaces and semicolons before
   ;;  ls
+  ;; ;;;;;;;; ;;  ls
   ; ; ; ; ; ; ; ; ; ; ; ; ; ls
 # spaces and semicolons and comments
  ; ;; ; ; ;; ; ; #  ; ;; ; ;; ls
-
+# spaces and semicolons after
+ls ;; ; ; ;; ;;; ;; 
+# semicolons and spaces between
+ls ;; ; ;; ls ;;; 
+# semicolons and spaces between with semicolons and spaces in front
+  ; ;; ;;; ;;;; ls ;; ; ;; ls ;;; 
+# semicolon after
+ls;
+# semicolons
+ls;ls
+ls;;ls
+;ls;ls
+;;ls;ls
+;ls;;ls
+;;ls;;ls
+;ls;ls;
+;;ls;ls;
+;ls;;ls;
+;ls;ls;;
+;;ls;;ls;
+;;ls;ls;;
+;;ls;;ls;
+;;ls;;ls;;
+# should execute ls
+false||ls
+false ||ls
+false|| ls
+false || ls
+false||ls;
+false ||ls;
+false|| ls;
+false || ls;
+# should not execute ls
+true||ls
+true ||ls
+true|| ls
+true || ls
+true||ls;
+true ||ls;
+true|| ls;
+true || ls;
+# syntax errors:
+false|ls
+false |ls
+false| ls
+false | ls
+false | | ls
+false | | | ls
+false|||ls
+false |||ls
+false||| ls
+false ||| ls
+false||ls && 
+false ||ls && 
+false|| ls && 
+false || ls && 
+false||ls || 
+false ||ls || 
+false|| ls || 
+false || ls || 
+# syntax errors:
+false|ls;
+false |ls;
+false| ls;
+false | ls;
+false | | ls;
+false | | | ls;
+false|||ls;
+false |||ls;
+false||| ls;
+false ||| ls;
+false||ls &&;
+false ||ls &&;
+false|| ls &&;
+false || ls &&;
+falsel||ls ||;
+false ||ls ||;
+false|| ls ||;
+false || ls ||;
+# should execute ls
+true&&ls
+true &&ls
+true&& ls
+true && ls
+true&&ls;
+true &&ls;
+true&& ls;
+true && ls;
+# should not execute ls
+false&&ls
+false &&ls
+false&& ls
+false && ls
+false&&ls;
+false &&ls;
+false&& ls;
+false && ls;
+# syntax errors:
+true&ls
+true &ls
+true& ls
+true & ls
+true & & ls
+true & & & ls
+true&&&ls
+true &&&ls
+true&&& ls
+true &&& ls
+true&&ls && 
+true &&ls && 
+true&& ls && 
+true && ls && 
+true&&ls && 
+true &&ls && 
+true&& ls && 
+true && ls && 
+# syntax errors:
+true&ls;
+true &ls;
+true& ls;
+true & ls;
+true & & ls;
+true & & & ls;
+true&&&ls;
+true &&&ls;
+true&&& ls;
+true &&& ls;
+true&&ls &&;
+true &&ls &&;
+true&& ls &&;
+true && ls &&;
+true&&ls &&;
+true &&ls &&;
+true&& ls &&;
+true && ls &&;
