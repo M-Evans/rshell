@@ -40,7 +40,7 @@ int main(int argc, char** argv)
     prompt += cbuff;
   }
 
-  prompt += "$ ";
+  prompt += " > ";
 
   bool ext = false;
 
