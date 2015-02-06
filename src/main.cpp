@@ -215,6 +215,7 @@ int main(int argc, char** argv)
           // if there's a return value, there was a problem
           // -1 indicates a problem, specifically
           perror("execvp");
+          delete[] argv;
           exit(1);
         }
       }
