@@ -1,5 +1,10 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <dirent.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include <vector>
 #include <string>
@@ -27,9 +32,9 @@ int main(int argc, char** argv)
             R = true;
             break;
           default:
-            output += "Error: '";
-            output += argv[i][j];
-            output += "' is not a valid flag option\n";
+            // unknown option. Print an error message and exit
+            fprintf(stderr, "%s: invalid option -- '%c'\n", argv[0], argv[i][j]);
+            exit(1);
         }
       }
     } else {
@@ -38,6 +43,12 @@ int main(int argc, char** argv)
     }
   }
 
+  // we're working on the current directory if nothing else
+  if (arglist.empty()) {
+    arglist.push_back((char*)".");
+  }
+
+  /*
   output += "Statistics:\na is ";
   if (!a)
     output += "not ";
@@ -55,9 +66,16 @@ int main(int argc, char** argv)
     if (i + 1 < arglist.size())
       output += ", ";
   }
-  output += "}\n";
+  output += "}";
+  */
 
-  printf("%s", output.c_str());
+  for(unsigned i = 0; i < arglist.size(); ++i) {
+    
+  }
+
+
+  a = l = R = a;
+  printf("%s\n", output.c_str());
 
   return 0;
 }
