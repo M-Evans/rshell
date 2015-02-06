@@ -7,7 +7,7 @@
 
 int main(int argc, char** argv)
 {
-  bool a = false, l = false, r = false;
+  bool a = false, l = false, R = false;
   std::vector<char*> arglist;
   std::string output;
 
@@ -23,8 +23,8 @@ int main(int argc, char** argv)
           case 'l':
             l = true;
             break;
-          case 'r':
-            r = true;
+          case 'R':
+            R = true;
             break;
           default:
             output += "Error: '";
@@ -44,8 +44,8 @@ int main(int argc, char** argv)
   output += "set.\nl is ";
   if (!l)
     output += "not ";
-  output += "set.\nr is ";
-  if (!r)
+  output += "set.\nR is ";
+  if (!R)
     output += "not ";
   output += "set.\n\n";
 
@@ -55,7 +55,7 @@ int main(int argc, char** argv)
     if (i + 1 < arglist.size())
       output += ", ";
   }
-  output += "}\n"
+  output += "}\n";
 
   printf("%s", output.c_str());
 
