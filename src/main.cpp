@@ -20,6 +20,7 @@ int main(int argc, char** argv)
   std::string prompt;
 
   char* cbuff = getlogin();
+
   if (cbuff == NULL)
   {
     perror("getlogin");
@@ -39,6 +40,8 @@ int main(int argc, char** argv)
     prompt += '@';
     prompt += cbuff;
   }
+
+  delete[] cbuff;
 
   prompt += " > ";
 
