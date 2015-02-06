@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-Wall -Werror -ansi -pedantic
+CFLAGS=-g -Wall -Werror -ansi -pedantic
 
 
 all :
