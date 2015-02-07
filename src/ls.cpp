@@ -3,6 +3,7 @@
 #include <string.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -49,8 +50,8 @@ int main(int argc, char** argv)
     arglist.push_back((char*)".");
   }
 
-    std::vector<char*> files;
   for(unsigned i = 0; i < arglist.size(); ++i) {
+    std::vector<char*> files;
     // dir pointer
     DIR* dp = opendir(arglist[i]);
     if (dp == NULL) {
@@ -64,7 +65,17 @@ int main(int argc, char** argv)
         files.push_back(de->d_name);
       }
     }
+    if (errno) {
+      perror("readdir");
+      exit(1);
+    }
+
     std::sort(files.begin(), files.end(), compareFilenamesInefficient);
+
+    if (R) { // recursive
+    } else { // not recursive
+      printFiles(files, l);
+    }
   }
 
   return 0;
