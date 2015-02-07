@@ -8,13 +8,14 @@
 
 #include <vector>
 #include <string>
+#include <algorithm>
 
+#include "ls.h"
 
 int main(int argc, char** argv)
 {
   bool a = false, l = false, R = false;
   std::vector<char*> arglist;
-  std::string output;
 
   for(int i = 1; i < argc; ++i) {
     if (argv[i][0] == '-') {
@@ -48,36 +49,26 @@ int main(int argc, char** argv)
     arglist.push_back((char*)".");
   }
 
-  /*
-  output += "Statistics:\na is ";
-  if (!a)
-    output += "not ";
-  output += "set.\nl is ";
-  if (!l)
-    output += "not ";
-  output += "set.\nR is ";
-  if (!R)
-    output += "not ";
-  output += "set.\n\n";
-
-  output += "Stuff to list:\n{";
+    std::vector<char*> files;
   for(unsigned i = 0; i < arglist.size(); ++i) {
-    output += arglist[i];
-    if (i + 1 < arglist.size())
-      output += ", ";
+    // dir pointer
+    DIR* dp = opendir(arglist[i]);
+    if (dp == NULL) {
+      perror("opendir");
+      exit(1);
+    }
+    // dir entry pointer
+    struct dirent* de;
+    while((de = readdir(dp))) {
+      if (a || de->d_name[0] != '.') {
+        files.push_back(de->d_name);
+      }
+    }
+    std::sort(files.begin(), files.end(), compareFilenamesInefficient);
   }
-  output += "}";
-  */
-
-  for(unsigned i = 0; i < arglist.size(); ++i) {
-    
-  }
-
-
-  a = l = R = a;
-  printf("%s\n", output.c_str());
 
   return 0;
+  a = l = R = a;
 }
 
 
