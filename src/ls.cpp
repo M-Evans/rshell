@@ -58,11 +58,16 @@ int main(int argc, char** argv)
       perror("opendir");
       exit(1);
     }
+
     // dir entry pointer
     struct dirent* de;
     while((de = readdir(dp))) {
       if (a || de->d_name[0] != '.') {
-        files.push_back(de->d_name);
+        char* f = new char[PATH_MAX];
+        strcpy(f, arglist[i]);
+        strcat(f, "/");
+        strcat(f, de->d_name);
+        files.push_back(f);
       }
     }
     if (errno) {
@@ -72,14 +77,28 @@ int main(int argc, char** argv)
 
     std::sort(files.begin(), files.end(), compareFilenamesInefficient);
 
+
     if (R) { // recursive
     } else { // not recursive
+      if (arglist.size() > 1) {
+        printf("%s:\n", arglist[i]);
+      }
       printFiles(files, l);
+      if (!l) { printf("\n"); }
+    }
+
+
+    for(unsigned j = 0; j < files.size(); ++j) {
+      delete[] files[j];
+    }
+
+    if (closedir(dp) == -1) {
+      perror("closedir");
+      exit(1);
     }
   }
 
   return 0;
-  a = l = R = a;
 }
 
 
