@@ -13,30 +13,18 @@
 
 
 
-#define TYPE_UNKNOWN -1
-#define TYPE_FILE    0
-#define TYPE_DIR     1
-
-struct fPerm {
-  char* p;
-  int type;
-  fPerm() {
-    p = NULL;
-    type = TYPE_UNKNOWN;
-  }
-};
-
-struct fandTypes {
-  std::vector<fPerm> f;
+struct argAndTypes {
+  std::vector<char*> v;
   unsigned numFiles;
-  fandTypes() {  // constructor
+  argAndTypes() {  // constructor
     numFiles = 0;
   }
 };
 
 
 
-bool compareFilenamesInefficient(const char* a, const char* b)
+bool compareFilenamesInefficient(const char* a,
+                                 const char* b)
 {
   char* ac = new char[strlen(a) + 1];
   char* bc = new char[strlen(b) + 1];
@@ -64,12 +52,15 @@ void printFilePrep() {} // TODO: calculate and pass back
 
 
 
-void printFiles(const std::vector<char*> v, bool l) {
-  for(unsigned i = 0; i < v.size(); ++i) {
+//void printFiles(const std::vector<char*> v, bool l) {
+void printFiles(std::vector<char*>::iterator ib,
+                const std::vector<char*>::iterator ie,
+                bool l) {
+  while (ib != ie) {
     if (l) {
       // get the file stats
       struct stat fs;
-      if (stat(v[i], &fs) == -1) {
+      if (stat(*ib, &fs) == -1) {
         perror("stat");
         exit(1);
       }
@@ -150,10 +141,13 @@ void printFiles(const std::vector<char*> v, bool l) {
       printf("%s", timestr);
       // print the filename (just the name)
       // TODO: color the files
-      printf(" %s\n", basename(v[i]));
+      printf(" %s\n", basename(*ib));
     } else {
-      printf("%s  ", basename(v[i]));
+      printf("%s  ", basename(*ib));
     }
+
+    // increment iterator
+    ++ib;
   }
 }
 
