@@ -1,115 +1,1286 @@
 Script started on Sun 08 Feb 2015 11:51:26 PM PST
-]0;mevans@localhost:~/git/rshell/tests]7;file://localhost.localdomain/home/mevans/git/rshell/tests[?1034h[mevans@localhost tests]$ mkdir t && cd t # directr[Kory fo [Kr tests
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ ls
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls
-bash: myls: command not found...
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ alias myls='../../bin/ls'
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls 
+# reg]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[?1034h[mevans@localhost rshell]$ # regular ls
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls
+[38;5;27mbin[0m  LICENSE[0m  ls.script[0m  Makefile[0m  README.md[0m  [38;5;27msrc[0m  [38;5;34mtest.cpp[0m  [38;5;27mtests[0m  
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # ls with one flag
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls -a
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  [1;34;47;38;5;27m.git[0m  [38;5;27mbin[0m  LICENSE[0m  ls.script[0m  Makefile[0m  README.md[0m  [38;5;27msrc[0m  [38;5;34mtest.cpp[0m  [38;5;27mtests[0m  
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # ls with many flags
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a -a  -a
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  [1;34;47;38;5;27m.git[0m  [38;5;27mbin[0m  LICENSE[0m  ls.script[0m  Makefile[0m  README.md[0m  [38;5;27msrc[0m  [38;5;34mtest.cpp[0m  [38;5;27mtests[0m  
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # with lots of letters for one flag
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls -aaaaaaaaaaaaaaaaaaaalllllllllllllllllllllll
+total 40
+drwxrwxr-x 6 mevans mevans 4096 Feb 09 03:35 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 4 mevans mevans 4096 Feb 06 20:18 [1;34;47;38;5;27m..[0m
+drwxrwxr-x 8 mevans mevans 4096 Feb 09 04:02 [1;34;47;38;5;27m.git[0m
+drwxrwxr-x 2 mevans mevans 4096 Feb 09 02:55 [38;5;27mbin[0m
+-rw-rw-r-- 1 mevans mevans 1081 Feb 06 18:11 LICENSE[0m
+-rw-rw-r-- 1 mevans mevans    0 Feb 09 04:03 ls.script[0m
+-rw-rw-r-- 1 mevans mevans  419 Feb 08 22:40 Makefile[0m
+-rw-rw-r-- 1 mevans mevans 1678 Feb 09 02:31 README.md[0m
+drwxrwxr-x 2 mevans mevans 4096 Feb 06 18:39 [38;5;27msrc[0m
+-rwxrwxr-x 1 mevans mevans  352 Feb 09 02:30 [38;5;34mtest.cpp[0m
+drwxrwxr-x 3 mevans mevans 4096 Feb 09 03:35 [38;5;27mtests[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # invalid flag
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls -j
+bin/ls: invalid option -- 'j'
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # invalid flag mixed
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls -a -l -j
+bin/ls: invalid option -- 'j'
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # invalid flag mixed (a different way)
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls -aaallllRRRRRRRRRRRjxxx
+bin/ls: invalid option -- 'j'
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # / notice how it didn't complain about the x
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # it stops at the first bad flag char
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # -l
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls -l
+total 28
+drwxrwxr-x 2 mevans mevans 4096 Feb 09 02:55 [38;5;27mbin[0m
+-rw-rw-r-- 1 mevans mevans 1081 Feb 06 18:11 LICENSE[0m
+-rw-rw-r-- 1 mevans mevans    0 Feb 09 04:03 ls.script[0m
+-rw-rw-r-- 1 mevans mevans  419 Feb 08 22:40 Makefile[0m
+-rw-rw-r-- 1 mevans mevans 1678 Feb 09 02:31 README.md[0m
+drwxrwxr-x 2 mevans mevans 4096 Feb 06 18:39 [38;5;27msrc[0m
+-rwxrwxr-x 1 mevans mevans  352 Feb 09 02:30 [38;5;34mtest.cpp[0m
+drwxrwxr-x 3 mevans mevans 4096 Feb 09 03:35 [38;5;27mtests[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # -al
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls -al
+total 44
+drwxrwxr-x 6 mevans mevans 4096 Feb 09 03:35 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 4 mevans mevans 4096 Feb 06 20:18 [1;34;47;38;5;27m..[0m
+drwxrwxr-x 8 mevans mevans 4096 Feb 09 04:02 [1;34;47;38;5;27m.git[0m
+drwxrwxr-x 2 mevans mevans 4096 Feb 09 02:55 [38;5;27mbin[0m
+-rw-rw-r-- 1 mevans mevans 1081 Feb 06 18:11 LICENSE[0m
+-rw-rw-r-- 1 mevans mevans 4096 Feb 09 04:03 ls.script[0m
+-rw-rw-r-- 1 mevans mevans  419 Feb 08 22:40 Makefile[0m
+-rw-rw-r-- 1 mevans mevans 1678 Feb 09 02:31 README.md[0m
+drwxrwxr-x 2 mevans mevans 4096 Feb 06 18:39 [38;5;27msrc[0m
+-rwxrwxr-x 1 mevans mevans  352 Feb 09 02:30 [38;5;34mtest.cpp[0m
+drwxrwxr-x 3 mevans mevans 4096 Feb 09 03:35 [38;5;27mtests[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ 
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a dir
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin
+[38;5;34mls[0m  [38;5;34mrshell[0m  
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a file
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls LICENSE
+LICENSE[0m  
 
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ # on newline, prints [K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Knothing, pre[Kints nweline[Knewline
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ touch .hidden
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ .[Ktou[K[K[Kmkdir .hiddendir
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ mkdir dir
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ touch file
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -l
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on two dirs
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin src
+bin:
+[38;5;34mls[0m  [38;5;34mrshell[0m  
+
+src:
+functions.h[0m  ls.cpp[0m  ls.h[0m  main.cpp[0m  
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a dir and file
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin LICENSE
+LICENSE[0m  
+
+
+bin:
+[38;5;34mls[0m  [38;5;34mrshell[0m  
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ 
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a dir -a
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin -a
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  [38;5;34mls[0m  [38;5;34mrshell[0m  
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a file -a
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls LICENSE -a
+LICENSE[0m  
+
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on two dirs -a
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin src -a
+bin:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  [38;5;34mls[0m  [38;5;34mrshell[0m  
+
+src:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  functions.h[0m  ls.cpp[0m  ls.h[0m  main.cpp[0m  
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a dir and file -a
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin LICENSE -a
+LICENSE[0m  
+
+
+bin:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  [38;5;34mls[0m  [38;5;34mrshell[0m  
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ 
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a dir -l
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin -l
+total 224
+-rwxrwxr-x 1 mevans mevans  94348 Feb 09 02:55 [38;5;34mls[0m
+-rwxrwxr-x 1 mevans mevans 130093 Feb 09 02:55 [38;5;34mrshell[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a file -l
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls LICENSE -l
 total 4
-drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:52 [1;34mdir[1;0;00m
--rw-rw-r-- 1 mevans mevans    0 Feb 08 23:52 file[1;0;00m
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -a
-[1;34;47m.[1;0;00m  [1;34;47m..[1;0;00m  .hidden[1;0;00m  [1;34;47m.hiddendir[1;0;00m  [1;34mdir[1;0;00m  file[1;0;00m  
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -al
-total 16
-drwxrwxr-x 4 mevans mevans 4096 Feb 08 23:52 [1;34;47m.[1;0;00m
-drwxrwxr-x 3 mevans mevans 4096 Feb 08 23:51 [1;34;47m..[1;0;00m
--rw-rw-r-- 1 mevans mevans    0 Feb 08 23:52 .hidden[1;0;00m
-drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:52 [1;34;47m.hiddendir[1;0;00m
-drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:52 [1;34mdir[1;0;00m
--rw-rw-r-- 1 mevans mevans    0 Feb 08 23:52 file[1;0;00m
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -lalalalalalala
-total 16
-drwxrwxr-x 4 mevans mevans 4096 Feb 08 23:52 [1;34;47m.[1;0;00m
-drwxrwxr-x 3 mevans mevans 4096 Feb 08 23:51 [1;34;47m..[1;0;00m
--rw-rw-r-- 1 mevans mevans    0 Feb 08 23:52 .hidden[1;0;00m
-drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:52 [1;34;47m.hiddendir[1;0;00m
-drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:52 [1;34mdir[1;0;00m
--rw-rw-r-- 1 mevans mevans    0 Feb 08 23:52 file[1;0;00m
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -l -a
-total 16
-drwxrwxr-x 4 mevans mevans 4096 Feb 08 23:52 [1;34;47m.[1;0;00m
-drwxrwxr-x 3 mevans mevans 4096 Feb 08 23:51 [1;34;47m..[1;0;00m
--rw-rw-r-- 1 mevans mevans    0 Feb 08 23:52 .hidden[1;0;00m
-drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:52 [1;34;47m.hiddendir[1;0;00m
-drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:52 [1;34mdir[1;0;00m
--rw-rw-r-- 1 mevans mevans    0 Feb 08 23:52 file[1;0;00m
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -a -a l[K-l[K
-stat: No such file or directory
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ # It's trying to use '-' ad a d[K[K[K[K[Ks a directory
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ # Just like ls
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ ls -a -a -
-ls: cannot access -: No such file or directory
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls .hidden
-.hidden[1;0;00m  
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -a .hidden
-.hidden[1;0;00m  
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -l hid[K[K[Khidden
-stat: No such file or directory
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -l .hidden
+-rw-rw-r-- 1 mevans mevans 1081 Feb 06 18:11 LICENSE[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on two dirs -l
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin src -l
+bin:
+total 224
+-rwxrwxr-x 1 mevans mevans  94348 Feb 09 02:55 [38;5;34mls[0m
+-rwxrwxr-x 1 mevans mevans 130093 Feb 09 02:55 [38;5;34mrshell[0m
+
+src:
+total 32
+-rw-rw-r-- 1 mevans mevans 4780 Feb 06 18:11 functions.h[0m
+-rw-rw-r-- 1 mevans mevans 2597 Feb 09 02:43 ls.cpp[0m
+-rw-rw-r-- 1 mevans mevans 8348 Feb 09 02:55 ls.h[0m
+-rw-rw-r-- 1 mevans mevans 5478 Feb 06 18:11 main.cpp[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a dir and file -l
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin LICENSE -l
+total 4
+-rw-rw-r-- 1 mevans mevans 1081 Feb 06 18:11 LICENSE[0m
+
+bin:
+total 224
+-rwxrwxr-x 1 mevans mevans  94348 Feb 09 02:55 [38;5;34mls[0m
+-rwxrwxr-x 1 mevans mevans 130093 Feb 09 02:55 [38;5;34mrshell[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ 
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a dir -la
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin -la
+total 232
+drwxrwxr-x 2 mevans mevans   4096 Feb 09 02:55 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 6 mevans mevans   4096 Feb 09 03:35 [1;34;47;38;5;27m..[0m
+-rwxrwxr-x 1 mevans mevans  94348 Feb 09 02:55 [38;5;34mls[0m
+-rwxrwxr-x 1 mevans mevans 130093 Feb 09 02:55 [38;5;34mrshell[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a file -la
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls LICENSE -la
+total 4
+-rw-rw-r-- 1 mevans mevans 1081 Feb 06 18:11 LICENSE[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on two dirs -la
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin src -la
+bin:
+total 232
+drwxrwxr-x 2 mevans mevans   4096 Feb 09 02:55 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 6 mevans mevans   4096 Feb 09 03:35 [1;34;47;38;5;27m..[0m
+-rwxrwxr-x 1 mevans mevans  94348 Feb 09 02:55 [38;5;34mls[0m
+-rwxrwxr-x 1 mevans mevans 130093 Feb 09 02:55 [38;5;34mrshell[0m
+
+src:
+total 40
+drwxrwxr-x 2 mevans mevans 4096 Feb 06 18:39 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 6 mevans mevans 4096 Feb 09 03:35 [1;34;47;38;5;27m..[0m
+-rw-rw-r-- 1 mevans mevans 4780 Feb 06 18:11 functions.h[0m
+-rw-rw-r-- 1 mevans mevans 2597 Feb 09 02:43 ls.cpp[0m
+-rw-rw-r-- 1 mevans mevans 8348 Feb 09 02:55 ls.h[0m
+-rw-rw-r-- 1 mevans mevans 5478 Feb 06 18:11 main.cpp[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a dir and file -la
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin LICENSE -la
+total 4
+-rw-rw-r-- 1 mevans mevans 1081 Feb 06 18:11 LICENSE[0m
+
+bin:
+total 232
+drwxrwxr-x 2 mevans mevans   4096 Feb 09 02:55 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 6 mevans mevans   4096 Feb 09 03:35 [1;34;47;38;5;27m..[0m
+-rwxrwxr-x 1 mevans mevans  94348 Feb 09 02:55 [38;5;34mls[0m
+-rwxrwxr-x 1 mevans mevans 130093 Feb 09 02:55 [38;5;34mrshell[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ 
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # -R
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls -R
+.:
+[38;5;27mbin[0m  LICENSE[0m  ls.script[0m  Makefile[0m  README.md[0m  [38;5;27msrc[0m  [38;5;34mtest.cpp[0m  [38;5;27mtests[0m  
+
+./bin:
+[38;5;34mls[0m  [38;5;34mrshell[0m  
+
+./src:
+functions.h[0m  ls.cpp[0m  ls.h[0m  main.cpp[0m  
+
+./tests:
+exec.script[0m  ls.tests[0m  redir[0m  [38;5;27mt[0m  [38;5;34mxdttest.sh[0m  
+
+./tests/t:
+[38;5;27mdir[0m  file[0m  
+
+./tests/t/dir:
+a[0m  b[0m  c[0m  
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # -Ra
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls -Ra
+.:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  [1;34;47;38;5;27m.git[0m  [38;5;27mbin[0m  LICENSE[0m  ls.script[0m  Makefile[0m  README.md[0m  [38;5;27msrc[0m  [38;5;34mtest.cpp[0m  [38;5;27mtests[0m  
+
+./.git:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  [38;5;27mbranches[0m  COMMIT_EDITMSG[0m  config[0m  description[0m  HEAD[0m  [38;5;27mhooks[0m  index[0m  [38;5;27minfo[0m  [38;5;27mlogs[0m  [38;5;27mobjects[0m  packed-refs[0m  [38;5;27mrefs[0m  
+
+./.git/branches:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  
+
+./.git/hooks:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  [38;5;34mapplypatch-msg.sample[0m  [38;5;34mcommit-msg.sample[0m  [38;5;34mpost-update.sample[0m  [38;5;34mpre-applypatch.sample[0m  [38;5;34mpre-commit.sample[0m  pre-push.sample[0m  [38;5;34mpre-rebase.sample[0m  [38;5;34mprepare-commit-msg.sample[0m  [38;5;34mupdate.sample[0m  
+
+./.git/info:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  exclude[0m  
+
+./.git/logs:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  HEAD[0m  [38;5;27mrefs[0m  
+
+./.git/logs/refs:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  [38;5;27mheads[0m  [38;5;27mremotes[0m  
+
+./.git/logs/refs/heads:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  exec[0m  ls[0m  master[0m  
+
+./.git/logs/refs/remotes:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  [38;5;27morigin[0m  
+
+./.git/logs/refs/remotes/origin:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  HEAD[0m  ls[0m  
+
+./.git/objects:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  [38;5;27m02[0m  [38;5;27m12[0m  [38;5;27m18[0m  [38;5;27m1b[0m  [38;5;27m1c[0m  [38;5;27m1e[0m  [38;5;27m20[0m  [38;5;27m21[0m  [38;5;27m25[0m  [38;5;27m2b[0m  [38;5;27m2e[0m  [38;5;27m2f[0m  [38;5;27m32[0m  [38;5;27m35[0m  [38;5;27m36[0m  [38;5;27m37[0m  [38;5;27m3c[0m  [38;5;27m3e[0m  [38;5;27m46[0m  [38;5;27m49[0m  [38;5;27m4c[0m  [38;5;27m51[0m  [38;5;27m5a[0m  [38;5;27m5f[0m  [38;5;27m6b[0m  [38;5;27m73[0m  [38;5;27m74[0m  [38;5;27m78[0m  [38;5;27m83[0m  [38;5;27m84[0m  [38;5;27m85[0m  [38;5;27m86[0m  [38;5;27m87[0m  [38;5;27m88[0m  [38;5;27m8c[0m  [38;5;27m8d[0m  [38;5;27m96[0m  [38;5;27m9b[0m  [38;5;27m9c[0m  [38;5;27ma3[0m  [38;5;27ma5[0m  [38;5;27ma6[0m  [38;5;27ma7[0m  [38;5;27mb0[0m  [38;5;27mb4[0m  [38;5;27mbb[0m  [38;5;27mbf[0m  [38;5;27mc1[0m  [38;5;27md4[0m  [38;5;27md7[0m  [38;5;27mdd[0m  [38;5;27me2[0m  [38;5;27me3[0m  [38;5;27me5[0m  [38;5;27me7[0m  [38;5;27mee[0m  [38;5;27mf5[0m  [38;5;27mf6[0m  [38;5;27mf7[0m  [38;5;27mf8[0m  [38;5;27mfa[0m  [38;5;27mfc[0m  [38;5;27mfe[0m  [38;5;27mff[0m  [38;5;27minfo[0m  [38;5;27mpack[0m  
+
+./.git/objects/02:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  82603171ef5ce72e2a41d8307c02065b954836[0m  d32830df135458005c8c747bfed79dcc3c3188[0m  
+
+./.git/objects/12:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  f622f0ae2b2080b82128715ac78db38926ebf1[0m  
+
+./.git/objects/18:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  2ca289512a4d659dc3a734698e3d79ef3c51d5[0m  
+
+./.git/objects/1b:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  702ad2fcb03f107b78ceddd7bf195d3537c7c9[0m  
+
+./.git/objects/1c:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  a7bb3b56b2edd2165017b3123ba19fa207c2b3[0m  
+
+./.git/objects/1e:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  1c6bc146462ca28e3e49b07a09da63757d544c[0m  449e395fe8904d09f0acc7f62b1682927a839e[0m  
+
+./.git/objects/20:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  44ae9ba6645508696e3e02e367c067584be3f7[0m  
+
+./.git/objects/21:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  1d4d25ab35cc588434bcec39f73b3c796a71b7[0m  
+
+./.git/objects/25:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  79ea4d561e1f217103f7cb4bb33f683a05a153[0m  
+
+./.git/objects/2b:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  3ca1109c6981370818c7022fd2e4cff7694060[0m  
+
+./.git/objects/2e:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  097125a5a0add44025f413f000e6a908047265[0m  83abe536663a8daa0505aa2e14935540d6d227[0m  
+
+./.git/objects/2f:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  da897a905496349e475ec078d4e3de0f659082[0m  
+
+./.git/objects/32:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  c0ea4c1b85ea2f8bf2c3115063f384d0113ad2[0m  
+
+./.git/objects/35:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  271590043f4118777c9cb7cd4d0c0bd380e72a[0m  ec62f7bb3c0648d4f6091a5f9557b93f9d66d2[0m  
+
+./.git/objects/36:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  ce124c79b32faab3dc622364f383f2e03db8b9[0m  
+
+./.git/objects/37:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  14152254a71f6f86d3cc90fdb215f666165a90[0m  
+
+./.git/objects/3c:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  3eea857c180fda22de93d464f9508902298120[0m  
+
+./.git/objects/3e:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  f98cab750480c216e60aeb23e5654d94acbb97[0m  
+
+./.git/objects/46:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  99bbd6a4f89e62844df85584b3f45429d161c5[0m  
+
+./.git/objects/49:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  bc5d91595e59f438b0b64e3755a40499234557[0m  
+
+./.git/objects/4c:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  a2dfef3aff8e6f4564d21529172c25384cc987[0m  
+
+./.git/objects/51:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  8f68859d33b859406b26c989969b63af1e07ef[0m  9d22eef11ab6c0bf79fb83d05ff8242d8fe93a[0m  
+
+./.git/objects/5a:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  f2830d14a058f5e39ba0c0c9a5acbb838be719[0m  
+
+./.git/objects/5f:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  ebf1f5b7ebbeec49ad8f23bb88972c0fb9a00d[0m  
+
+./.git/objects/6b:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  d6a5a9fca5e8e221fdc8a56ba731905a12dee4[0m  
+
+./.git/objects/73:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  d00a50d082a8114f2ecf004dd7d3bb1b484554[0m  
+
+./.git/objects/74:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  a77bb1d6587efa3cc6da84e82f202aa1a8a411[0m  
+
+./.git/objects/78:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  2002519aef292889cf3c439f991c06ee1e87e7[0m  
+
+./.git/objects/83:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  0d91cb26bdebe58371a3dab2fa7f05fba747b8[0m  23e552e55f20a08a9fe141ec978fa90ed72d07[0m  
+
+./.git/objects/84:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  871d79365aa0570d692a5d6e3b8fbe4f408360[0m  
+
+./.git/objects/85:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  a3c63905de4e512a459868d30f9f580e4052ba[0m  
+
+./.git/objects/86:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  1f144f958eae6eb65eacb1496a88c2a37ad2be[0m  
+
+./.git/objects/87:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  59cf3dd3af44becca447988111c123fc94a20f[0m  f16634e73bd699eb960789631ef913cfefc648[0m  
+
+./.git/objects/88:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  21a07e4cf8fdd0797e37f3a042b056f3ccebbb[0m  
+
+./.git/objects/8c:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  3e6fa78306bf96f1bb92fe5333d4fbfc6796ca[0m  
+
+./.git/objects/8d:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  fbb5af5885a8203a947022af44f4116c6985c8[0m  
+
+./.git/objects/96:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  a86453de1aad17e5db2426009f081d45ff488e[0m  
+
+./.git/objects/9b:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  2d1947959015356ff7b067d751b2d1dad81a22[0m  
+
+./.git/objects/9c:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  6b42d0eabe138ee9d0303cb4d91fa13a1ed42a[0m  
+
+./.git/objects/a3:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  74cb05506d7c98d7d0bc48aec1e055ff89cb4b[0m  
+
+./.git/objects/a5:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  cc399e9153a14d6bda3c5f3e4b442565110512[0m  
+
+./.git/objects/a6:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  8c667609017ecc352a348d3d4988d5902b7382[0m  
+
+./.git/objects/a7:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  056632a78585c1da9789f31b90163628f3e704[0m  
+
+./.git/objects/b0:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  92beb09e3d7377a3b659cb400f0d8e37dc9697[0m  
+
+./.git/objects/b4:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  4750841b829fa0f1e6c9861b9f2438f170b14f[0m  49deb796a94bbf5e1f7f2951b8665dcd1c8ce2[0m  
+
+./.git/objects/bb:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  0f64dc7b69e758774fabeba6dba2291c30643f[0m  
+
+./.git/objects/bf:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  47c7308dd7e6696f32a1fe2526721c5f5d2471[0m  
+
+./.git/objects/c1:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  f0c2d852691714007228e8ab9c20150346cd25[0m  
+
+./.git/objects/d4:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  a16fe7bdd40a6401ab1e5a508375c5ca63bf02[0m  
+
+./.git/objects/d7:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  f8bfb1acaa74389462cf76389547c16b6f9e4b[0m  
+
+./.git/objects/dd:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  221d5e3566852a162a376cdcab9936187c2e52[0m  6337cbbcaa5c790fa9b57b9249715692893c3c[0m  
+
+./.git/objects/e2:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  79a2b4d29c249b8ff581e1c1fec3efa99cd8cb[0m  
+
+./.git/objects/e3:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  6e1f773aeb308a479a44e4c39a6e42c253b672[0m  
+
+./.git/objects/e5:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  266ca819f38581ac648a539371c2cc81323511[0m  4cfa5156b88c80b593ef8719722c83a3f473a7[0m  
+
+./.git/objects/e7:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  c0229270f762fd71b95bed5386dd894fce5d71[0m  
+
+./.git/objects/ee:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  08b70585f14d8383aaf52aab1a7a091a6eb749[0m  
+
+./.git/objects/f5:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  06bfbddaaa184f2485c968e16f983a9db26e2c[0m  
+
+./.git/objects/f6:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  c12fc96d6f06e8d9ae4ce17039644fbe68db05[0m  c664a90ba3a41ea81def33fb95acc5693a4009[0m  
+
+./.git/objects/f7:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  9ffeffe0af14a3f85f5c0dd76db0827422e155[0m  
+
+./.git/objects/f8:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  d1f2dc7187f28b9df1e2d1cac053fe8e18bb89[0m  
+
+./.git/objects/fa:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  48901434a4242c2150e61a168e30c307fd2db6[0m  
+
+./.git/objects/fc:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  0cd7d38a94b409ce403f4a46276326dd9f8275[0m  
+
+./.git/objects/fe:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  0843e8ddb4b392fd3da67a9559c6ca73ca7063[0m  
+
+./.git/objects/ff:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  256171cfff46ab1c309a8a56829d76850bb01f[0m  9c70e37ca74bb167add1c16bd6d565924a0b18[0m  
+
+./.git/objects/info:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  
+
+./.git/objects/pack:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  pack-c1692ae22dcd675fdf05f46ba2fffd29d329d755.idx[0m  pack-c1692ae22dcd675fdf05f46ba2fffd29d329d755.pack[0m  
+
+./.git/refs:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  [38;5;27mheads[0m  [38;5;27mremotes[0m  [38;5;27mtags[0m  
+
+./.git/refs/heads:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  exec[0m  ls[0m  master[0m  
+
+./.git/refs/remotes:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  [38;5;27morigin[0m  
+
+./.git/refs/remotes/origin:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  HEAD[0m  ls[0m  
+
+./.git/refs/tags:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  hw1[0m  
+
+./bin:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  [38;5;34mls[0m  [38;5;34mrshell[0m  
+
+./src:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  functions.h[0m  ls.cpp[0m  ls.h[0m  main.cpp[0m  
+
+./tests:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  exec.script[0m  ls.tests[0m  redir[0m  [38;5;27mt[0m  [38;5;34mxdttest.sh[0m  
+
+./tests/t:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  .hidden[0m  [1;34;47;38;5;27m.hiddendir[0m  [38;5;27mdir[0m  file[0m  
+
+./tests/t/.hiddendir:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  1[0m  2[0m  [38;5;34m3[0m  
+
+./tests/t/dir:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  a[0m  b[0m  c[0m  
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # -Rl
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls -Rl
+.:
+total 52
+drwxrwxr-x 2 mevans mevans  4096 Feb 09 02:55 [38;5;27mbin[0m
+-rw-rw-r-- 1 mevans mevans  1081 Feb 06 18:11 LICENSE[0m
+-rw-rw-r-- 1 mevans mevans 24576 Feb 09 04:03 ls.script[0m
+-rw-rw-r-- 1 mevans mevans   419 Feb 08 22:40 Makefile[0m
+-rw-rw-r-- 1 mevans mevans  1678 Feb 09 02:31 README.md[0m
+drwxrwxr-x 2 mevans mevans  4096 Feb 06 18:39 [38;5;27msrc[0m
+-rwxrwxr-x 1 mevans mevans   352 Feb 09 02:30 [38;5;34mtest.cpp[0m
+drwxrwxr-x 3 mevans mevans  4096 Feb 09 03:35 [38;5;27mtests[0m
+
+./bin:
+total 224
+-rwxrwxr-x 1 mevans mevans  94348 Feb 09 02:55 [38;5;34mls[0m
+-rwxrwxr-x 1 mevans mevans 130093 Feb 09 02:55 [38;5;34mrshell[0m
+
+./src:
+total 32
+-rw-rw-r-- 1 mevans mevans 4780 Feb 06 18:11 functions.h[0m
+-rw-rw-r-- 1 mevans mevans 2597 Feb 09 02:43 ls.cpp[0m
+-rw-rw-r-- 1 mevans mevans 8348 Feb 09 02:55 ls.h[0m
+-rw-rw-r-- 1 mevans mevans 5478 Feb 06 18:11 main.cpp[0m
+
+./tests:
+total 32
+-rw-rw-r-- 1 mevans mevans  6763 Feb 06 18:11 exec.script[0m
+-rw-rw-r-- 1 mevans mevans   995 Feb 09 03:23 ls.tests[0m
+-rw-rw-r-- 1 mevans mevans 12071 Feb 06 18:11 redir[0m
+drwxrwxr-x 4 mevans mevans  4096 Feb 08 23:52 [38;5;27mt[0m
+-rwxrwxr-x 1 mevans mevans  1836 Feb 09 04:02 [38;5;34mxdttest.sh[0m
+
+./tests/t:
+total 4
+drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:55 [38;5;27mdir[0m
+-rw-rw-r-- 1 mevans mevans    0 Feb 08 23:52 file[0m
+
+./tests/t/dir:
 total 0
--rw-rw-r-- 1 mevans mevans 0 Feb 08 23:52 .hidden[1;0;00m
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -la .hidden
-total 0
--rw-rw-r-- 1 mevans mevans 0 Feb 08 23:52 .hidden[1;0;00m
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -a dir
-[1;34;47m.[1;0;00m  [1;34;47m..[1;0;00m  
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -l dir
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -al dir
+-rw-rw-r-- 1 mevans mevans 0 Feb 08 23:55 a[0m
+-rw-rw-r-- 1 mevans mevans 0 Feb 08 23:55 b[0m
+-rw-rw-r-- 1 mevans mevans 0 Feb 08 23:55 c[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # -Rla
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls -Rla
+.:
+total 68
+drwxrwxr-x 6 mevans mevans  4096 Feb 09 03:35 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 4 mevans mevans  4096 Feb 06 20:18 [1;34;47;38;5;27m..[0m
+drwxrwxr-x 8 mevans mevans  4096 Feb 09 04:02 [1;34;47;38;5;27m.git[0m
+drwxrwxr-x 2 mevans mevans  4096 Feb 09 02:55 [38;5;27mbin[0m
+-rw-rw-r-- 1 mevans mevans  1081 Feb 06 18:11 LICENSE[0m
+-rw-rw-r-- 1 mevans mevans 28672 Feb 09 04:03 ls.script[0m
+-rw-rw-r-- 1 mevans mevans   419 Feb 08 22:40 Makefile[0m
+-rw-rw-r-- 1 mevans mevans  1678 Feb 09 02:31 README.md[0m
+drwxrwxr-x 2 mevans mevans  4096 Feb 06 18:39 [38;5;27msrc[0m
+-rwxrwxr-x 1 mevans mevans   352 Feb 09 02:30 [38;5;34mtest.cpp[0m
+drwxrwxr-x 3 mevans mevans  4096 Feb 09 03:35 [38;5;27mtests[0m
+
+./.git:
+total 56
+drwxrwxr-x  8 mevans mevans 4096 Feb 09 04:02 [1;34;47;38;5;27m.[0m
+drwxrwxr-x  6 mevans mevans 4096 Feb 09 03:35 [1;34;47;38;5;27m..[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 18:10 [38;5;27mbranches[0m
+-rw-rw-r--  1 mevans mevans   32 Feb 09 01:59 COMMIT_EDITMSG[0m
+-rw-rw-r--  1 mevans mevans  374 Feb 06 18:11 config[0m
+-rw-rw-r--  1 mevans mevans   73 Feb 06 18:10 description[0m
+-rw-rw-r--  1 mevans mevans   19 Feb 06 18:11 HEAD[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 18:10 [38;5;27mhooks[0m
+-rw-rw-r--  1 mevans mevans  800 Feb 09 02:31 index[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 18:10 [38;5;27minfo[0m
+drwxrwxr-x  3 mevans mevans 4096 Feb 06 18:11 [38;5;27mlogs[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [38;5;27mobjects[0m
+-rw-rw-r--  1 mevans mevans  292 Feb 06 18:11 packed-refs[0m
+drwxrwxr-x  5 mevans mevans 4096 Feb 06 18:11 [38;5;27mrefs[0m
+
+./.git/branches:
 total 8
-drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:52 [1;34;47m.[1;0;00m
-drwxrwxr-x 4 mevans mevans 4096 Feb 08 23:52 [1;34;47m..[1;0;00m
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ mylsi[K -a ile[K[K[Kfiel[K[K[K[K*
-file[1;0;00m  
+drwxrwxr-x 2 mevans mevans 4096 Feb 06 18:10 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 8 mevans mevans 4096 Feb 09 04:02 [1;34;47;38;5;27m..[0m
 
-dir:
-[1;34;47m.[1;0;00m  [1;34;47m..[1;0;00m  
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls file .hidden .hiddendir [K
-.hidden[1;0;00m  file[1;0;00m  
+./.git/hooks:
+total 48
+drwxrwxr-x 2 mevans mevans 4096 Feb 06 18:10 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 8 mevans mevans 4096 Feb 09 04:02 [1;34;47;38;5;27m..[0m
+-rwxrwxr-x 1 mevans mevans  452 Feb 06 18:10 [38;5;34mapplypatch-msg.sample[0m
+-rwxrwxr-x 1 mevans mevans  896 Feb 06 18:10 [38;5;34mcommit-msg.sample[0m
+-rwxrwxr-x 1 mevans mevans  189 Feb 06 18:10 [38;5;34mpost-update.sample[0m
+-rwxrwxr-x 1 mevans mevans  398 Feb 06 18:10 [38;5;34mpre-applypatch.sample[0m
+-rwxrwxr-x 1 mevans mevans 1704 Feb 06 18:10 [38;5;34mpre-commit.sample[0m
+-rw-rw-r-- 1 mevans mevans 1348 Feb 06 18:10 pre-push.sample[0m
+-rwxrwxr-x 1 mevans mevans 4951 Feb 06 18:10 [38;5;34mpre-rebase.sample[0m
+-rwxrwxr-x 1 mevans mevans 1239 Feb 06 18:10 [38;5;34mprepare-commit-msg.sample[0m
+-rwxrwxr-x 1 mevans mevans 3611 Feb 06 18:10 [38;5;34mupdate.sample[0m
 
-.hiddendir:
+./.git/info:
+total 12
+drwxrwxr-x 2 mevans mevans 4096 Feb 06 18:10 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 8 mevans mevans 4096 Feb 09 04:02 [1;34;47;38;5;27m..[0m
+-rw-rw-r-- 1 mevans mevans  240 Feb 06 18:10 exclude[0m
 
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls file .hidden .hiddendir dir
-.hidden[1;0;00m  file[1;0;00m  
+./.git/logs:
+total 20
+drwxrwxr-x 3 mevans mevans 4096 Feb 06 18:11 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 8 mevans mevans 4096 Feb 09 04:02 [1;34;47;38;5;27m..[0m
+-rw-rw-r-- 1 mevans mevans 4895 Feb 09 01:59 HEAD[0m
+drwxrwxr-x 4 mevans mevans 4096 Feb 06 18:11 [38;5;27mrefs[0m
 
-.hiddendir:
+./.git/logs/refs:
+total 16
+drwxrwxr-x 4 mevans mevans 4096 Feb 06 18:11 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 3 mevans mevans 4096 Feb 06 18:11 [1;34;47;38;5;27m..[0m
+drwxrwxr-x 2 mevans mevans 4096 Feb 06 18:11 [38;5;27mheads[0m
+drwxrwxr-x 3 mevans mevans 4096 Feb 06 18:11 [38;5;27mremotes[0m
 
+./.git/logs/refs/heads:
+total 24
+drwxrwxr-x 2 mevans mevans 4096 Feb 06 18:11 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 4 mevans mevans 4096 Feb 06 18:11 [1;34;47;38;5;27m..[0m
+-rw-rw-r-- 1 mevans mevans  189 Feb 06 18:11 exec[0m
+-rw-rw-r-- 1 mevans mevans 4146 Feb 09 01:59 ls[0m
+-rw-rw-r-- 1 mevans mevans  193 Feb 06 18:11 master[0m
 
-dir:
+./.git/logs/refs/remotes:
+total 12
+drwxrwxr-x 3 mevans mevans 4096 Feb 06 18:11 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 4 mevans mevans 4096 Feb 06 18:11 [1;34;47;38;5;27m..[0m
+drwxrwxr-x 2 mevans mevans 4096 Feb 06 20:02 [38;5;27morigin[0m
 
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ touch dir/a b c[K[K[Kdir/b/[K dir/c
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ touch .hiddendir/1
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ touch .hiddendir/1[K2dir/a dir/b dir/c[5P.hiddendir/2
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ touch .hiddendir/2[K3
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ mysl[K[Kls .hiddendir/
-1[1;0;00m  2[1;0;00m  3[1;0;00m  
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ chmod +x .hiddendir/3
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls h[K.hiddendir/
-1[1;0;00m  2[1;0;00m  [1;32m3[1;0;00m  
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls .hiddendir/[K
-1[1;0;00m  2[1;0;00m  [1;32m3[1;0;00m  
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls .hiddendir-.hiddendira.hiddendir .hiddendir
-[1;34;47m.[1;0;00m  [1;34;47m..[1;0;00m  1[1;0;00m  2[1;0;00m  [1;32m3[1;0;00m  
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -a .hiddendir[C[1P .hiddendirl .hiddendir
-total 0
--rw-rw-r-- 1 mevans mevans 0 Feb 08 23:55 1[1;0;00m
--rw-rw-r-- 1 mevans mevans 0 Feb 08 23:55 2[1;0;00m
--rwxrwxr-x 1 mevans mevans 0 Feb 08 23:55 [1;32m3[1;0;00m
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -l .hiddendir[C[C[1P .hiddendira .hiddendirl .hiddendir
+./.git/logs/refs/remotes/origin:
+total 16
+drwxrwxr-x 2 mevans mevans 4096 Feb 06 20:02 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 3 mevans mevans 4096 Feb 06 18:11 [1;34;47;38;5;27m..[0m
+-rw-rw-r-- 1 mevans mevans  193 Feb 06 18:11 HEAD[0m
+-rw-rw-r-- 1 mevans mevans  948 Feb 08 23:57 ls[0m
+
+./.git/objects:
+total 272
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m.[0m
+drwxrwxr-x  8 mevans mevans 4096 Feb 09 04:02 [1;34;47;38;5;27m..[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:20 [38;5;27m02[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:54 [38;5;27m12[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:21 [38;5;27m18[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:10 [38;5;27m1b[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:20 [38;5;27m1c[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:32 [38;5;27m1e[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 07:29 [38;5;27m20[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:21 [38;5;27m21[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 07:31 [38;5;27m25[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:20 [38;5;27m2b[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:39 [38;5;27m2e[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:40 [38;5;27m2f[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 20:01 [38;5;27m32[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:54 [38;5;27m35[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:56 [38;5;27m36[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 00:50 [38;5;27m37[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 16:11 [38;5;27m3c[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:57 [38;5;27m3e[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 21:26 [38;5;27m46[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 16:11 [38;5;27m49[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:54 [38;5;27m4c[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:10 [38;5;27m51[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 00:49 [38;5;27m5a[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 07:31 [38;5;27m5f[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 21:34 [38;5;27m6b[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 21:34 [38;5;27m73[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 21:28 [38;5;27m74[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:40 [38;5;27m78[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 01:57 [38;5;27m83[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:57 [38;5;27m84[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 07:28 [38;5;27m85[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 21:26 [38;5;27m86[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:40 [38;5;27m87[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 00:50 [38;5;27m88[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:10 [38;5;27m8c[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 21:26 [38;5;27m8d[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 01:59 [38;5;27m96[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:21 [38;5;27m9b[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 21:25 [38;5;27m9c[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 16:11 [38;5;27ma3[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 01:57 [38;5;27ma5[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:57 [38;5;27ma6[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 20:01 [38;5;27ma7[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 01:59 [38;5;27mb0[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 07:30 [38;5;27mb4[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:20 [38;5;27mbb[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 07:31 [38;5;27mbf[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 20:01 [38;5;27mc1[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:32 [38;5;27md4[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:56 [38;5;27md7[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:32 [38;5;27mdd[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 01:57 [38;5;27me2[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:21 [38;5;27me3[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:57 [38;5;27me5[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:18 [38;5;27me7[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 20:01 [38;5;27mee[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 07:29 [38;5;27mf5[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 01:59 [38;5;27mf6[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 21:26 [38;5;27mf7[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 00:50 [38;5;27mf8[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 20:01 [38;5;27mfa[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 01:57 [38;5;27mfc[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 21:28 [38;5;27mfe[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 01:59 [38;5;27mff[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 18:10 [38;5;27minfo[0m
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 18:11 [38;5;27mpack[0m
+
+./.git/objects/02:
+total 16
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:20 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  176 Feb 08 23:20 82603171ef5ce72e2a41d8307c02065b954836[0m
+-r--r--r--  1 mevans mevans 1991 Feb 08 22:32 d32830df135458005c8c747bfed79dcc3c3188[0m
+
+./.git/objects/12:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:54 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans 1446 Feb 08 22:54 f622f0ae2b2080b82128715ac78db38926ebf1[0m
+
+./.git/objects/18:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:21 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  189 Feb 08 23:21 2ca289512a4d659dc3a734698e3d79ef3c51d5[0m
+
+./.git/objects/1b:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:10 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  142 Feb 08 22:10 702ad2fcb03f107b78ceddd7bf195d3537c7c9[0m
+
+./.git/objects/1c:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:20 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  142 Feb 08 23:20 a7bb3b56b2edd2165017b3123ba19fa207c2b3[0m
+
+./.git/objects/1e:
+total 16
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:32 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  800 Feb 06 21:32 1c6bc146462ca28e3e49b07a09da63757d544c[0m
+-r--r--r--  1 mevans mevans  176 Feb 08 22:32 449e395fe8904d09f0acc7f62b1682927a839e[0m
+
+./.git/objects/20:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 07:29 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  176 Feb 08 07:29 44ae9ba6645508696e3e02e367c067584be3f7[0m
+
+./.git/objects/21:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:21 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans 1458 Feb 08 23:21 1d4d25ab35cc588434bcec39f73b3c796a71b7[0m
+
+./.git/objects/25:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 07:31 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  194 Feb 08 07:31 79ea4d561e1f217103f7cb4bb33f683a05a153[0m
+
+./.git/objects/2b:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:20 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  169 Feb 08 23:20 3ca1109c6981370818c7022fd2e4cff7694060[0m
+
+./.git/objects/2e:
+total 16
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:39 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  141 Feb 08 07:29 097125a5a0add44025f413f000e6a908047265[0m
+-r--r--r--  1 mevans mevans 1950 Feb 08 23:39 83abe536663a8daa0505aa2e14935540d6d227[0m
+
+./.git/objects/2f:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:40 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  176 Feb 08 23:40 da897a905496349e475ec078d4e3de0f659082[0m
+
+./.git/objects/32:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 20:01 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  169 Feb 06 20:01 c0ea4c1b85ea2f8bf2c3115063f384d0113ad2[0m
+
+./.git/objects/35:
+total 16
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:54 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  193 Feb 08 22:10 271590043f4118777c9cb7cd4d0c0bd380e72a[0m
+-r--r--r--  1 mevans mevans  141 Feb 08 22:54 ec62f7bb3c0648d4f6091a5f9557b93f9d66d2[0m
+
+./.git/objects/36:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:56 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  182 Feb 08 23:56 ce124c79b32faab3dc622364f383f2e03db8b9[0m
+
+./.git/objects/37:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 00:50 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  142 Feb 09 00:50 14152254a71f6f86d3cc90fdb215f666165a90[0m
+
+./.git/objects/3c:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 16:11 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  142 Feb 08 16:11 3eea857c180fda22de93d464f9508902298120[0m
+
+./.git/objects/3e:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:57 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  112 Feb 08 23:57 f98cab750480c216e60aeb23e5654d94acbb97[0m
+
+./.git/objects/46:
+
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 21:26 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans 1418 Feb 08 21:26 99bbd6a4f89e62844df85584b3f45429d161c5[0m
+
+./.git/objects/49:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 16:11 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  176 Feb 08 16:11 bc5d91595e59f438b0b64e3755a40499234557[0m
+
+./.git/objects/4c:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:54 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  174 Feb 08 22:54 a2dfef3aff8e6f4564d21529172c25384cc987[0m
+
+./.git/objects/51:
+total 16
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:10 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  176 Feb 06 20:01 8f68859d33b859406b26c989969b63af1e07ef[0m
+-r--r--r--  1 mevans mevans 1922 Feb 08 22:10 9d22eef11ab6c0bf79fb83d05ff8242d8fe93a[0m
+
+./.git/objects/5a:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 00:49 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans 1423 Feb 09 00:49 f2830d14a058f5e39ba0c0c9a5acbb838be719[0m
+
+./.git/objects/5f:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 07:31 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  142 Feb 08 07:31 ebf1f5b7ebbeec49ad8f23bb88972c0fb9a00d[0m
+
+./.git/objects/6b:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 21:34 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  141 Feb 06 21:34 d6a5a9fca5e8e221fdc8a56ba731905a12dee4[0m
+
+./.git/objects/73:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 21:34 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  177 Feb 06 21:34 d00a50d082a8114f2ecf004dd7d3bb1b484554[0m
+
+./.git/objects/74:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 21:28 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  142 Feb 08 21:28 a77bb1d6587efa3cc6da84e82f202aa1a8a411[0m
+
+./.git/objects/78:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:40 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  141 Feb 08 23:40 2002519aef292889cf3c439f991c06ee1e87e7[0m
+
+./.git/objects/83:
+total 16
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 01:57 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans 2556 Feb 09 01:57 0d91cb26bdebe58371a3dab2fa7f05fba747b8[0m
+-r--r--r--  1 mevans mevans  742 Feb 06 19:59 23e552e55f20a08a9fe141ec978fa90ed72d07[0m
+
+./.git/objects/84:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:57 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans 1120 Feb 08 23:57 871d79365aa0570d692a5d6e3b8fbe4f408360[0m
+
+./.git/objects/85:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 07:28 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans 1471 Feb 08 07:28 a3c63905de4e512a459868d30f9f580e4052ba[0m
+
+./.git/objects/86:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 21:26 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  176 Feb 08 21:26 1f144f958eae6eb65eacb1496a88c2a37ad2be[0m
+
+./.git/objects/87:
+total 16
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:40 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  176 Feb 08 22:54 59cf3dd3af44becca447988111c123fc94a20f[0m
+-r--r--r--  1 mevans mevans  234 Feb 08 23:40 f16634e73bd699eb960789631ef913cfefc648[0m
+
+./.git/objects/88:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 00:50 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  177 Feb 09 00:50 21a07e4cf8fdd0797e37f3a042b056f3ccebbb[0m
+
+./.git/objects/8c:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:10 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  176 Feb 08 22:10 3e6fa78306bf96f1bb92fe5333d4fbfc6796ca[0m
+
+./.git/objects/8d:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 21:26 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  142 Feb 08 21:26 fbb5af5885a8203a947022af44f4116c6985c8[0m
+
+./.git/objects/96:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  142 Feb 09 01:59 a86453de1aad17e5db2426009f081d45ff488e[0m
+
+./.git/objects/9b:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:21 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  141 Feb 08 23:21 2d1947959015356ff7b067d751b2d1dad81a22[0m
+
+./.git/objects/9c:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 21:25 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans 1592 Feb 08 21:25 6b42d0eabe138ee9d0303cb4d91fa13a1ed42a[0m
+
+./.git/objects/a3:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 16:11 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  191 Feb 08 16:11 74cb05506d7c98d7d0bc48aec1e055ff89cb4b[0m
+
+./.git/objects/a5:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 01:57 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  182 Feb 09 01:57 cc399e9153a14d6bda3c5f3e4b442565110512[0m
+
+./.git/objects/a6:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:57 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  177 Feb 08 23:57 8c667609017ecc352a348d3d4988d5902b7382[0m
+
+./.git/objects/a7:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 20:01 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  117 Feb 06 20:01 056632a78585c1da9789f31b90163628f3e704[0m
+
+./.git/objects/b0:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans 1101 Feb 09 01:59 92beb09e3d7377a3b659cb400f0d8e37dc9697[0m
+
+./.git/objects/b4:
+total 16
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 07:30 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  176 Feb 06 20:01 4750841b829fa0f1e6c9861b9f2438f170b14f[0m
+-r--r--r--  1 mevans mevans  933 Feb 08 07:30 49deb796a94bbf5e1f7f2951b8665dcd1c8ce2[0m
+
+./.git/objects/bb:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:20 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans 2087 Feb 08 23:20 0f64dc7b69e758774fabeba6dba2291c30643f[0m
+
+./.git/objects/bf:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 07:31 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  176 Feb 08 07:31 47c7308dd7e6696f32a1fe2526721c5f5d2471[0m
+
+./.git/objects/c1:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 20:01 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  238 Feb 06 20:01 f0c2d852691714007228e8ab9c20150346cd25[0m
+
+./.git/objects/d4:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:32 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  142 Feb 08 22:32 a16fe7bdd40a6401ab1e5a508375c5ca63bf02[0m
+
+./.git/objects/d7:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:56 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  841 Feb 08 23:56 f8bfb1acaa74389462cf76389547c16b6f9e4b[0m
+
+./.git/objects/dd:
+total 16
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:32 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  174 Feb 08 22:32 221d5e3566852a162a376cdcab9936187c2e52[0m
+-r--r--r--  1 mevans mevans  228 Feb 06 21:34 6337cbbcaa5c790fa9b57b9249715692893c3c[0m
+
+./.git/objects/e2:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 01:57 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  177 Feb 09 01:57 79a2b4d29c249b8ff581e1c1fec3efa99cd8cb[0m
+
+./.git/objects/e3:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:21 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  176 Feb 08 23:21 6e1f773aeb308a479a44e4c39a6e42c253b672[0m
+
+./.git/objects/e5:
+total 16
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 23:57 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  174 Feb 08 23:57 266ca819f38581ac648a539371c2cc81323511[0m
+-r--r--r--  1 mevans mevans  255 Feb 08 21:28 4cfa5156b88c80b593ef8719722c83a3f473a7[0m
+
+./.git/objects/e7:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 22:18 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans 1962 Feb 08 22:18 c0229270f762fd71b95bed5386dd894fce5d71[0m
+
+./.git/objects/ee:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 20:01 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  142 Feb 06 20:01 08b70585f14d8383aaf52aab1a7a091a6eb749[0m
+
+./.git/objects/f5:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 07:29 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  223 Feb 08 07:29 06bfbddaaa184f2485c968e16f983a9db26e2c[0m
+
+./.git/objects/f6:
+total 16
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans 1604 Feb 08 16:10 c12fc96d6f06e8d9ae4ce17039644fbe68db05[0m
+-r--r--r--  1 mevans mevans  177 Feb 09 01:59 c664a90ba3a41ea81def33fb95acc5693a4009[0m
+
+./.git/objects/f7:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 21:26 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  232 Feb 08 21:26 9ffeffe0af14a3f85f5c0dd76db0827422e155[0m
+
+./.git/objects/f8:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 00:50 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  195 Feb 09 00:50 d1f2dc7187f28b9df1e2d1cac053fe8e18bb89[0m
+
+./.git/objects/fa:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 20:01 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  384 Feb 06 20:01 48901434a4242c2150e61a168e30c307fd2db6[0m
+
+./.git/objects/fc:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 01:57 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  143 Feb 09 01:57 0cd7d38a94b409ce403f4a46276326dd9f8275[0m
+
+./.git/objects/fe:
+total 12
+drwxrwxr-x  2 mevans mevans 4096 Feb 08 21:28 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  176 Feb 08 21:28 0843e8ddb4b392fd3da67a9559c6ca73ca7063[0m
+
+./.git/objects/ff:
+total 16
+drwxrwxr-x  2 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  182 Feb 09 01:59 256171cfff46ab1c309a8a56829d76850bb01f[0m
+-r--r--r--  1 mevans mevans  176 Feb 08 23:56 9c70e37ca74bb167add1c16bd6d565924a0b18[0m
+
+./.git/objects/info:
 total 8
-drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:55 [1;34;47m.[1;0;00m
-drwxrwxr-x 4 mevans mevans 4096 Feb 08 23:52 [1;34;47m..[1;0;00m
--rw-rw-r-- 1 mevans mevans    0 Feb 08 23:55 1[1;0;00m
--rw-rw-r-- 1 mevans mevans    0 Feb 08 23:55 2[1;0;00m
--rwxrwxr-x 1 mevans mevans    0 Feb 08 23:55 [1;32m3[1;0;00m
-]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ exit
+drwxrwxr-x  2 mevans mevans 4096 Feb 06 18:10 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+
+./.git/objects/pack:
+total 52
+drwxrwxr-x  2 mevans mevans  4096 Feb 06 18:11 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 68 mevans mevans  4096 Feb 09 01:59 [1;34;47;38;5;27m..[0m
+-r--r--r--  1 mevans mevans  8128 Feb 06 18:11 pack-c1692ae22dcd675fdf05f46ba2fffd29d329d755.idx[0m
+-r--r--r--  1 mevans mevans 34004 Feb 06 18:11 pack-c1692ae22dcd675fdf05f46ba2fffd29d329d755.pack[0m
+
+./.git/refs:
+total 20
+drwxrwxr-x 5 mevans mevans 4096 Feb 06 18:11 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 8 mevans mevans 4096 Feb 09 04:02 [1;34;47;38;5;27m..[0m
+drwxrwxr-x 2 mevans mevans 4096 Feb 09 01:59 [38;5;27mheads[0m
+drwxrwxr-x 3 mevans mevans 4096 Feb 06 18:11 [38;5;27mremotes[0m
+drwxrwxr-x 2 mevans mevans 4096 Feb 09 00:02 [38;5;27mtags[0m
+
+./.git/refs/heads:
+total 20
+drwxrwxr-x 2 mevans mevans 4096 Feb 09 01:59 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 5 mevans mevans 4096 Feb 06 18:11 [1;34;47;38;5;27m..[0m
+-rw-rw-r-- 1 mevans mevans   41 Feb 06 18:11 exec[0m
+-rw-rw-r-- 1 mevans mevans   41 Feb 09 01:59 ls[0m
+-rw-rw-r-- 1 mevans mevans   41 Feb 06 18:11 master[0m
+
+./.git/refs/remotes:
+total 12
+drwxrwxr-x 3 mevans mevans 4096 Feb 06 18:11 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 5 mevans mevans 4096 Feb 06 18:11 [1;34;47;38;5;27m..[0m
+drwxrwxr-x 2 mevans mevans 4096 Feb 09 00:00 [38;5;27morigin[0m
+
+./.git/refs/remotes/origin:
+total 16
+drwxrwxr-x 2 mevans mevans 4096 Feb 09 00:00 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 3 mevans mevans 4096 Feb 06 18:11 [1;34;47;38;5;27m..[0m
+-rw-rw-r-- 1 mevans mevans   32 Feb 06 18:11 HEAD[0m
+-rw-rw-r-- 1 mevans mevans   41 Feb 08 23:57 ls[0m
+
+./.git/refs/tags:
+#total 12
+drwxrwxr-x 2 mevans mevans 4096 Feb 09 00:02 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 5 mevans mevans 4096 Feb 06 18:11 [1;34;47;38;5;27m..[0m
+-rw-rw-r-- 1 mevans mevans   41 Feb 09 00:02 hw1[0m
+
+./bin:
+total 232
+drwxrwxr-x 2 mevans mevans   4096 Feb 09 02:55 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 6 mevans mevans   4096 Feb 09 03:35 [1;34;47;38;5;27m..[0m
+-rwxrwxr-x 1 mevans mevans  94348 Feb 09 02:55 [38;5;34mls[0m
+-rwxrwxr-x 1 mevans mevans 130093 Feb 09 02:55 [38;5;34mrshell[0m
+
+./src:
+total 40
+drwxrwxr-x 2 mevans mevans 4096 Feb 06 18:39 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 6 mevans mevans 4096 Feb 09 03:35 [1;34;47;38;5;27m..[0m
+-rw-rw-r-- 1 mevans mevans 4780 Feb 06 18:11 functions.h[0m
+-rw-rw-r-- 1 mevans mevans 2597 Feb 09 02:43 ls.cpp[0m
+-rw-rw-r-- 1 mevans mevans 8348 Feb 09 02:55 ls.h[0m
+-rw-rw-r-- 1 mevans mevans 5478 Feb 06 18:11 main.cpp[0m
+
+./tests:
+total 40
+drwxrwxr-x 3 mevans mevans  4096 Feb 09 03:35 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 6 mevans mevans  4096 Feb 09 03:35 [1;34;47;38;5;27m..[0m
+-rw-rw-r-- 1 mevans mevans  6763 Feb 06 18:11 exec.script[0m
+-rw-rw-r-- 1 mevans mevans   995 Feb 09 03:23 ls.tests[0m
+-rw-rw-r-- 1 mevans mevans 12071 Feb 06 18:11 redir[0m
+drwxrwxr-x 4 mevans mevans  4096 Feb 08 23:52 [38;5;27mt[0m
+-rwxrwxr-x 1 mevans mevans  1836 Feb 09 04:02 [38;5;34mxdttest.sh[0m
+
+./tests/t:
+total 16
+drwxrwxr-x 4 mevans mevans 4096 Feb 08 23:52 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 3 mevans mevans 4096 Feb 09 03:35 [1;34;47;38;5;27m..[0m
+-rw-rw-r-- 1 mevans mevans    0 Feb 08 23:52 .hidden[0m
+drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:55 [1;34;47;38;5;27m.hiddendir[0m
+drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:55 [38;5;27mdir[0m
+-rw-rw-r-- 1 mevans mevans    0 Feb 08 23:52 file[0m
+
+./tests/t/.hiddendir:
+total 8
+drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:55 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 4 mevans mevans 4096 Feb 08 23:52 [1;34;47;38;5;27m..[0m
+-rw-rw-r-- 1 mevans mevans    0 Feb 08 23:55 1[0m
+-rw-rw-r-- 1 mevans mevans    0 Feb 08 23:55 2[0m
+-rwxrwxr-x 1 mevans mevans    0 Feb 08 23:55 [38;5;34m3[0m
+
+./tests/t/dir:
+total 8
+drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:55 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 4 mevans mevans 4096 Feb 08 23:52 [1;34;47;38;5;27m..[0m
+-rw-rw-r-- 1 mevans mevans    0 Feb 08 23:55 a[0m
+-rw-rw-r-- 1 mevans mevans    0 Feb 08 23:55 b[0m
+-rw-rw-r-- 1 mevans mevans    0 Feb 08 23:55 c[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ 
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a dir -R
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin -R
+bin:
+[38;5;34mls[0m  [38;5;34mrshell[0m  
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a file -R
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls LICENSE -R
+LICENSE[0m  
+
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on two dirs -R
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin src -R
+bin:
+[38;5;34mls[0m  [38;5;34mrshell[0m  
+
+src:
+functions.h[0m  ls.cpp[0m  ls.h[0m  main.cpp[0m  
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a dir and file -R
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin LICENSE -R
+LICENSE[0m  
+
+
+bin:
+[38;5;34mls[0m  [38;5;34mrshell[0m  
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ 
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a dir -Rl
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin -Rl
+bin:
+total 224
+-rwxrwxr-x 1 mevans mevans  94348 Feb 09 02:55 [38;5;34mls[0m
+-rwxrwxr-x 1 mevans mevans 130093 Feb 09 02:55 [38;5;34mrshell[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a file -Rl
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls LICENSE -Rl
+total 4
+-rw-rw-r-- 1 mevans mevans 1081 Feb 06 18:11 LICENSE[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on two dirs -Rl
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin src -Rl
+bin:
+total 224
+-rwxrwxr-x 1 mevans mevans  94348 Feb 09 02:55 [38;5;34mls[0m
+-rwxrwxr-x 1 mevans mevans 130093 Feb 09 02:55 [38;5;34mrshell[0m
+
+src:
+total 32
+-rw-rw-r-- 1 mevans mevans 4780 Feb 06 18:11 functions.h[0m
+-rw-rw-r-- 1 mevans mevans 2597 Feb 09 02:43 ls.cpp[0m
+-rw-rw-r-- 1 mevans mevans 8348 Feb 09 02:55 ls.h[0m
+-rw-rw-r-- 1 mevans mevans 5478 Feb 06 18:11 main.cpp[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a dir and file -Rl
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin LICENSE -Rl
+total 4
+-rw-rw-r-- 1 mevans mevans 1081 Feb 06 18:11 LICENSE[0m
+
+bin:
+total 224
+-rwxrwxr-x 1 mevans mevans  94348 Feb 09 02:55 [38;5;34mls[0m
+-rwxrwxr-x 1 mevans mevans 130093 Feb 09 02:55 [38;5;34mrshell[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ 
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a dir -Ra
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin -Ra
+bin:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  [38;5;34mls[0m  [38;5;34mrshell[0m  
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a file -Ra
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls LICENSE -Ra
+LICENSE[0m  
+
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on two dirs -Ra
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin src -Ra
+bin:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  [38;5;34mls[0m  [38;5;34mrshell[0m  
+
+src:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  functions.h[0m  ls.cpp[0m  ls.h[0m  main.cpp[0m  
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a dir and file -Ra
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin LICENSE -Ra
+LICENSE[0m  
+
+
+bin:
+[1;34;47;38;5;27m.[0m  [1;34;47;38;5;27m..[0m  [38;5;34mls[0m  [38;5;34mrshell[0m  
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ 
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a dir -Rla
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin -Rla
+bin:
+total 232
+drwxrwxr-x 2 mevans mevans   4096 Feb 09 02:55 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 6 mevans mevans   4096 Feb 09 03:35 [1;34;47;38;5;27m..[0m
+-rwxrwxr-x 1 mevans mevans  94348 Feb 09 02:55 [38;5;34mls[0m
+-rwxrwxr-x 1 mevans mevans 130093 Feb 09 02:55 [38;5;34mrshell[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a file -Rla
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls LICENSE -Rla
+total 4
+-rw-rw-r-- 1 mevans mevans 1081 Feb 06 18:11 LICENSE[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on two dirs -Rla
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin src -Rla
+bin:
+total 232
+drwxrwxr-x 2 mevans mevans   4096 Feb 09 02:55 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 6 mevans mevans   4096 Feb 09 03:35 [1;34;47;38;5;27m..[0m
+-rwxrwxr-x 1 mevans mevans  94348 Feb 09 02:55 [38;5;34mls[0m
+-rwxrwxr-x 1 mevans mevans 130093 Feb 09 02:55 [38;5;34mrshell[0m
+
+src:
+total 40
+drwxrwxr-x 2 mevans mevans 4096 Feb 06 18:39 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 6 mevans mevans 4096 Feb 09 03:35 [1;34;47;38;5;27m..[0m
+-rw-rw-r-- 1 mevans mevans 4780 Feb 06 18:11 functions.h[0m
+-rw-rw-r-- 1 mevans mevans 2597 Feb 09 02:43 ls.cpp[0m
+-rw-rw-r-- 1 mevans mevans 8348 Feb 09 02:55 ls.h[0m
+-rw-rw-r-- 1 mevans mevans 5478 Feb 06 18:11 main.cpp[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ # on a dir and file -Rla
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ bin/ls bin LICENSE -Rla
+total 4
+-rw-rw-r-- 1 mevans mevans 1081 Feb 06 18:11 LICENSE[0m
+
+bin:
+total 232
+drwxrwxr-x 2 mevans mevans   4096 Feb 09 02:55 [1;34;47;38;5;27m.[0m
+drwxrwxr-x 6 mevans mevans   4096 Feb 09 03:35 [1;34;47;38;5;27m..[0m
+-rwxrwxr-x 1 mevans mevans  94348 Feb 09 02:55 [38;5;34mls[0m
+-rwxrwxr-x 1 mevans mevans 130093 Feb 09 02:55 [38;5;34mrshell[0m
+]0;mevans@localhost:~/git/rshell]7;file://localhost.localdomain/home/mevans/git/rshell[mevans@localhost rshell]$ exit
 exit
 
 Script done on Sun 08 Feb 2015 11:56:26 PM PST
