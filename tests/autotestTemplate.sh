@@ -1,5 +1,9 @@
 #/bin/bash
 
+# check for xdotool
+xdotool --help >/dev/null 2>&1 || { echo "ERROR: cannot start tests because xdotool doesn't work"; exit 1; }
+
+
 SCRIPTNAME=
 
 sleep 5

@@ -1,5 +1,13 @@
 #/bin/bash
 
+
+
+# check for xdotool
+xdotool --help >/dev/null 2>&1 || { echo "ERROR: cannot start tests because xdotool doesn't work"; exit 1; }
+
+
+SCRIPTNAME=ls.script
+
 sleep 5
 
 while read p
@@ -7,7 +15,7 @@ do
   xdotool type --delay 20 "$p
 "
 done <<EOF
-script ls.script
+script $SCRIPTNAME
 # regular ls
 bin/ls
 # ls with one flag
