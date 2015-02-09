@@ -93,7 +93,6 @@ void printFilePrepl(std::vector<char*>::iterator ib,
         perror("getpwuid");
         exit(1);
       }
-      name->pw_name = (char*)"noName";
     }
 
     *ow = MAX((int)strlen(name->pw_name), *ow);
@@ -105,7 +104,6 @@ void printFilePrepl(std::vector<char*>::iterator ib,
         perror("getpwuid");
         exit(1);
       }
-      name->pw_name = (char*)"noName";
     }
 
     *gw = MAX((int)strlen(name->pw_name), *gw);
@@ -257,9 +255,8 @@ void printFiles(std::vector<char*>::iterator ib,
         }
         // else, nothing was returned but there was no error
         // give it something to print
-        name->pw_name = (char*)"noName";
       }
-      printf(" %*s", ow, name->pw_name);
+      if (name->pw_name)  printf(" %*s", ow, name->pw_name);
 
       
       // group
@@ -273,9 +270,8 @@ void printFiles(std::vector<char*>::iterator ib,
         }
         // else, nothing was returned but there was no error
         // give it something to print
-        name->pw_name = (char*)"noName";
       }
-      printf(" %*s", gw, name->pw_name);
+      if (name->pw_name)  printf(" %*s", gw, name->pw_name);
 
 
       
