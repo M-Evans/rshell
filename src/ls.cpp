@@ -84,6 +84,8 @@ int main(int argc, char** argv)
     if (!l)  printf("\n");
   }
 
+  std::sort(args.v.begin() + args.numFiles, args.v.end(), compareFilenamesInefficient);
+
   // iterate over all the dirs
   for(unsigned i = args.numFiles; i < args.v.size(); ++i) {
     std::vector<char*> files;
