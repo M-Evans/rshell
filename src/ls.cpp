@@ -80,7 +80,7 @@ int main(int argc, char** argv)
   if (args.numFiles > 0) {
     // alphabetically sort JUST the files (they're already sorted by type)
     std::sort(args.v.begin(), args.v.begin() + args.numFiles, compareFilenamesInefficient);
-    printFiles(args.v.begin(), args.v.begin() + args.numFiles, l);
+    printFiles(args.v.begin(), args.v.begin() + args.numFiles, l, false);
     if (!l)  printf("\n");
   }
 
@@ -116,24 +116,14 @@ int main(int argc, char** argv)
     std::sort(files.begin(), files.end(), compareFilenamesInefficient);
 
 
-    if (R) { // recursive
+    if (R || arglist.size() > 1) {
       if (i == 0)
         printf("%s:\n", args.v[i]);
       else
         printf("\n%s:\n", args.v[i]);
-
-
-
-    } else { // not recursive
-      if (arglist.size() > 1) {
-        if (i == 0)
-          printf("%s:\n", args.v[i]);
-        else
-          printf("\n%s:\n", args.v[i]);
-      }
-      printFiles(files.begin(), files.end(), l);
-      if (!l) printf("\n");
     }
+    printFiles(files.begin(), files.end(), l, R);
+    if (!l && files.size() != 0) printf("\n");
 
 
     for(unsigned j = 0; j < files.size(); ++j) {
