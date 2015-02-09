@@ -73,8 +73,10 @@ void printFilePrepl(std::vector<char*>::iterator ib,
   while (ib != ie) {
     struct stat fs;
     if (stat(*ib, &fs) == -1) {
-      perror("stat");
-      exit(1);
+      perror(*ib);
+      errno = 0;
+      ib++;
+      continue;
     }
 
     *tot += fs.st_blocks / 2;
@@ -127,7 +129,7 @@ void printFilePrep() {} // TODO: calculate and pass back
 
 
 
-void lsRec(char* d, bool a, bool l, bool R, int call = 1, int sz = 1) {
+void lsRec(char* d, bool a, bool l, bool R, int sz = 1, int call = 1) {
   std::vector<char*> files;
   // dir pointer
   DIR* dp = opendir(d);
@@ -141,7 +143,7 @@ void lsRec(char* d, bool a, bool l, bool R, int call = 1, int sz = 1) {
   while((de = readdir(dp))) {
     if (a || de->d_name[0] != '.') {
       // Potentially overflows (no such thing as a max path):
-      char* f = new char[PATH_MAX];
+      char* f = new char[strlen(d) + strlen(de->d_name) + 2];
       strcpy(f, d);
       strcat(f, "/");
       strcat(f, de->d_name);
@@ -157,12 +159,14 @@ void lsRec(char* d, bool a, bool l, bool R, int call = 1, int sz = 1) {
 
 
   if (R || sz > 1) {
-    if (call == 0)
-      printf("%s:", d);
-    else
-      printf("\n%s:", d);
+    if (call == 0) {
+      printf("%s:\n", d);
+    }
+    else {
+      printf("\n%s:\n", d);
+    }
   }
-  if (R)  printf("\n");
+  //if (R)  printf("\n");
   printFiles(files.begin(), files.end(), a, l, R);
 
 
@@ -205,8 +209,10 @@ void printFiles(std::vector<char*>::iterator ib,
   while (ib != ie) {
     struct stat fs;
     if (stat(*ib, &fs) == -1) {
-      perror("stat");
-      exit(1);
+      perror(*ib);
+      errno = 0;
+      ib++;
+      continue;
     }
 
     if (l) {
@@ -342,12 +348,12 @@ void printFiles(std::vector<char*>::iterator ib,
     ib++;
   }
 
-  printf("\n");
+  if (!l)  printf("\n");
 
   // optionally recurse
   for(unsigned i = 0; R && i < recurse.size(); ++i) {
-    if (strcmp(recurse[i], ".") != 0 && strcmp(recurse[i], "..") != 0)
-      lsRec(recurse[i], a, l, R);
+    if (strcmp(basename(recurse[i]), ".") != 0 && strcmp(basename(recurse[i]), "..") != 0)
+      lsRec(recurse[i], a, l, R, recurse.size());
   }
 }
 
