@@ -119,14 +119,14 @@ void printFiles(std::vector<char*>::iterator ib,
   }
 
   while (ib != ie) {
+    struct stat fs;
+    if (stat(*ib, &fs) == -1) {
+      perror("stat");
+      exit(1);
+    }
+
     if (l) {
       // get the file stats
-      struct stat fs;
-      if (stat(*ib, &fs) == -1) {
-        perror("stat");
-        exit(1);
-      }
-
       // file type
       if (S_ISREG(fs.st_mode)) { printf("-"); }
       else if (S_ISDIR(fs.st_mode)) { printf("d"); }
@@ -208,7 +208,7 @@ void printFiles(std::vector<char*>::iterator ib,
       // fileMtime is accessed, timestr gets modified
       strftime((char*)&timestr, 20, " %b %d %H:%M", &fileMtime);
       // actually print the time
-      printf("%s", timestr);
+      printf("%s ", timestr);
       
       
       
@@ -222,51 +222,25 @@ void printFiles(std::vector<char*>::iterator ib,
         if (s[0] == '.')  printf("%c[1;32;47m", 0x1B);
         else              printf("%c[1;32m", 0x1B);
       }
-      printf(" %s%c[1;0;00m\n", basename(*ib), 0x1B);
-    } else {
-      printf("%s  ", basename(*ib));
+      printf("%s%c[1;0;00m\n", basename(*ib), 0x1B);
+
+    } else { // no -l
+
+      char* s = basename(*ib);
+      if (S_ISDIR(fs.st_mode)) {
+        if (s[0] == '.')  printf("%c[1;34;47m", 0x1B);
+        else              printf("%c[1;34m", 0x1B);
+      }
+      else if ((fs.st_mode & S_IXUSR) | (fs.st_mode & S_IXGRP) | (fs.st_mode & S_IXOTH)) {
+        if (s[0] == '.')  printf("%c[1;32;47m", 0x1B);
+        else              printf("%c[1;32m", 0x1B);
+      }
+      printf("%s%c[1;0;00m  ", basename(*ib), 0x1B);
     }
 
     // increment iterator
     ib++;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /*
-  output += "Statistics:\na is ";
-  if (!a)
-    output += "not ";
-  output += "set.\nl is ";
-  if (!l)
-    output += "not ";
-  output += "set.\nR is ";
-  if (!R)
-    output += "not ";
-  output += "set.\n\n";
-
-  output += "Stuff to list:\n{";
-  for(unsigned i = 0; i < arglist.size(); ++i) {
-    output += arglist[i];
-    if (i + 1 < arglist.size())
-      output += ", ";
-  }
-  output += "}";
-  */
 
 
