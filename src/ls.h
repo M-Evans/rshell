@@ -11,6 +11,31 @@
 #include <vector>
 #include <iostream>
 
+
+
+#define TYPE_UNKNOWN -1
+#define TYPE_FILE    0
+#define TYPE_DIR     1
+
+struct fPerm {
+  char* p;
+  int type;
+  fPerm() {
+    p = NULL;
+    type = TYPE_UNKNOWN;
+  }
+};
+
+struct fandTypes {
+  std::vector<fPerm> f;
+  unsigned numFiles;
+  fandTypes() {  // constructor
+    numFiles = 0;
+  }
+};
+
+
+
 bool compareFilenamesInefficient(const char* a, const char* b)
 {
   char* ac = new char[strlen(a) + 1];
@@ -131,7 +156,6 @@ void printFiles(const std::vector<char*> v, bool l) {
     }
   }
 }
-
 
 
 
