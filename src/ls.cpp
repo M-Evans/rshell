@@ -60,7 +60,7 @@ int main(int argc, char** argv)
   for(unsigned i = 0; i < arglist.size(); ++i) {
     struct stat fs;
     if (stat(arglist[i], &fs) == -1) {
-      perror("stat");
+      perror(arglist[i]);
       errno = 0; // reset the errno. Otherwise, problems...
       // don't quit because it's a recoverable error.
       // if there's nothing else to print, it'll quit anyway
@@ -88,7 +88,7 @@ int main(int argc, char** argv)
 
   // iterate over all the dirs
   for(unsigned i = args.numFiles; i < args.v.size(); ++i) {
-    lsRec(args.v[i], a, l, R, 0, arglist.size());
+    lsRec(args.v[i], a, l, R, arglist.size(), i);
   }
   return 0;
 }
