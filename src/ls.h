@@ -12,7 +12,7 @@
 #include <vector>
 #include <iostream>
 
-#define MAX(A, B) (((A) > (B)) ? (A) : (B))
+#define MY_MAX(A, B) (((A) > (B)) ? (A) : (B))
 
 
 void printFiles(std::vector<char*>::iterator, const std::vector<char*>::iterator&,
@@ -81,9 +81,9 @@ void printFilePrepl(std::vector<char*>::iterator ib,
 
     *tot += fs.st_blocks / 2;
 
-    *iw = MAX(1 + (int)log10(fs.st_nlink), *iw);
+    *iw = MY_MAX(1 + (int)log10(fs.st_nlink), *iw);
 
-    *sw = MAX(1 + (int)log10(fs.st_size), *sw);
+    *sw = MY_MAX(1 + (int)log10(fs.st_size), *sw);
 
     // owner
     struct passwd* name;
@@ -95,7 +95,7 @@ void printFilePrepl(std::vector<char*>::iterator ib,
       }
     }
 
-    *ow = MAX((int)strlen(name->pw_name), *ow);
+    if (name)  *ow = MY_MAX((int)strlen(name->pw_name), *ow);
 
     // group
     if ((name = getpwuid(fs.st_gid)) == NULL)
@@ -106,7 +106,7 @@ void printFilePrepl(std::vector<char*>::iterator ib,
       }
     }
 
-    *gw = MAX((int)strlen(name->pw_name), *gw);
+    if (name)  *gw = MY_MAX((int)strlen(name->pw_name), *gw);
     
     ib++;
   }
@@ -244,8 +244,9 @@ void printFiles(std::vector<char*>::iterator ib,
 
       
       // owner
-      struct passwd* name;
-      if ((name = getpwuid(fs.st_uid)) == NULL)
+      struct passwd* oname;
+      struct passwd* gname;
+      if ((oname = getpwuid(fs.st_uid)) == NULL)
       {
         // no passwd struct returned
         // if errno is set, perror it
@@ -256,11 +257,18 @@ void printFiles(std::vector<char*>::iterator ib,
         // else, nothing was returned but there was no error
         // give it something to print
       }
-      if (name->pw_name)  printf(" %*s", ow, name->pw_name);
+
+      char* jic = NULL; // just in case
+      if (oname) {
+        printf(" %*s", ow, oname->pw_name);
+        jic = new char [ow + 1];
+        strcpy(jic, oname->pw_name);
+      }
+
 
       
       // group
-      if ((name = getpwuid(fs.st_gid)) == NULL)
+      if ((gname = getpwuid(fs.st_gid)) == NULL)
       {
         // no passwd struct returned
         // if errno is set, perror it
@@ -271,8 +279,8 @@ void printFiles(std::vector<char*>::iterator ib,
         // else, nothing was returned but there was no error
         // give it something to print
       }
-      if (name->pw_name)  printf(" %*s", gw, name->pw_name);
-
+      if (gname)     printf(" %*s", gw, gname->pw_name);
+      else if (jic)  printf(" %*s", ow, jic);
 
       
       // size
@@ -330,15 +338,6 @@ void printFiles(std::vector<char*>::iterator ib,
       printf("%s%c[0m  ", s, 0x1B);
 
     }
-      /*
-        if (s[0] == '.')  printf("%c[1;34;47m", 0x1B);
-        else              printf("%c[1;34m", 0x1B);
-      else if ((fs.st_mode & S_IXUSR) | (fs.st_mode & S_IXGRP) | (fs.st_mode & S_IXOTH)) {
-        if (s[0] == '.')  printf("%c[1;32;47m", 0x1B);
-        else              printf("%c[1;32m", 0x1B);
-      }
-      printf("%s%c[1;0;00m  ", s, 0x1B);
-      */
 
     // increment iterator
     ib++;
