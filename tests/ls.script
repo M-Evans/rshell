@@ -1,0 +1,115 @@
+Script started on Sun 08 Feb 2015 11:51:26 PM PST
+]0;mevans@localhost:~/git/rshell/tests]7;file://localhost.localdomain/home/mevans/git/rshell/tests[?1034h[mevans@localhost tests]$ mkdir t && cd t # directr[Kory fo [Kr tests
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ ls
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls
+bash: myls: command not found...
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ alias myls='../../bin/ls'
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls 
+
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ # on newline, prints [K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Knothing, pre[Kints nweline[Knewline
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ touch .hidden
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ .[Ktou[K[K[Kmkdir .hiddendir
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ mkdir dir
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ touch file
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -l
+total 4
+drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:52 [1;34mdir[1;0;00m
+-rw-rw-r-- 1 mevans mevans    0 Feb 08 23:52 file[1;0;00m
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -a
+[1;34;47m.[1;0;00m  [1;34;47m..[1;0;00m  .hidden[1;0;00m  [1;34;47m.hiddendir[1;0;00m  [1;34mdir[1;0;00m  file[1;0;00m  
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -al
+total 16
+drwxrwxr-x 4 mevans mevans 4096 Feb 08 23:52 [1;34;47m.[1;0;00m
+drwxrwxr-x 3 mevans mevans 4096 Feb 08 23:51 [1;34;47m..[1;0;00m
+-rw-rw-r-- 1 mevans mevans    0 Feb 08 23:52 .hidden[1;0;00m
+drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:52 [1;34;47m.hiddendir[1;0;00m
+drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:52 [1;34mdir[1;0;00m
+-rw-rw-r-- 1 mevans mevans    0 Feb 08 23:52 file[1;0;00m
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -lalalalalalala
+total 16
+drwxrwxr-x 4 mevans mevans 4096 Feb 08 23:52 [1;34;47m.[1;0;00m
+drwxrwxr-x 3 mevans mevans 4096 Feb 08 23:51 [1;34;47m..[1;0;00m
+-rw-rw-r-- 1 mevans mevans    0 Feb 08 23:52 .hidden[1;0;00m
+drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:52 [1;34;47m.hiddendir[1;0;00m
+drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:52 [1;34mdir[1;0;00m
+-rw-rw-r-- 1 mevans mevans    0 Feb 08 23:52 file[1;0;00m
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -l -a
+total 16
+drwxrwxr-x 4 mevans mevans 4096 Feb 08 23:52 [1;34;47m.[1;0;00m
+drwxrwxr-x 3 mevans mevans 4096 Feb 08 23:51 [1;34;47m..[1;0;00m
+-rw-rw-r-- 1 mevans mevans    0 Feb 08 23:52 .hidden[1;0;00m
+drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:52 [1;34;47m.hiddendir[1;0;00m
+drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:52 [1;34mdir[1;0;00m
+-rw-rw-r-- 1 mevans mevans    0 Feb 08 23:52 file[1;0;00m
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -a -a l[K-l[K
+stat: No such file or directory
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ # It's trying to use '-' ad a d[K[K[K[K[Ks a directory
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ # Just like ls
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ ls -a -a -
+ls: cannot access -: No such file or directory
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls .hidden
+.hidden[1;0;00m  
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -a .hidden
+.hidden[1;0;00m  
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -l hid[K[K[Khidden
+stat: No such file or directory
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -l .hidden
+total 0
+-rw-rw-r-- 1 mevans mevans 0 Feb 08 23:52 .hidden[1;0;00m
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -la .hidden
+total 0
+-rw-rw-r-- 1 mevans mevans 0 Feb 08 23:52 .hidden[1;0;00m
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -a dir
+[1;34;47m.[1;0;00m  [1;34;47m..[1;0;00m  
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -l dir
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -al dir
+total 8
+drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:52 [1;34;47m.[1;0;00m
+drwxrwxr-x 4 mevans mevans 4096 Feb 08 23:52 [1;34;47m..[1;0;00m
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ mylsi[K -a ile[K[K[Kfiel[K[K[K[K*
+file[1;0;00m  
+
+dir:
+[1;34;47m.[1;0;00m  [1;34;47m..[1;0;00m  
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls file .hidden .hiddendir [K
+.hidden[1;0;00m  file[1;0;00m  
+
+.hiddendir:
+
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls file .hidden .hiddendir dir
+.hidden[1;0;00m  file[1;0;00m  
+
+.hiddendir:
+
+
+dir:
+
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ touch dir/a b c[K[K[Kdir/b/[K dir/c
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ touch .hiddendir/1
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ touch .hiddendir/1[K2dir/a dir/b dir/c[5P.hiddendir/2
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ touch .hiddendir/2[K3
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ mysl[K[Kls .hiddendir/
+1[1;0;00m  2[1;0;00m  3[1;0;00m  
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ chmod +x .hiddendir/3
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls h[K.hiddendir/
+1[1;0;00m  2[1;0;00m  [1;32m3[1;0;00m  
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls .hiddendir/[K
+1[1;0;00m  2[1;0;00m  [1;32m3[1;0;00m  
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls .hiddendir-.hiddendira.hiddendir .hiddendir
+[1;34;47m.[1;0;00m  [1;34;47m..[1;0;00m  1[1;0;00m  2[1;0;00m  [1;32m3[1;0;00m  
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -a .hiddendir[C[1P .hiddendirl .hiddendir
+total 0
+-rw-rw-r-- 1 mevans mevans 0 Feb 08 23:55 1[1;0;00m
+-rw-rw-r-- 1 mevans mevans 0 Feb 08 23:55 2[1;0;00m
+-rwxrwxr-x 1 mevans mevans 0 Feb 08 23:55 [1;32m3[1;0;00m
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ myls -l .hiddendir[C[C[1P .hiddendira .hiddendirl .hiddendir
+total 8
+drwxrwxr-x 2 mevans mevans 4096 Feb 08 23:55 [1;34;47m.[1;0;00m
+drwxrwxr-x 4 mevans mevans 4096 Feb 08 23:52 [1;34;47m..[1;0;00m
+-rw-rw-r-- 1 mevans mevans    0 Feb 08 23:55 1[1;0;00m
+-rw-rw-r-- 1 mevans mevans    0 Feb 08 23:55 2[1;0;00m
+-rwxrwxr-x 1 mevans mevans    0 Feb 08 23:55 [1;32m3[1;0;00m
+]0;mevans@localhost:~/git/rshell/tests/t]7;file://localhost.localdomain/home/mevans/git/rshell/tests/t[mevans@localhost t]$ exit
+exit
+
+Script done on Sun 08 Feb 2015 11:56:26 PM PST
