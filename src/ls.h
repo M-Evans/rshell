@@ -127,7 +127,6 @@ void printFiles(std::vector<char*>::iterator ib,
         exit(1);
       }
 
-      
       // file type
       if (S_ISREG(fs.st_mode)) { printf("-"); }
       else if (S_ISDIR(fs.st_mode)) { printf("d"); }
@@ -214,8 +213,16 @@ void printFiles(std::vector<char*>::iterator ib,
       
       
       // print the filename (just the name)
-      // TODO: color the files
-      printf(" %s\n", basename(*ib));
+      char* s = basename(*ib);
+      if (S_ISDIR(fs.st_mode)) {
+        if (s[0] == '.')  printf("%c[1;34;47m", 0x1B);
+        else              printf("%c[1;34m", 0x1B);
+      }
+      else if ((fs.st_mode & S_IXUSR) | (fs.st_mode & S_IXGRP) | (fs.st_mode & S_IXOTH)) {
+        if (s[0] == '.')  printf("%c[1;32;47m", 0x1B);
+        else              printf("%c[1;32m", 0x1B);
+      }
+      printf(" %s%c[1;0;00m\n", basename(*ib), 0x1B);
     } else {
       printf("%s  ", basename(*ib));
     }
