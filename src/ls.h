@@ -49,8 +49,9 @@ void printFilePrepl(std::vector<char*>::iterator ib,
                     int* iw, /* inode */
                     int* ow, /* owner */
                     int* gw, /* group */
-                    int* sw  /* size  */) {
-  *iw = *ow = *gw = *sw = 0;
+                    int* sw, /* size  */
+                    int* tot /* total block count */) {
+  *iw = *ow = *gw = *sw = *tot = 0;
 
   while (ib != ie) {
     struct stat fs;
@@ -58,6 +59,8 @@ void printFilePrepl(std::vector<char*>::iterator ib,
       perror("stat");
       exit(1);
     }
+
+    *tot += fs.st_blocks / 2;
 
     *iw = MAX(1 + (int)log10(fs.st_nlink), *iw);
 
@@ -104,9 +107,16 @@ void printFilePrep() {} // TODO: calculate and pass back
 void printFiles(std::vector<char*>::iterator ib,
                 const std::vector<char*>::iterator& ie,
                 bool l) {
-  int iw, ow, gw, sw;
-  if (l)  printFilePrepl(ib, ie, &iw, &ow, &gw, &sw);
-  else;
+  if (ib == ie) return;
+
+  int iw, ow, gw, sw, blocks;
+  if (l) {
+    printFilePrepl(ib, ie, &iw, &ow, &gw, &sw, &blocks);
+    printf("total %d\n", blocks);
+  }
+  else {
+    // not l
+  }
 
   while (ib != ie) {
     if (l) {
