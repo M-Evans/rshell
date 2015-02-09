@@ -22,6 +22,11 @@ int main(int argc, char** argv)
     if (argv[i][0] == '-') {
       // it's a flag
       unsigned slen = strlen(argv[i]);
+      if (slen == 1) {
+        // it's just '-'. try to print it as a file
+        arglist.push_back(argv[i]);
+        continue;
+      }
       for(unsigned j = 1; j < slen; ++j) {
         switch (argv[i][j]) {
           case 'a':
@@ -50,10 +55,39 @@ int main(int argc, char** argv)
     arglist.push_back((char*)".");
   }
 
+  // get some information about what's being printed
+  argAndTypes args;
   for(unsigned i = 0; i < arglist.size(); ++i) {
+    struct stat fs;
+    if (stat(arglist[i], &fs) == -1) {
+      perror("stat");
+      // don't quit because it's a recoverable error.
+      // if there's nothing else to print, it'll quit anyway
+    } else {
+      if (S_ISDIR(fs.st_mode)) {
+        args.v.push_back(arglist[i]);
+        // args.t.push_back(TYPE_DIR);
+      } else {
+        args.v.insert(args.v.begin(), arglist[i]);
+        // args.t.insert(args.t.begin(), TYPE_FILE);
+        args.numFiles++;
+      }
+    }
+  }
+
+  // there were files passed in. they always get printed before everything else
+  if (args.numFiles > 0) {
+    // alphabetically sort JUST the files (they're already sorted by type)
+    std::sort(args.v.begin(), args.v.begin() + args.numFiles, compareFilenamesInefficient);
+    printFiles(args.v.begin(), args.v.begin() + args.numFiles, l);
+    if (!l)  printf("\n");
+  }
+ 
+  // iterate over all the dirs
+  for(unsigned i = args.numFiles; i < args.v.size(); ++i) {
     std::vector<char*> files;
     // dir pointer
-    DIR* dp = opendir(arglist[i]);
+    DIR* dp = opendir(args.v[i]);
     if (dp == NULL) {
       perror("opendir");
       exit(1);
@@ -63,8 +97,9 @@ int main(int argc, char** argv)
     struct dirent* de;
     while((de = readdir(dp))) {
       if (a || de->d_name[0] != '.') {
+        // buggy: 
         char* f = new char[PATH_MAX];
-        strcpy(f, arglist[i]);
+        strcpy(f, args.v[i]);
         strcat(f, "/");
         strcat(f, de->d_name);
         files.push_back(f);
@@ -79,12 +114,22 @@ int main(int argc, char** argv)
 
 
     if (R) { // recursive
+      if (i == 0)
+        printf("%s:\n", args.v[i]);
+      else
+        printf("\n%s:\n", args.v[i]);
+
+
+
     } else { // not recursive
-      if (arglist.size() > 1) {
-        printf("%s:\n", arglist[i]);
+      if (args.v.size() > 1) {
+        if (i == 0)
+          printf("%s:\n", args.v[i]);
+        else
+          printf("\n%s:\n", args.v[i]);
       }
-      printFiles(files, l);
-      if (!l) { printf("\n"); }
+      printFiles(files.begin(), files.end(), l);
+      if (!l) printf("\n");
     }
 
 
