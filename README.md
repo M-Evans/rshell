@@ -25,6 +25,7 @@ UCR CS100 Project
 * color! 
 * accepts -a as a parameter (lists hidden files)
 * accepts -l as a parameter (lists lots of info about the files and directories, as well as a cumulative block count of the things printed)
+* accepts -R as a parameter (lists the contents of directories and their directories)
 * accepts any number of files/directories to print
 * parameters and flags are accepted in any order
 
