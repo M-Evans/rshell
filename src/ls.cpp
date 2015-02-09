@@ -61,6 +61,7 @@ int main(int argc, char** argv)
     struct stat fs;
     if (stat(arglist[i], &fs) == -1) {
       perror("stat");
+      errno = 0; // reset the errno. Otherwise, problems...
       // don't quit because it's a recoverable error.
       // if there's nothing else to print, it'll quit anyway
     } else {
@@ -82,7 +83,7 @@ int main(int argc, char** argv)
     printFiles(args.v.begin(), args.v.begin() + args.numFiles, l);
     if (!l)  printf("\n");
   }
- 
+
   // iterate over all the dirs
   for(unsigned i = args.numFiles; i < args.v.size(); ++i) {
     std::vector<char*> files;
@@ -122,7 +123,7 @@ int main(int argc, char** argv)
 
 
     } else { // not recursive
-      if (args.v.size() > 1) {
+      if (arglist.size() > 1) {
         if (i == 0)
           printf("%s:\n", args.v[i]);
         else
