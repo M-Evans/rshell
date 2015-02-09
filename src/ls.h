@@ -15,6 +15,11 @@
 #define MAX(A, B) (((A) > (B)) ? (A) : (B))
 
 
+void printFiles(std::vector<char*>::iterator, const std::vector<char*>::iterator&,
+                bool, bool, bool);
+
+
+
 struct argAndTypes {
   std::vector<char*> v;
   unsigned numFiles;
@@ -22,6 +27,11 @@ struct argAndTypes {
     numFiles = 0;
   }
 };
+
+
+
+
+
 
 
 
@@ -43,6 +53,13 @@ bool compareFilenamesInefficient(const char* a,
   delete[] bc;
   return ret;
 }
+
+
+
+
+
+
+
 
 void printFilePrepl(std::vector<char*>::iterator ib,
                     const std::vector<char*>::iterator& ie,
@@ -96,6 +113,7 @@ void printFilePrepl(std::vector<char*>::iterator ib,
 }
 
 
+
 void printFilePrep() {} // TODO: calculate and pass back
 // the widths and coloration info. This version only gets
 // the spacing for the non -l output. (no stat widths)
@@ -103,10 +121,74 @@ void printFilePrep() {} // TODO: calculate and pass back
 
 
 
-//void printFiles(const std::vector<char*> v, bool l) {
+
+
+
+
+
+
+void lsRec(char* d, bool a, bool l, bool R, int call = 1, int sz = 1) {
+  std::vector<char*> files;
+  // dir pointer
+  DIR* dp = opendir(d);
+  if (dp == NULL) {
+    perror("opendir");
+    exit(1);
+  }
+
+  // dir entry pointer
+  struct dirent* de;
+  while((de = readdir(dp))) {
+    if (a || de->d_name[0] != '.') {
+      // Potentially overflows (no such thing as a max path):
+      char* f = new char[PATH_MAX];
+      strcpy(f, d);
+      strcat(f, "/");
+      strcat(f, de->d_name);
+      files.push_back(f);
+    }
+  }
+  if (errno) {
+    perror("readdir");
+    exit(1);
+  }
+
+  std::sort(files.begin(), files.end(), compareFilenamesInefficient);
+
+
+  if (R || sz > 1) {
+    if (call == 0)
+      printf("%s:", d);
+    else
+      printf("\n%s:", d);
+  }
+  if (R)  printf("\n");
+  printFiles(files.begin(), files.end(), a, l, R);
+
+
+  for(unsigned j = 0; j < files.size(); ++j) {
+    delete[] files[j];
+  }
+
+  if (closedir(dp) == -1) {
+    perror("closedir");
+    exit(1);
+  }
+}
+
+
+
+
+
+
+
+
+
 void printFiles(std::vector<char*>::iterator ib,
                 const std::vector<char*>::iterator& ie,
-                bool l) {
+                bool a,
+                bool l,
+                bool R) {
   if (ib == ie) return;
 
   int iw, ow, gw, sw, blocks;
@@ -115,8 +197,10 @@ void printFiles(std::vector<char*>::iterator ib,
     printf("total %d\n", blocks);
   }
   else {
-    // not l
+    // do the not l one
   }
+
+  std::vector<char*> recurse;
 
   while (ib != ie) {
     struct stat fs;
@@ -214,33 +298,59 @@ void printFiles(std::vector<char*>::iterator ib,
       
       // print the filename (just the name)
       char* s = basename(*ib);
+
+      // handle color
       if (S_ISDIR(fs.st_mode)) {
-        if (s[0] == '.')  printf("%c[1;34;47m", 0x1B);
-        else              printf("%c[1;34m", 0x1B);
+        if (R)  recurse.push_back(*ib);
+        if (s[0] == '.')  printf("%c[1;34;47;38;5;27m", 0x1B);
+        else              printf("%c[38;5;27m", 0x1B);
       }
       else if ((fs.st_mode & S_IXUSR) | (fs.st_mode & S_IXGRP) | (fs.st_mode & S_IXOTH)) {
-        if (s[0] == '.')  printf("%c[1;32;47m", 0x1B);
-        else              printf("%c[1;32m", 0x1B);
+        if (s[0] == '.')  printf("%c[1;34;47;38;5;34m", 0x1B);
+        else              printf("%c[38;5;34m", 0x1B);
       }
-      printf("%s%c[1;0;00m\n", basename(*ib), 0x1B);
+      printf("%s%c[0m\n", s, 0x1B);
+
 
     } else { // no -l
 
       char* s = basename(*ib);
+      // handle color
       if (S_ISDIR(fs.st_mode)) {
+        if (R)  recurse.push_back(*ib);
+        if (s[0] == '.')  printf("%c[1;34;47;38;5;27m", 0x1B);
+        else              printf("%c[38;5;27m", 0x1B);
+      }
+      else if ((fs.st_mode & S_IXUSR) | (fs.st_mode & S_IXGRP) | (fs.st_mode & S_IXOTH)) {
+        if (s[0] == '.')  printf("%c[1;34;47;38;5;34m", 0x1B);
+        else              printf("%c[38;5;34m", 0x1B);
+      }
+      printf("%s%c[0m  ", s, 0x1B);
+
+    }
+      /*
         if (s[0] == '.')  printf("%c[1;34;47m", 0x1B);
         else              printf("%c[1;34m", 0x1B);
-      }
       else if ((fs.st_mode & S_IXUSR) | (fs.st_mode & S_IXGRP) | (fs.st_mode & S_IXOTH)) {
         if (s[0] == '.')  printf("%c[1;32;47m", 0x1B);
         else              printf("%c[1;32m", 0x1B);
       }
-      printf("%s%c[1;0;00m  ", basename(*ib), 0x1B);
-    }
+      printf("%s%c[1;0;00m  ", s, 0x1B);
+      */
 
     // increment iterator
     ib++;
   }
+
+  printf("\n");
+
+  // optionally recurse
+  for(unsigned i = 0; R && i < recurse.size(); ++i) {
+    if (strcmp(recurse[i], ".") != 0 && strcmp(recurse[i], "..") != 0)
+      lsRec(recurse[i], a, l, R);
+  }
 }
+
+
 
 
