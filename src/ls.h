@@ -5,12 +5,14 @@
 #include <pwd.h>
 #include <errno.h>
 #include <time.h>
+#include <math.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 
 #include <vector>
 #include <iostream>
 
+#define MAX(A, B) (((A) > (B)) ? (A) : (B))
 
 
 struct argAndTypes {
@@ -42,8 +44,54 @@ bool compareFilenamesInefficient(const char* a,
   return ret;
 }
 
-void printFilePrepl() {} // TODO: calculate and pass back
-// the widths and coloration info
+void printFilePrepl(std::vector<char*>::iterator ib,
+                    const std::vector<char*>::iterator& ie,
+                    int* iw, /* inode */
+                    int* ow, /* owner */
+                    int* gw, /* group */
+                    int* sw  /* size  */) {
+  *iw = *ow = *gw = *sw = 0;
+
+  while (ib != ie) {
+    struct stat fs;
+    if (stat(*ib, &fs) == -1) {
+      perror("stat");
+      exit(1);
+    }
+
+    *iw = MAX(1 + (int)log10(fs.st_nlink), *iw);
+
+    *sw = MAX(1 + (int)log10(fs.st_size), *sw);
+
+    // owner
+    struct passwd* name;
+    if ((name = getpwuid(fs.st_uid)) == NULL)
+    {
+      if (errno) {
+        perror("getpwuid");
+        exit(1);
+      }
+      name->pw_name = (char*)"noName";
+    }
+
+    *ow = MAX((int)strlen(name->pw_name), *ow);
+
+    // group
+    if ((name = getpwuid(fs.st_gid)) == NULL)
+    {
+      if (errno) {
+        perror("getpwuid");
+        exit(1);
+      }
+      name->pw_name = (char*)"noName";
+    }
+
+    *gw = MAX((int)strlen(name->pw_name), *gw);
+    
+    ib++;
+  }
+}
+
 
 void printFilePrep() {} // TODO: calculate and pass back
 // the widths and coloration info. This version only gets
@@ -54,8 +102,12 @@ void printFilePrep() {} // TODO: calculate and pass back
 
 //void printFiles(const std::vector<char*> v, bool l) {
 void printFiles(std::vector<char*>::iterator ib,
-                const std::vector<char*>::iterator ie,
+                const std::vector<char*>::iterator& ie,
                 bool l) {
+  int iw, ow, gw, sw;
+  if (l)  printFilePrepl(ib, ie, &iw, &ow, &gw, &sw);
+  else;
+
   while (ib != ie) {
     if (l) {
       // get the file stats
@@ -65,6 +117,7 @@ void printFiles(std::vector<char*>::iterator ib,
         exit(1);
       }
 
+      
       // file type
       if (S_ISREG(fs.st_mode)) { printf("-"); }
       else if (S_ISDIR(fs.st_mode)) { printf("d"); }
@@ -75,6 +128,7 @@ void printFiles(std::vector<char*>::iterator ib,
       else if (S_ISSOCK(fs.st_mode)) { printf("s"); }
       else { printf("?"); }
 
+      
       // permissions
       printf("%c%c%c%c%c%c%c%c%c",
               (fs.st_mode & S_IRUSR) ? 'r' : '-',
@@ -87,9 +141,11 @@ void printFiles(std::vector<char*>::iterator ib,
               (fs.st_mode & S_IWOTH) ? 'w' : '-',
               (fs.st_mode & S_IXOTH) ? 'x' : '-');
 
+     
       // inode count (number of hard links)
-      printf(" %2u", (unsigned)fs.st_nlink);
+      printf(" %*u", iw, (unsigned)fs.st_nlink);
 
+      
       // owner
       struct passwd* name;
       if ((name = getpwuid(fs.st_uid)) == NULL)
@@ -104,8 +160,9 @@ void printFiles(std::vector<char*>::iterator ib,
         // give it something to print
         name->pw_name = (char*)"noName";
       }
-      printf(" %8s", name->pw_name);
+      printf(" %*s", ow, name->pw_name);
 
+      
       // group
       if ((name = getpwuid(fs.st_gid)) == NULL)
       {
@@ -119,10 +176,14 @@ void printFiles(std::vector<char*>::iterator ib,
         // give it something to print
         name->pw_name = (char*)"noName";
       }
-      printf(" %8s", name->pw_name);
+      printf(" %*s", gw, name->pw_name);
 
+
+      
       // size
-      printf(" %6u", (unsigned)fs.st_size);
+      printf(" %*u", sw, (unsigned)fs.st_size);
+      
+      
       
       // date
       // broken down time info gets held in the 
@@ -139,6 +200,9 @@ void printFiles(std::vector<char*>::iterator ib,
       strftime((char*)&timestr, 20, " %b %d %H:%M", &fileMtime);
       // actually print the time
       printf("%s", timestr);
+      
+      
+      
       // print the filename (just the name)
       // TODO: color the files
       printf(" %s\n", basename(*ib));
@@ -147,7 +211,7 @@ void printFiles(std::vector<char*>::iterator ib,
     }
 
     // increment iterator
-    ++ib;
+    ib++;
   }
 }
 
