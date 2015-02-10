@@ -12,7 +12,7 @@ ls:
 	mkdir -p bin
 	$(CC) $(CFLAGS) src/ls.cpp -o bin/ls
 
-ls:
+cp:
 	mkdir -p bin
 	$(CC) $(CFLAGS) src/cp.cpp -o bin/cp
 
