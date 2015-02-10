@@ -12,7 +12,7 @@ while read p
 do
   xdotool type --delay 20 "$p
 "
-done <<EOF
+done <<END
 # regular ls
 bin/ls
 # ls with one flag
@@ -115,7 +115,7 @@ bin/ls bin src -Rla
 # on a dir and file -Rla
 bin/ls bin LICENSE -Rla
 exit
-EOF
+END
 
 
 
