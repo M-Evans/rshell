@@ -265,7 +265,7 @@ void printFiles(std::vector<char*>::iterator ib,
         strcpy(jic, oname->pw_name);
       }
 
-
+      delete[] jic;
       
       // group
       if ((gname = getpwuid(fs.st_gid)) == NULL)
