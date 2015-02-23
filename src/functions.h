@@ -26,7 +26,10 @@
 
 #define UNDEFINED -1
 #define FROMSTR   -2
-#define DEFAULT   -3
+#define FILEIN    -3
+#define FILEOUT   -4
+#define FILEAPP   -5
+#define DEFAULT   -6
 
 #define INPUT  0
 #define OUTPUT 1
@@ -37,6 +40,7 @@ struct fdChange_t {
   int type;
   std::string s;
   fdChange_t() : orig(UNDEFINED), moveTo(UNDEFINED), type(UNDEFINED) {}
+  fdChange_t(int o, int m, int t) : orig(o), moveTo(m), type(t) {}
 };
 
 
@@ -44,6 +48,7 @@ struct fdChange_t {
 struct Command_t {
   int connector;
   std::vector<char*> args;
+  std::vector<int> closefd;
   std::vector<fdChange_t> fdChanges;
   // constructor
   Command_t() : connector(0) {}
@@ -97,6 +102,8 @@ void handleCon(std::vector<Command_t>& cmds, Command_t& cmd, const std::string& 
         cmds.push_back(cmd); // add the command to the vector of commands that need to be executed
         // prep cmd for next use
         cmd.args.clear(); // remove command and arguments for the next bit of parsing
+        cmd.fdChanges.clear();
+        cmd.closefd.clear();
         cmd.connector = NONE;
       } else { // if the next thing isn't another &, syntax error
         se = true;
@@ -121,6 +128,8 @@ void handleCon(std::vector<Command_t>& cmds, Command_t& cmd, const std::string& 
         cmds.push_back(cmd); // add the command to the vector of commands that need to be executed
         // prep cmd for next use
         cmd.args.clear(); // remove command and arguments for the next bit of parsing
+        cmd.fdChanges.clear();
+        cmd.closefd.clear();
         cmd.connector = NONE;
       } else { // |
         if (isConn(line[i+1])) {
@@ -138,6 +147,8 @@ void handleCon(std::vector<Command_t>& cmds, Command_t& cmd, const std::string& 
         cmd.connector = PIPE;
         cmds.push_back(cmd);
         cmd.args.clear();
+        cmd.fdChanges.clear();
+        cmd.closefd.clear();
         cmd.connector = NONE;
       }
       break;
@@ -163,6 +174,8 @@ void handleCon(std::vector<Command_t>& cmds, Command_t& cmd, const std::string& 
         cmds.push_back(cmd); // add the command to the vector of commands that need to be executed
         // prep cmd for next use
         cmd.args.clear(); // remove command and arguments for the next bit of parsing
+        cmd.fdChanges.clear();
+        cmd.closefd.clear();
         cmd.connector = NONE;
       }
       break;
@@ -278,6 +291,7 @@ void handleRedir(std::vector<Command_t>& cmds, Command_t& cmd, const std::string
   }
 
   if (line[begin+pos] == '<') { // <
+    if (fdFrom == DEFAULT) fdFrom = 0;
     fdd.type = INPUT;
     if (line[begin+pos+1] == '&') { // <&fd
       if (UNDEFINED == (fdTo = getfd(sub.substr(pos+2)))) {
@@ -299,13 +313,15 @@ void handleRedir(std::vector<Command_t>& cmds, Command_t& cmd, const std::string
       if (sub.substr(pos+1).size() == 0) {
         se = true;
         return;
-      } else if (-1 == (fdd.moveTo = open(sub.substr(pos+1).c_str(), O_RDONLY))) {
-        perror(sub.substr(pos+1).c_str());
-        return;
+      } else {
+        fdd.moveTo = FILEIN;
+        fdd.s      = sub.substr(pos+1);
       }
+      cmd.closefd.push_back(fdd.moveTo);
     }
     cmd.fdChanges.push_back(fdd);
   } else if (line[begin+pos] == '>') { // >
+    if (fdFrom == DEFAULT) fdFrom = 1;
     fdd.type = OUTPUT;
     if (line[begin+pos+1] == '>') { // >>
       if (line[begin+pos+2] == '&') { // >>&fd
@@ -320,10 +336,11 @@ void handleRedir(std::vector<Command_t>& cmds, Command_t& cmd, const std::string
         if (sub.substr(pos+2).size() == 0) {
           se = true;
           return;
-        } else if (-1 == (fdd.moveTo = open(sub.substr(pos+2).c_str(), O_APPEND|O_CREAT, 010600))) {
-          perror(sub.substr(pos+2).c_str());
-          return;
+        } else {
+          fdd.moveTo = FILEAPP;
+          fdd.s      = sub.substr(pos+2);
         }
+        cmd.closefd.push_back(fdd.moveTo);
       }
     } else if (line[begin+pos+1] == '&') { // >&fd
       if (UNDEFINED == (fdTo = getfd(sub.substr(pos+2)))) {
@@ -337,14 +354,15 @@ void handleRedir(std::vector<Command_t>& cmds, Command_t& cmd, const std::string
       if (sub.substr(pos+1).size() == 0) {
         se = true;
         return;
-      } else if (-1 == (fdd.moveTo = open(sub.substr(pos+1).c_str(), O_WRONLY|O_CREAT, 010600))) {
-        perror(sub.substr(pos+1).c_str());
-        return;
+      } else {
+        fdd.moveTo = FILEOUT;
+        fdd.s      = sub.substr(pos+1);
       }
+      cmd.closefd.push_back(fdd.moveTo);
     }
     cmd.fdChanges.push_back(fdd);
   } else { // bad
-    fprintf(stderr, "Fuck\n");
+    fprintf(stderr, "OHNO\n");
     exit(1);
   }
 }
