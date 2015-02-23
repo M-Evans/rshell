@@ -129,6 +129,47 @@ int main(int argc, char** argv) {
       continue;
     }
 
+
+    /*
+    for(unsigned i = 0; i < cmds.size(); ++i) {
+      for(unsigned j = 0; j < cmds[i].args.size(); ++j) {
+        printf("cmd %d arg %d: \"%s\"\n", i, j, cmds[i].args[j]);
+      }
+      if (cmds[i].connector == NONE) printf("connector: NONE\n");
+      else if (cmds[i].connector == AND) printf("connector: AND\n");
+      else if (cmds[i].connector == OR) printf("connector: OR\n");
+      else if (cmds[i].connector == SEMI) printf("connector: SEMI\n");
+      else if (cmds[i].connector == PIPE) printf("connector: PIPE\n");
+      printf("file descriptor modifications:\n");
+      for(unsigned j = 0; j < cmds[i].fdChanges.size(); ++j) {
+        if (cmds[i].fdChanges[j].type == INPUT) {
+          printf("change fd %d to ",
+          (cmds[i].fdChanges[j].orig == DEFAULT) ? 0 :
+           cmds[i].fdChanges[j].orig);
+
+          if (cmds[i].fdChanges[j].moveTo == UNDEFINED)
+            printf("UNDEFINED\n");
+          else if (cmds[i].fdChanges[j].moveTo == FROMSTR)
+            printf("FROMSTR (\"%s\")\n", cmds[i].fdChanges[j].s.c_str());
+          else
+            printf("Some other fd (%d)\n", cmds[i].fdChanges[j].moveTo);
+        }
+
+        if (cmds[i].fdChanges[j].type == OUTPUT) {
+          printf("change fd %d to ",
+          (cmds[i].fdChanges[j].orig == DEFAULT) ? 1 :
+           cmds[i].fdChanges[j].orig);
+
+          if (cmds[i].fdChanges[j].moveTo == UNDEFINED)
+            printf("UNDEFINED\n");
+          else
+            printf("Some other fd (%d)\n", cmds[i].fdChanges[j].moveTo);
+        }
+      }
+    }
+    */
+
+
     // now to execute all the commands
     for(unsigned i = 0; i < cmds.size(); ++i) {
       int exitStatus = 0;
