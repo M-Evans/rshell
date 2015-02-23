@@ -5,10 +5,11 @@
 
 
 
-#define GETWORD    0
-#define TRIMSPACE  1
-#define HANDLESEMI 2
-#define REDIR      3
+#define GETWORD       0
+#define TRIMSPACE     1
+#define HANDLESEMI    2
+#define GETREDIR      3
+#define WORD_OR_REDIR 4
 
 #define NONE 0
 #define AND  1

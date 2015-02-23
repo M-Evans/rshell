@@ -34,12 +34,12 @@ int main(int argc, char** argv) {
   }
 
   prompt += " > ";
-  bool ext = false;
+  bool quit = false;
 
   // print welcome message and prompt
   printf("Welcome to rshell!\n");
 
-  while (!ext) {
+  while (!quit) {
     // holds a single command and its arguments
     Command cmd;
     // holds multiple commands
@@ -50,6 +50,7 @@ int main(int argc, char** argv) {
     // print prompt and get a line of text (done in condition)
     printf("%s", prompt.c_str());
     preProcessLine(line);
+
 
     int mode = GETWORD;
     unsigned begin = 0;
@@ -63,15 +64,20 @@ int main(int argc, char** argv) {
     // starts with a connector? I don't think so
     if (line.size() > 0 && isConn(line[0]) && line[0] != ';') {
       se = true;
+    } else if (line.size() > 0 && isRedir(line[0])) {
+      mode = GETREDIR;
+    } else if (line.size() > 0 && isDigit(line[0])) {
+      mode = WORD_OR_REDIR;
     }
 
     // handle the input
     for(unsigned i = 0; i < line.size() && !se; ++i) {
       bool con   = isConn(line[i]);
+      bool redir = isRedir(line[i]);
       bool space = isspace(line[i]);
 
       // if we're getting a word and there's a whitespace or connector here
-      if (mode == GETWORD && (space || con)) {
+      if (mode == GETWORD && (space || con || redir)) {
         // chunk the last term and throw it into the vector
         char* c = stocstr(line.substr(begin, i - begin));
         if (strlen(c) > 0) {
@@ -83,8 +89,10 @@ int main(int argc, char** argv) {
 
         if (space) {
           mode = TRIMSPACE;
-        } else { // it's a connector
+        } else (con) {
           handleCon(cmds, cmd, line, mode, begin, i, se);
+        } else { // it's a redirect
+          se = true;
         }
       } else if (mode == TRIMSPACE && !space) {
         if (con && cmd.args.empty()) {
@@ -125,7 +133,7 @@ int main(int argc, char** argv) {
       int exitStatus = 0;
       char* arg = cmds[i].args[0];
       if (strcmp(arg, "exit") == 0) {
-        ext = true;
+        quit = true;
         break;
       }
       char** argv = new char*[cmds[i].args.size() + 1];
