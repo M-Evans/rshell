@@ -54,33 +54,38 @@ int main(int argc, char** argv) {
     // handle the input
     for(unsigned i = 0; i < line.size() && !se; ++i) {
       bool con   = isConn(line[i]);
+      // bool dig   = isdigit(line[i]);
       bool redir = isRedir(line[i]);
       bool space = isspace(line[i]);
+
 
       // if we're getting a word and there's a whitespace or connector here
       if (mode == GETWORD && (space || con || redir)) {
         // only happens for blank lines:
         if (i == 0 && con) break;
+        if (redir) {
+          mode = GETREDIR;
+          continue;
+        }
         // chunk the last term and throw it into the vector
-        // break it it fails (nothing entered)
         addArg(cmd, line, begin, i);
 
         if (space) {
           mode = TRIMSPACE;
-        } else if (con) {
+        } else { // if (con) {
           handleCon(cmds, cmd, line, mode, begin, i, se);
-        } else { // it's a redirect
-          handleRedir(cmds, cmd, line, mode, begin, i, se);
         }
       } else if (mode == TRIMSPACE && !space) {
-        if (con && cmd.args.empty()) {
-          if (line[i] != ';')
-            se = true;
+        if (con && cmd.args.empty() && line[i] != ';') {
+          se = true;
         } else if (con) {
           handleCon(cmds, cmd, line, mode, begin, i, se);
-        } else {
-          mode = GETWORD;
+        } else if (redir) {
           begin = i;
+          mode = GETREDIR;
+        } else {
+          begin = i;
+          mode = GETWORD;
         }
       } else if (mode == HANDLESEMI && line[i] != ';') {
         if (isConn(line[i])) {
@@ -88,17 +93,35 @@ int main(int argc, char** argv) {
         } else if (isspace(line[i])) {
           mode = TRIMSPACE;
         } else { // it's a word
-          mode = GETWORD;
           begin = i;
+          mode = GETWORD;
+        }
+      } else if (mode == GETREDIR && line[i] == '"') {
+        mode = GETSTRING;
+      } else if (mode == GETREDIR && space) {
+        handleRedir(cmds, cmd, line, mode, begin, i, se);
+        mode = TRIMSPACE;
+      } else if (mode == GETSTRING && line[i] == '"') {
+        mode = ENDQUOTE;
+      } else if (mode == ENDQUOTE) {
+        if (space) {
+          handleRedir(cmds, cmd, line, mode, begin, i, se);
+          mode = TRIMSPACE;
+        } else {
+          se = true;
+          continue;
         }
       }
     }
 
     // if the last command has a continuation connector, syntax error
-    if (cmds.size() > 0 && (cmds[cmds.size() - 1].connector == AND
-                        ||  cmds[cmds.size() - 1].connector == OR)) {
+    if (cmds.size() > 0 && (cmds[cmds.size()-1].connector == AND
+                        ||  cmds[cmds.size()-1].connector == OR
+                        ||  cmds[cmds.size()-1].connector == PIPE)) {
       se = true;
     }
+
+    if (mode == GETSTRING) se = true;
 
     // if there was a syntax error
     if (se) {
@@ -114,7 +137,7 @@ int main(int argc, char** argv) {
         quit = true;
         break;
       }
-      char** argv = new char*[cmds[i].args.size() + 1];
+      char** argv = new char*[cmds[i].args.size()+1];
       for(unsigned j = 0; j < cmds[i].args.size(); ++j) {
         argv[j] = cmds[i].args[j];
       }
