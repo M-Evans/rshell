@@ -1,27 +1,42 @@
 #include <string>
 #include <vector>
-#include <cctype>
+#include <ctype.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 
 
-#define GETWORD       0
-#define TRIMSPACE     1
-#define HANDLESEMI    2
-#define GETREDIR      3
+#define GETWORD     0
+#define TRIMSPACE   1
+#define HANDLESEMI  2
+#define GETREDIR    3
+#define GETSTRING   4
+#define ENDQUOTE    5
 
 #define NONE 0
 #define AND  1
 #define OR   2
 #define SEMI 3
+#define PIPE 4
 
 #define debug(A) std::cout << #A << ": " << A << std::endl
 
 
+#define UNDEFINED -1
+#define FROMSTR   -2
+#define DEFAULT   -3
+
+#define INPUT  0
+#define OUTPUT 1
+
 struct fdChange_t {
   int orig;
   int moveTo;
-  fdChange_t() : orig(-1), moveTo(-1) {}
+  int type;
+  std::string s;
+  fdChange_t() : orig(UNDEFINED), moveTo(UNDEFINED), type(UNDEFINED) {}
 };
 
 
@@ -38,8 +53,7 @@ struct Command_t {
 
 bool isRedir(char c) {
   switch(c) {
-    case '>':
-    case '<':
+    case '>': case '<':
       return true;
       break;
     default:
@@ -71,11 +85,11 @@ void handleCon(std::vector<Command_t>& cmds, Command_t& cmd, const std::string& 
         // check if there's more to parse after this command
         if (i + 1 < line.size()) {
           // there is
-          if (line[i + 1] == '&' || line[i + 1] == '|') {
+          if (line[i+1] == '&' || line[i+1] == '|') {
             // unfortunately, the next thing is a connector. This is a syntax error.
             se = true;
             break;
-          } else if (isspace(line[i + 1])) { // it's a space. go into TRIMSPACE mode
+          } else if (isspace(line[i+1])) { // it's a space. go into TRIMSPACE mode
             mode = TRIMSPACE;
           } else { // it's neither a connector nor a space: must be a word
             mode = GETWORD;
@@ -98,11 +112,11 @@ void handleCon(std::vector<Command_t>& cmds, Command_t& cmd, const std::string& 
         // check if there's more to parse after this command
         if (i + 1 < line.size()) {
           // there is
-          if (line[i + 1] == '&' || line[i + 1] == '|') {
+          if (line[i+1] == '&' || line[i+1] == '|') {
             // unfortunately, the next thing is a connector. This is a syntax error.
             se = true;
             break;
-          } else if (isspace(line[i + 1])) { // it's a space. go into TRIMSPACE mode
+          } else if (isspace(line[i+1])) { // it's a space. go into TRIMSPACE mode
             mode = TRIMSPACE;
           } else { // it's neither a connector nor a space: must be a word
             mode = GETWORD;
@@ -120,13 +134,13 @@ void handleCon(std::vector<Command_t>& cmds, Command_t& cmd, const std::string& 
       break;
     case ';':
       // there is always more to parse
-      if (line[i + 1] == '&' || line[i + 1] == '|') {
+      if (line[i+1] == '&' || line[i+1] == '|') {
         // unfortunately, the next thing is a continuation connector. This is a syntax error.
         se = true;
         break;
-      } else if (isspace(line[i + 1])) { // it's a space. go into TRIMSPACE mode
+      } else if (isspace(line[i+1])) { // it's a space. go into TRIMSPACE mode
         mode = TRIMSPACE;
-      } else if (line[i + 1] == ';') {
+      } else if (line[i+1] == ';') {
         mode = HANDLESEMI;
       } else { // it's neither a connector nor a space: must be a word
         mode = GETWORD;
@@ -168,7 +182,7 @@ void preProcessLine(std::string& line) {
   }
 
   // adding this makes parsing easier
-  line += "; ";
+  line += " ; ";
 }
 
 
@@ -196,30 +210,131 @@ void getPrompt(std::string& prompt) {
 void addArg(Command_t& cmd, const std::string& s, unsigned begin, unsigned i) {
   if (i == begin) return;
   // allocate memory for the cstring (+1 for the NULL char)
-  char* c = new char[i - begin + 1];
+  char* c = new char[i-begin+1];
   // copy the string over
   for(unsigned j = 0; j < i - begin; ++j) {
-    c[j] = s[begin + j];
+    c[j] = s[begin+j];
   }
   // finish off with NULL char
-  c[i - begin] = '\0';
+  c[i-begin] = '\0';
   cmd.args.push_back(c);
 }
  
 
-bool isFd(const std::string& s) {
-  if (s.size() == 0) return false;
-  for(unsigned i = 0; i < s.size(); ++i) if (!isdigit(s[i])) return false;
-  return true;
-}
-bool isFile(const std::string& s) {
-  return !isFd(s);
+int getfd(const std::string& s, bool first = false) {
+  if (first && s.size() == 0) return DEFAULT;
+  if (!first && s.size() == 0) return UNDEFINED;
+  for(unsigned i = 0; i < s.size(); ++i) if (!isdigit(s[i])) return UNDEFINED;
+  int res = std::stoi(s);
+  if (first) return res;
+  return (!first && res == 0)? UNDEFINED : res;
 }
 
 
 void handleRedir(std::vector<Command_t>& cmds, Command_t& cmd, const std::string& line,
                int& mode, unsigned& begin, unsigned& i, bool& se) {
+  size_t pos     = 0;
+  int fdFrom     = -1;
+  int fdTo       = -1;
+  fdChange_t fdd;
+
+  std::string sub = line.substr(begin, i - begin);
+  if (isConn(sub.at(sub.size() - 1)));
+  size_t gtPos  = sub.find('>');
+  size_t ltPos  = sub.find('<');
+  size_t oQuote = sub.find('"');            // open quote
+  size_t cQuote = sub.find('"', oQuote+1);  // close quote
+
+
+  if (gtPos == std::string::npos && ltPos == std::string::npos) {
+    i = begin;
+    mode = GETWORD;
+    return; // didn't find '<' or '>'; word
+  }
+
+  // index of redirect symbol
+  pos = (ltPos < gtPos) ? ltPos : gtPos;
+
+  if (oQuote < pos) {
+    se = true;
+    return;
+  }
+
+  // if fdFrom returns UNDEFINED, syntax error
+  if (UNDEFINED == (fdFrom = getfd(sub.substr(0, pos), true))) {
+    se = true;
+    return;
+  }
+
+  if (line[begin+pos] == '<') { // <
+    fdd.type = INPUT;
+    if (line[begin+pos+1] == '&') { // <&fd
+      if (UNDEFINED == (fdTo = getfd(sub.substr(pos+2)))) {
+        se = true;
+        return;
+      }
+      fdd.orig   = fdFrom;
+      fdd.moveTo = fdTo;
+    } else if (line[begin+pos+1] == '<' && line[begin+pos+2] == '<') { // <<<"text"
+      if (oQuote == std::string::npos || cQuote == std::string::npos) {
+        se = true;
+        return;
+      }
+      fdd.orig   = fdFrom;
+      fdd.moveTo = FROMSTR;
+      fdd.s      = sub.substr(oQuote + 1, cQuote - oQuote - 1);
+    } else { // <file
+      fdd.orig = fdFrom;
+      if (sub.substr(pos+1).size() == 0) {
+        se = true;
+        return;
+      } else if (-1 == (fdd.moveTo = open(sub.substr(pos+1).c_str(), O_RDONLY))) {
+        perror(sub.substr(pos+1).c_str());
+        return;
+      }
+    }
+    cmd.fdChanges.push_back(fdd);
+  } else if (line[begin+pos] == '>') { // >
+    fdd.type = OUTPUT;
+    if (line[begin+pos+1] == '>') { // >>
+      if (line[begin+pos+2] == '&') { // >>&fd
+        if (UNDEFINED == (fdTo = getfd(sub.substr(pos+3)))) {
+          se = true;
+          return;
+        }
+        fdd.orig   = fdFrom;
+        fdd.moveTo = fdTo;
+      } else { // >>file
+        fdd.orig = fdFrom;
+        if (sub.substr(pos+2).size() == 0) {
+          se = true;
+          return;
+        } else if (-1 == (fdd.moveTo = open(sub.substr(pos+2).c_str(), O_APPEND|O_CREAT, 010600))) {
+          perror(sub.substr(pos+2).c_str());
+          return;
+        }
+      }
+    } else if (line[begin+pos+1] == '&') { // >&fd
+      if (UNDEFINED == (fdTo = getfd(sub.substr(pos+2)))) {
+        se = true;
+        return;
+      }
+      fdd.orig   = fdFrom;
+      fdd.moveTo = fdTo;
+    } else { // >file
+      fdd.orig = fdFrom;
+      if (sub.substr(pos+1).size() == 0) {
+        se = true;
+        return;
+      } else if (-1 == (fdd.moveTo = open(sub.substr(pos+1).c_str(), O_WRONLY|O_CREAT, 010600))) {
+        perror(sub.substr(pos+1).c_str());
+        return;
+      }
+    }
+    cmd.fdChanges.push_back(fdd);
+  } else { // bad
+    fprintf(stderr, "Fuck\n");
+    exit(1);
+  }
 }
-
-
 
