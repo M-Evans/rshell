@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-g -Wall -Werror -ansi -pedantic
+CFLAGS=-g -Wall -Werror -ansi -pedantic --std=c++11
 
 
 all : rshell ls cp
