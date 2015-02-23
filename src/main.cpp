@@ -14,26 +14,9 @@
 
 int main(int argc, char** argv) {
   std::string prompt;
+  getPrompt(prompt);
 
-  char* cbuff = getlogin();
 
-  if (cbuff == NULL) {
-    perror("getlogin failed");
-  } else {
-    prompt += cbuff;
-
-    cbuff = new char[4096];
-    if (gethostname(cbuff, (unsigned)4096) == -1) {
-      perror("gethostname failed");
-    } else {
-      prompt += '@';
-      prompt += cbuff;
-    }
-
-    delete[] cbuff;
-  }
-
-  prompt += " > ";
   bool quit = false;
 
   // print welcome message and prompt
@@ -41,9 +24,9 @@ int main(int argc, char** argv) {
 
   while (!quit) {
     // holds a single command and its arguments
-    Command cmd;
+    Command_t cmd;
     // holds multiple commands
-    std::vector<Command> cmds;
+    std::vector<Command_t> cmds;
     // hold a raw line of input
     std::string line;
 
@@ -64,10 +47,8 @@ int main(int argc, char** argv) {
     // starts with a connector? I don't think so
     if (line.size() > 0 && isConn(line[0]) && line[0] != ';') {
       se = true;
-    } else if (line.size() > 0 && isRedir(line[0])) {
+    } else if (line.size() > 0 && (isRedir(line[0]) || isdigit(line[0]))) {
       mode = GETREDIR;
-    } else if (line.size() > 0 && isDigit(line[0])) {
-      mode = WORD_OR_REDIR;
     }
 
     // handle the input
@@ -78,21 +59,18 @@ int main(int argc, char** argv) {
 
       // if we're getting a word and there's a whitespace or connector here
       if (mode == GETWORD && (space || con || redir)) {
+        // only happens for blank lines:
+        if (i == 0 && con) break;
         // chunk the last term and throw it into the vector
-        char* c = stocstr(line.substr(begin, i - begin));
-        if (strlen(c) > 0) {
-          cmd.args.push_back(c);
-        } else {
-          // only happens when nothing is entered. breaks so nothing more happens
-          break;
-        }
+        // break it it fails (nothing entered)
+        addArg(cmd, line, begin, i);
 
         if (space) {
           mode = TRIMSPACE;
-        } else (con) {
+        } else if (con) {
           handleCon(cmds, cmd, line, mode, begin, i, se);
         } else { // it's a redirect
-          se = true;
+          handleRedir(cmds, cmd, line, mode, begin, i, se);
         }
       } else if (mode == TRIMSPACE && !space) {
         if (con && cmd.args.empty()) {
