@@ -44,6 +44,26 @@ struct fdChange_t {
 };
 
 
+#define DT_FDIN 0
+#define DT_FDO  1
+#define DT_FIN  2
+#define DT_FOW  3
+#define DT_FOA  4
+#define DT_STR  5
+
+
+struct fdData_t {
+  int cto;
+  int t;
+  std::string s;
+  fdData_t() : cto(-1), t(UNDEFINED) {}
+  fdData_t(int cto, int t, const std::string& s)
+    : cto(cto), t(t), s(s) {}
+
+
+
+
+
 // struct for holding a command and what its connector is
 struct Command_t {
   int connector;
@@ -250,8 +270,9 @@ int getfd(const std::string& s, bool first = false) {
   if (!first && s.size() == 0) return UNDEFINED;
   for(unsigned i = 0; i < s.size(); ++i) if (!isdigit(s[i])) return UNDEFINED;
   int res = std::stoi(s);
-  if (first) return res;
-  return (!first && res == 0)? UNDEFINED : res;
+  // if (first) return res;
+  // return (!first && res == 0)? UNDEFINED : res;
+  return res;
 }
 
 
@@ -325,23 +346,18 @@ void handleRedir(std::vector<Command_t>& cmds, Command_t& cmd, const std::string
     fdd.type = OUTPUT;
     if (line[begin+pos+1] == '>') { // >>
       if (line[begin+pos+2] == '&') { // >>&fd
-        if (UNDEFINED == (fdTo = getfd(sub.substr(pos+3)))) {
-          se = true;
-          return;
-        }
-        fdd.orig   = fdFrom;
-        fdd.moveTo = fdTo;
-      } else { // >>file
-        fdd.orig = fdFrom;
-        if (sub.substr(pos+2).size() == 0) {
-          se = true;
-          return;
-        } else {
-          fdd.moveTo = FILEAPP;
-          fdd.s      = sub.substr(pos+2);
-        }
-        cmd.closefd.push_back(fdd.moveTo);
+        se = true;
+        return;
+      } // >>file :
+      fdd.orig = fdFrom;
+      if (sub.substr(pos+2).size() == 0) {
+        se = true;
+        return;
+      } else {
+        fdd.moveTo = FILEAPP;
+        fdd.s      = sub.substr(pos+2);
       }
+      cmd.closefd.push_back(fdd.moveTo);
     } else if (line[begin+pos+1] == '&') { // >&fd
       if (UNDEFINED == (fdTo = getfd(sub.substr(pos+2)))) {
         se = true;
