@@ -9,7 +9,6 @@
 #define TRIMSPACE     1
 #define HANDLESEMI    2
 #define GETREDIR      3
-#define WORD_OR_REDIR 4
 
 #define NONE 0
 #define AND  1
@@ -18,34 +17,23 @@
 
 #define debug(A) std::cout << #A << ": " << A << std::endl
 
-// struct for holding a command and what its connector is
-struct Command {
-  std::vector<char*> args;
-  int connector;
 
-  // constructor
-  Command() {
-    connector = 0;
-  }
+struct fdChange_t {
+  int orig;
+  int moveTo;
+  fdChange_t() : orig(-1), moveTo(-1) {}
 };
 
 
-// copies a string into a cstring, while being careful of
-// memory management. Do NOT write past the end of the cstring
-char* stocstr(const std::string& s) {
-  // allocate memory for the cstring (+1 for the NULL char)
-  char* c = new char[s.size() + 1];
+// struct for holding a command and what its connector is
+struct Command_t {
+  int connector;
+  std::vector<char*> args;
+  std::vector<fdChange_t> fdChanges;
+  // constructor
+  Command_t() : connector(0) {}
+};
 
-  // copy the string over
-  for(unsigned i = 0; i < s.size(); ++i) {
-    c[i] = s[i];
-  }
-
-  // finish off with NULL char
-  c[s.size()] = '\0';
-
-  return c;
-}
 
 
 bool isRedir(char c) {
@@ -73,7 +61,7 @@ bool isConn(char c) {
 
 
 
-void handleCon(std::vector<Command>& cmds, Command& cmd, const std::string& line,
+void handleCon(std::vector<Command_t>& cmds, Command_t& cmd, const std::string& line,
                int& mode, unsigned& begin, unsigned& i, bool& se) {
   switch(line[i]) {
     case '&':
@@ -182,3 +170,56 @@ void preProcessLine(std::string& line) {
   // adding this makes parsing easier
   line += "; ";
 }
+
+
+void getPrompt(std::string& prompt) {
+  char* cbuff = getlogin();
+
+  if (cbuff == NULL) {
+    perror("getlogin failed");
+  } else {
+    prompt += cbuff;
+
+    cbuff = new char[4096];
+    if (gethostname(cbuff, (unsigned)4096) == -1) {
+      perror("gethostname failed");
+    } else {
+      prompt += '@';
+      prompt += cbuff;
+    }
+    delete[] cbuff;
+  }
+  prompt += " > ";
+}
+
+
+void addArg(Command_t& cmd, const std::string& s, unsigned begin, unsigned i) {
+  if (i == begin) return;
+  // allocate memory for the cstring (+1 for the NULL char)
+  char* c = new char[i - begin + 1];
+  // copy the string over
+  for(unsigned j = 0; j < i - begin; ++j) {
+    c[j] = s[begin + j];
+  }
+  // finish off with NULL char
+  c[i - begin] = '\0';
+  cmd.args.push_back(c);
+}
+ 
+
+bool isFd(const std::string& s) {
+  if (s.size() == 0) return false;
+  for(unsigned i = 0; i < s.size(); ++i) if (!isdigit(s[i])) return false;
+  return true;
+}
+bool isFile(const std::string& s) {
+  return !isFd(s);
+}
+
+
+void handleRedir(std::vector<Command_t>& cmds, Command_t& cmd, const std::string& line,
+               int& mode, unsigned& begin, unsigned& i, bool& se) {
+}
+
+
+
