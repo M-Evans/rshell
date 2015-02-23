@@ -72,7 +72,7 @@ int main(int argc, char** argv) {
 
         if (space) {
           mode = TRIMSPACE;
-        } else { // if (con) {
+        } else if (con) {
           handleCon(cmds, cmd, line, mode, begin, i, se);
         }
       } else if (mode == TRIMSPACE && !space) {
@@ -167,10 +167,10 @@ int main(int argc, char** argv) {
         }
       }
     }
-    */
-
+    // *///
 
     // now to execute all the commands
+    int pa[2];
     for(unsigned i = 0; i < cmds.size(); ++i) {
       int exitStatus = 0;
       char* arg = cmds[i].args[0];
@@ -184,25 +184,96 @@ int main(int argc, char** argv) {
       }
       argv[cmds[i].args.size()] = 0;
 
+      if (cmds[i].connector == PIPE) {
+        // 1. make pipe
+        if (-1 == pipe(pa)) {
+          perror("pipe");
+          exit(1);
+        }
+        // 2. this program gets output and next program gets input
+        // this program:
+        fdChange_t outfdC(1, pa[1], OUTPUT);
+        fdChange_t infdC(0, pa[0], INPUT);
+        cmds[i].fdChanges.push_back(outfdC);
+        cmds[i].closefd.push_back(pa[1]);
+        // next program:
+        cmds[i+1].fdChanges.push_back(infdC);
+        cmds[i+1].closefd.push_back(pa[0]);
+      }
+
       // arg and argv are now prepared
       pid_t pid = fork();
-      if (pid == -1) {
+      if (-1 == pid) {
         perror("fork");
-        exit(1);
-      } else if (pid == 0) { // child process
-        if (execvp(arg, argv) == -1) {
-          // if there's a return value, there was a problem
-          // -1 indicates a problem, specifically
+        exit(1); // fatal error
+      } else if (0 == pid) { // child process
+        for(int j = cmds[i].fdChanges.size() - 1; j >= 0; ++j) {
+          debug(j);
+          debug(cmds[i].fdChanges[j].type);
+          debug(INPUT);
+          debug(cmds[i].fdChanges[j].orig);
+          debug(cmds[i].fdChanges[j].moveTo);
+          if (INPUT == cmds[i].fdChanges[j].type) {
+            debug(cmds[i].fdChanges[j].type);
+            if (-1 == close(cmds[i].fdChanges[j].orig)) {
+              perror("close input orig");
+              exit(1);
+            }
+            if (cmds[i].fdChanges[j].moveTo != FROMSTR) {
+              if (-1 == dup2(cmds[i].fdChanges[j].moveTo, cmds[i].fdChanges[j].orig)) {
+                perror("dup2 input moveTo orig");
+                exit(1);
+              }
+            } else { // FROMSTR
+              // create a pipe into the current program
+              int pair[2];
+              if (-1 == pipe(pair)) {
+                perror("pipe pair");
+                exit(1);
+              }
+              // clear original and send output there
+              if (-1 == dup2(pair[1], cmds[i].fdChanges[j].orig)) {
+                perror("dup2 input pair[1] orig");
+                exit(1);
+              }
+              // print to the input
+              dprintf(pair[0], "%s", cmds[i].fdChanges[j].s.c_str());
+              if (-1 == close(pair[0])) {
+                perror("close pair[0]");
+              }
+            }
+          } else { // if (OUTPUT == cmds[i].fdChanges[j].type)
+            if (-1 == close(cmds[i].fdChanges[j].orig)) {
+              perror("close output moveTo");
+              exit(1);
+            }
+            if (-1 == dup2(cmds[i].fdChanges[j].moveTo, cmds[i].fdChanges[j].orig)) {
+              perror("dup2 output orig moveTo");
+              exit(1);
+            }
+          }
+        }
+        if (-1 == execvp(arg, argv)) {
+          // if there's a return value (-1), there was a problem
           perror(arg);
           delete[] argv;
           exit(1);
         }
       } else { // parent process
-        if (waitpid(pid, &exitStatus, 0) == -1) {
+        // close current fd's
+        for(unsigned j = 0; j < cmds[i].closefd.size(); ++j) {
+          if (-1 == close(cmds[i].closefd[j])) {
+            perror("closing in parent");
+            exit(1);
+          }
+        }
+        // only wait for non-pipes
+        if (cmds[i].connector != PIPE && -1 == waitpid(pid, &exitStatus, 0)) {
           perror("waitpid");
           exit(1);
         }
-      } if (!exitStatus) { // all is good (0)
+      }
+      if (!exitStatus) { // all is good (0)
         while (i < cmds.size() && cmds[i].connector == OR) {
           ++i;
         }
