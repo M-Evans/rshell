@@ -79,22 +79,19 @@ void handleCon(std::vector<Command_t>& cmds, Command_t& cmd, const std::string& 
                int& mode, unsigned& begin, unsigned& i, bool& se) {
   switch(line[i]) {
     case '&':
-      // make sure we don't access past what we're supposed to
-      if (i + 1 < line.size() && line[i+1] == '&') {
+      if (line[i+1] == '&') {
         i++;
-        // check if there's more to parse after this command
-        if (i + 1 < line.size()) {
-          // there is
-          if (line[i+1] == '&' || line[i+1] == '|') {
-            // unfortunately, the next thing is a connector. This is a syntax error.
-            se = true;
-            break;
-          } else if (isspace(line[i+1])) { // it's a space. go into TRIMSPACE mode
-            mode = TRIMSPACE;
-          } else { // it's neither a connector nor a space: must be a word
-            mode = GETWORD;
-            begin = i + 1;
-          }
+        if (isConn(line[i+1])) { // next thing is connector. Syntax error
+          se = true;
+          break;
+        } else if (isspace(line[i+1])) { // it's a space. go into TRIMSPACE mode
+          mode = TRIMSPACE;
+        } else if (isRedir(line[i+1])) {
+          begin = i + 1;
+          mode = GETREDIR;
+        } else {
+          begin = i + 1;
+          mode = GETWORD;
         }
         cmd.connector = AND; // the command has an "and" connector
         cmds.push_back(cmd); // add the command to the vector of commands that need to be executed
@@ -106,34 +103,45 @@ void handleCon(std::vector<Command_t>& cmds, Command_t& cmd, const std::string& 
       }
       break;
     case '|':
-      // make sure we don't access past what we're supposed to
-      if (i + 1 < line.size() && line[i+1] == '|') {
+      if (line[i+1] == '|') { // ||
         i++;
-        // check if there's more to parse after this command
-        if (i + 1 < line.size()) {
-          // there is
-          if (line[i+1] == '&' || line[i+1] == '|') {
-            // unfortunately, the next thing is a connector. This is a syntax error.
-            se = true;
-            break;
-          } else if (isspace(line[i+1])) { // it's a space. go into TRIMSPACE mode
-            mode = TRIMSPACE;
-          } else { // it's neither a connector nor a space: must be a word
-            mode = GETWORD;
-            begin = i + 1;
-          }
+        if (isConn(line[i+1])) { // next thing is connector. Syntax error
+          se = true;
+          break;
+        } else if (isspace(line[i+1])) { // it's a space. go into TRIMSPACE mode
+          mode = TRIMSPACE;
+        } else if (isRedir(line[i+1])) {
+          begin = i + 1;
+          mode = GETREDIR;
+        } else { // it's neither a connector nor a space: must be a word
+          begin = i + 1;
+          mode = GETWORD;
         }
         cmd.connector = OR; // the command has an "or" connector
         cmds.push_back(cmd); // add the command to the vector of commands that need to be executed
         // prep cmd for next use
         cmd.args.clear(); // remove command and arguments for the next bit of parsing
         cmd.connector = NONE;
-      } else { // if the next thing isn't another |, syntax error (for now. :P)
-        se = true;
+      } else { // |
+        if (isConn(line[i+1])) {
+          se = true;
+          break;
+        } else if (isspace(line[i+1])) {
+          mode = TRIMSPACE;
+        } else if (isRedir(line[i+1])) {
+          begin = i + 1;
+          mode = GETREDIR;
+        } else {
+          begin = i + 1;
+          mode = GETWORD;
+        }
+        cmd.connector = PIPE;
+        cmds.push_back(cmd);
+        cmd.args.clear();
+        cmd.connector = NONE;
       }
       break;
     case ';':
-      // there is always more to parse
       if (line[i+1] == '&' || line[i+1] == '|') {
         // unfortunately, the next thing is a continuation connector. This is a syntax error.
         se = true;
@@ -142,9 +150,12 @@ void handleCon(std::vector<Command_t>& cmds, Command_t& cmd, const std::string& 
         mode = TRIMSPACE;
       } else if (line[i+1] == ';') {
         mode = HANDLESEMI;
-      } else { // it's neither a connector nor a space: must be a word
-        mode = GETWORD;
+      } else if (isRedir(line[i+1])) {
         begin = i + 1;
+        mode = GETREDIR;
+      } else { // it's neither a connector nor a space: must be a word
+        begin = i + 1;
+        mode = GETWORD;
       }
 
       if (!cmd.args.empty()) { // if there are commands in the command vector
@@ -337,4 +348,5 @@ void handleRedir(std::vector<Command_t>& cmds, Command_t& cmd, const std::string
     exit(1);
   }
 }
+
 
