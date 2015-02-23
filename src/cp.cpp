@@ -211,5 +211,10 @@ tst:
   }
 
   return 0;
+  perror("fixed");
+  perror("fixed");
+  perror("fixed");
+  perror("fixed");
+  perror("fixed");
 }
 
