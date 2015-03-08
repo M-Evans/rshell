@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <cctype>
 #include <cstring>
+#include <map>
+#include <utility>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/types.h>
@@ -172,17 +174,19 @@ int main(int argc, char** argv) {
     // now to execute all the commands
     int pa[2];
     for(unsigned i = 0; i < cmds.size(); ++i) {
+      size_t argsSize = cmds[i].args.size();
       int exitStatus = 0;
+
       char* arg = cmds[i].args[0];
       if (strcmp(arg, "exit") == 0) {
         quit = true;
         break;
       }
-      char** argv = new char*[cmds[i].args.size()+1];
-      for(unsigned j = 0; j < cmds[i].args.size(); ++j) {
+      char** argv = new char*[argsSize+1];
+      for(unsigned j = 0; j < argsSize; ++j) {
         argv[j] = cmds[i].args[j];
       }
-      argv[cmds[i].args.size()] = 0;
+      argv[argsSize] = 0;
 
       if (cmds[i].connector == PIPE) {
         // 1. make pipe
@@ -194,12 +198,51 @@ int main(int argc, char** argv) {
         // this program:
         fdChange_t outfdC(1, pa[1], OUTPUT);
         fdChange_t infdC(0, pa[0], INPUT);
+
         cmds[i].fdChanges.push_back(outfdC);
         cmds[i].closefd.push_back(pa[1]);
         // next program:
         cmds[i+1].fdChanges.push_back(infdC);
         cmds[i+1].closefd.push_back(pa[0]);
+
       }
+
+      std::map<int, fdData_t> fds;
+      for(unsigned j = 0; j < cmds[i].fdChanges.size(); ++j) {
+        int o           = cmds[i].fdChanges[j].orig;
+        int mt          = cmds[i].fdChanges[j].moveTo;
+        int t           = cmds[i].fdChanges[j].type;
+        std::string str = cmds[i].fdChanges[j].s;
+
+        if (t == INPUT) {
+          if (mt == FILEIN) {
+            fds.insert(std::pair<int, fdData_t>(o, fdData_t(-1, DT_FIN, str)));
+            // printf("Adding %d pointing to the file %s in input mode\n", o, str.c_str());
+          } else if (mt == FROMSTR) {
+            fds.insert(std::pair<int, fdData_t>(o, fdData_t(-1, DT_STR, str)));
+            // printf("Adding %d pointing to the string %s in input mode\n", o, str.c_str());
+          } else {
+            fds.insert(std::pair<int, fdData_t>(o, fdData_t(mt, DT_FDIN, str)));
+            // printf("Adding %d pointing to the fd %d in input mode\n", mt, o);
+          }
+        } else if (t == OUTPUT) {
+          if (mt == FILEOUT) {
+            fds.insert(std::pair<int, fdData_t>(-1, fdData_t(o, DT_FOW, str)));
+            // printf("Adding %d pointing to the file %s in output write mode\n", o, str.c_str());
+          } else if (mt == FILEAPP) {
+            // if (fds
+            fds.insert(std::pair<int, fdData_t>(-1, fdData_t(o, DT_FOA, str)));
+            // printf("Adding %d pointing to the file %s in output append mode\n", o, str.c_str());
+          } else {
+            fds.insert(std::pair<int, fdData_t>(mt, fdData_t(o, DT_FDO, str)));
+            // printf("Adding %d pointing to the fd %d in output mode\n", o, mt);
+          }
+        }
+      }
+      debugMap(fds);
+
+
+
 
       // arg and argv are now prepared
       pid_t pid = fork();
@@ -207,52 +250,7 @@ int main(int argc, char** argv) {
         perror("fork");
         exit(1); // fatal error
       } else if (0 == pid) { // child process
-        for(int j = cmds[i].fdChanges.size() - 1; j >= 0; ++j) {
-          debug(j);
-          debug(cmds[i].fdChanges[j].type);
-          debug(INPUT);
-          debug(cmds[i].fdChanges[j].orig);
-          debug(cmds[i].fdChanges[j].moveTo);
-          if (INPUT == cmds[i].fdChanges[j].type) {
-            debug(cmds[i].fdChanges[j].type);
-            if (-1 == close(cmds[i].fdChanges[j].orig)) {
-              perror("close input orig");
-              exit(1);
-            }
-            if (cmds[i].fdChanges[j].moveTo != FROMSTR) {
-              if (-1 == dup2(cmds[i].fdChanges[j].moveTo, cmds[i].fdChanges[j].orig)) {
-                perror("dup2 input moveTo orig");
-                exit(1);
-              }
-            } else { // FROMSTR
-              // create a pipe into the current program
-              int pair[2];
-              if (-1 == pipe(pair)) {
-                perror("pipe pair");
-                exit(1);
-              }
-              // clear original and send output there
-              if (-1 == dup2(pair[1], cmds[i].fdChanges[j].orig)) {
-                perror("dup2 input pair[1] orig");
-                exit(1);
-              }
-              // print to the input
-              dprintf(pair[0], "%s", cmds[i].fdChanges[j].s.c_str());
-              if (-1 == close(pair[0])) {
-                perror("close pair[0]");
-              }
-            }
-          } else { // if (OUTPUT == cmds[i].fdChanges[j].type)
-            if (-1 == close(cmds[i].fdChanges[j].orig)) {
-              perror("close output moveTo");
-              exit(1);
-            }
-            if (-1 == dup2(cmds[i].fdChanges[j].moveTo, cmds[i].fdChanges[j].orig)) {
-              perror("dup2 output orig moveTo");
-              exit(1);
-            }
-          }
-        }
+        deltaFD(fds);
         if (-1 == execvp(arg, argv)) {
           // if there's a return value (-1), there was a problem
           perror(arg);
@@ -261,12 +259,13 @@ int main(int argc, char** argv) {
         }
       } else { // parent process
         // close current fd's
+        /*
         for(unsigned j = 0; j < cmds[i].closefd.size(); ++j) {
           if (-1 == close(cmds[i].closefd[j])) {
             perror("closing in parent");
             exit(1);
           }
-        }
+        } */
         // only wait for non-pipes
         if (cmds[i].connector != PIPE && -1 == waitpid(pid, &exitStatus, 0)) {
           perror("waitpid");

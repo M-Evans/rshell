@@ -53,12 +53,13 @@ struct fdChange_t {
 
 
 struct fdData_t {
-  int cto;
+  int from;
   int t;
   std::string s;
-  fdData_t() : cto(-1), t(UNDEFINED) {}
-  fdData_t(int cto, int t, const std::string& s)
-    : cto(cto), t(t), s(s) {}
+  fdData_t() : from(-1), t(UNDEFINED) {}
+  fdData_t(int from, int t, const std::string& s)
+    : from(from), t(t), s(s) {}
+};
 
 
 
@@ -382,5 +383,50 @@ void handleRedir(std::vector<Command_t>& cmds, Command_t& cmd, const std::string
     exit(1);
   }
 }
+
+
+
+void debugMap(const std::map<int, fdData_t>& fds) {
+  auto it = fds.begin();
+  while (it != fds.end()) {
+    if (it->second.t == DT_FDIN) {
+      printf("%d becomes %d\n", it->first, it->second.from);
+    } else if (it->second.t == DT_FDO) {
+      printf("%d becomes %d\n", it->first, it->second.from);
+    } else if (it->second.t == DT_FIN) {
+      printf("%d becomes \"%s\"\n", it->first, it->second.s.c_str());
+    } else if (it->second.t == DT_FOW) {
+      printf("\"%s\" becomes %d (overwrite)\n", it->second.s.c_str(), it->second.from);
+    } else if (it->second.t == DT_FOA) {
+      printf("\"%s\" becomes %d (append)\n", it->second.s.c_str(), it->second.from);
+    } else if (it->second.t == DT_STR) {
+      printf("%d becomes \"%s\"\n", it->first, it->second.s.c_str());
+    } else {
+      fprintf(stderr, "Unknown type...");
+    }
+
+    /*
+    debug((*it).first);
+    debug((*it).second.from);
+    debug((*it).second.t);
+    debug((*it).second.s);
+    */
+
+    // auto r = fds.find((*it).second.from);
+ 
+    // debug((*r).first);
+    // debug((*r).second.from);
+    // debug((*r).second.t);
+    // debug((*r).second.s);
+ 
+    ++it;
+  }
+}
+
+
+
+void deltaFD(const std::map<int, fdData_t>& fds) {
+}
+
 
 
