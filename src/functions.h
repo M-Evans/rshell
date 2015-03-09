@@ -430,3 +430,36 @@ void deltaFD(const std::map<int, fdData_t>& fds) {
 
 
 
+char* strToCstr(const string& s) {
+  char* ret = new char[s.size() + 1];
+  for(unsigned i = 0; i < s.size(); ++i) {
+    ret[i] = s[i];
+  }
+  ret[s.size()] = '\0';
+  return ret;
+}
+
+
+
+void fillPaths(vector<char*>& v) {
+  string path(getenv("PATH"));
+  if (path.size() == 0) return;
+  int colon = 0;
+  int next = 0;
+
+  while (std::string::npos != (next = path.find(colon, ':'))) {
+    if (colon != next) {
+      v.push_back(strToCstr(path.substr(colon, next - colon)));
+    }
+    colon = next + 1; // skip actual colon
+  }
+  // handle last path unless path was terminated with ':'
+  if (path.size() - colon > 0) v.push_back(strToCstr(path.substr(colon, -1)));
+}
+
+
+
+
+
+
+
