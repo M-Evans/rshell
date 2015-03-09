@@ -54,3 +54,4 @@ UCR CS100 Project
   * lacks many features
 * PATH
   * The command to execute is appended to each path and then checked for existence, so subfolders and executables within them may be executed
+
