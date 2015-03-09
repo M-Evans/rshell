@@ -218,7 +218,7 @@ int main(int argc, char** argv) {
           }
         } else {
           if (-1 == chdir(argv[1])) {
-            perror("cd");
+            perror(argv[1]);
             exitStatus = 1;
           } else {
             exitStatus = 0;
