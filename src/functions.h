@@ -6,7 +6,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-
+std::string prompt;
+int globChild = 0;
 
 #define GETWORD     0
 #define TRIMSPACE   1
@@ -457,6 +458,34 @@ void fillPaths(std::vector<char*>& v) {
   if (path.size() - colon > 0) v.push_back(strToCstr(path.substr(colon, -1)));
 }
 
+
+
+void printPrompt(const std::string& s) {
+  char cwd[4 * PATH_MAX];
+  if (NULL == getcwd(cwd + 1, 4 * PATH_MAX)) {
+    perror("getcwd");
+  }
+  cwd[0] = '[';
+
+  // print prompt and get a line of text (done in condition)
+  fprintf(stderr, "%s", (cwd + ("] " + prompt)).c_str());
+  fflush(stderr);
+}
+
+
+
+void handleSig(int spec) {
+  switch(spec) {
+    case SIGINT:
+      fprintf(stdout, "\n");
+      printPrompt(prompt);
+      break;
+    case SIGTSTP:
+      break;
+    default:
+      fprintf(stderr, "\nThis function was not meant to handle %d\n", spec);
+  }
+}
 
 
 
