@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <limits.h>
 
 #include "functions.h"
 
@@ -32,8 +33,14 @@ int main(int argc, char** argv) {
     // hold a raw line of input
     std::string line;
 
+    char cwd[4 * PATH_MAX];
+    if (NULL == getcwd(cwd + 1, 4 * PATH_MAX)) {
+      perror("getcwd");
+    }
+    cwd[0] = '[';
+
     // print prompt and get a line of text (done in condition)
-    printf("%s", prompt.c_str());
+    printf("%s", (cwd + ("] " + prompt)).c_str());
     preProcessLine(line);
 
 
@@ -189,15 +196,27 @@ int main(int argc, char** argv) {
       int exitStatus = 0;
 
       char* arg = cmds[cmdi].args[0];
+      char** argv = argvs[cmdi];
+      for(unsigned j = 0; j < argsSize; ++j) {
+        argv[j] = cmds[cmdi].args[j];
+      }
+      argv[argsSize] = NULL;
+
       if (strcmp(arg, "exit") == 0) {
         quit = true;
         break;
+      } else if (strcmp(arg, "cd") == 0) {
+        if (argv[1] == NULL) {
+          if (-1 == chdir(getenv("HOME"))) {
+            perror("cd");
+          }
+        } else {
+          if (-1 == chdir(argv[1])) {
+            perror("cd");
+          }
+        }
+        continue;
       }
-      char** subargv = argvs[cmdi];
-      for(unsigned j = 0; j < argsSize; ++j) {
-        subargv[j] = cmds[cmdi].args[j];
-      }
-      subargv[argsSize] = 0;
 
       if (cmds[cmdi].connector == PIPE) {
         // 1. make pipe
@@ -269,20 +288,23 @@ int main(int argc, char** argv) {
           strcat(executable, arg);
           struct stat statRes;
           if (-1 != stat(executable, &statRes)) {
-            if (-1 == execv(executable, subargv)) {
+            if (-1 == execv(executable, argv)) {
               // if there's a return value (-1), there was a problem
               debug("executing");
               perror(executable);
-              delete[] subargv;
+              delete[] argv;
               delete[] executable;
               exit(1);
             }
+          }
+          if (false) {
+            perror("stat");
           }
           errno = 0;
           delete[] executable;
         }
         fprintf(stderr, "%s: command not found\n", arg);
-        delete[] subargv;
+        delete[] argv;
         exit(1);
       } else { // parent process
         // close current fd's
