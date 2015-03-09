@@ -237,18 +237,18 @@ void getPrompt(std::string& prompt) {
   if (cbuff == NULL) {
     perror("getlogin failed");
   } else {
-    prompt += cbuff;
+    prompt.append(cbuff);
 
     cbuff = new char[4096];
     if (gethostname(cbuff, (unsigned)4096) == -1) {
       perror("gethostname failed");
     } else {
-      prompt += '@';
-      prompt += cbuff;
+      prompt.append(1, '@');
+      prompt.append(cbuff);
     }
     delete[] cbuff;
   }
-  prompt += " > ";
+  prompt.append(" > ");
 }
 
 
