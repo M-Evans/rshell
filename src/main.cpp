@@ -230,7 +230,9 @@ int main(int argc, char** argv) {
           fprintf(stderr, "fg: no current job\n");
           exitStatus = 1;
         } else {
-          kill(globChild, SIGCONT);
+          if (-1 == kill(globChild, SIGCONT)) {
+            perror("kill");
+          }
           waiting = true;
           if (-1 == waitpid(globChild, &exitStatus, WUNTRACED)) {
             perror("waitpid");
