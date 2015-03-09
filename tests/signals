@@ -1,0 +1,9 @@
+# commands from different directories
+# from /usr/bin:
+md5sum --help >/dev/null
+# from /usr/sbin:
+ifconfig >/dev/null
+# from /bin:
+ls >/dev/null
+# from /sbin:
+mkfs --version >/dev/null
