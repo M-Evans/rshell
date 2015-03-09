@@ -177,6 +177,13 @@ int main(int argc, char** argv) {
     std::vector<char*> paths;
     // getPaths
     fillPaths(paths);
+
+    // prepare argv so I can delete them later
+    std::vector<char**> argvs;
+    for(unsigned i = 0; i < cmds.size(); ++i) {
+      argvs.push_back(new char*[cmds[i].args.size()+1]);
+    }
+
     for(unsigned cmdi = 0; cmdi < cmds.size(); ++cmdi) {
       size_t argsSize = cmds[cmdi].args.size();
       int exitStatus = 0;
@@ -186,11 +193,11 @@ int main(int argc, char** argv) {
         quit = true;
         break;
       }
-      char** argv = new char*[argsSize+1];
+      char** subargv = argvs[cmdi];
       for(unsigned j = 0; j < argsSize; ++j) {
-        argv[j] = cmds[cmdi].args[j];
+        subargv[j] = cmds[cmdi].args[j];
       }
-      argv[argsSize] = 0;
+      subargv[argsSize] = 0;
 
       if (cmds[cmdi].connector == PIPE) {
         // 1. make pipe
@@ -262,11 +269,11 @@ int main(int argc, char** argv) {
           strcat(executable, arg);
           struct stat statRes;
           if (-1 != stat(executable, &statRes)) {
-            if (-1 == execv(executable, argv)) {
+            if (-1 == execv(executable, subargv)) {
               // if there's a return value (-1), there was a problem
               debug("executing");
               perror(executable);
-              delete[] argv;
+              delete[] subargv;
               delete[] executable;
               exit(1);
             }
@@ -275,6 +282,7 @@ int main(int argc, char** argv) {
           delete[] executable;
         }
         fprintf(stderr, "%s: command not found\n", arg);
+        delete[] subargv;
         exit(1);
       } else { // parent process
         // close current fd's
@@ -310,6 +318,9 @@ int main(int argc, char** argv) {
     }
     for(unsigned i = 0; i < paths.size(); ++i) {
       delete[] paths[i];
+    }
+    for(unsigned i = 0; i < argvs.size(); ++i) {
+      delete[] argvs[i];
     }
   }
   printf("Goodbye!\n");
