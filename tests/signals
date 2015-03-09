@@ -1,3 +1,31 @@
+# cd
+
+# open up new instance to move around freely
+bin/rshell
+pwd
+cd ..
+pwd
+ls
+# backward
+cd ..
+# here
+cd .
+# go to absolute /
+cd /
+# relative forward
+cd bin
+# absolute not /
+cd /usr/csshare/cs100
+# go home
+cd
+# multiple parameters
+# (all other than the first are ignored)
+cd / /bin /sbin
+# go back
+exit
+
+# execv
+
 # commands from different directories
 # from /usr/bin:
 md5sum --help >/dev/null
@@ -7,3 +35,104 @@ ifconfig >/dev/null
 ls >/dev/null
 # from /sbin:
 mkfs --version >/dev/null
+
+# test control c:
+ps
+cat
+without exiting cat, the prompt won't show up
+double!
+
+# and now it's finished
+ps
+
+# call rshell
+bin/rshell
+# open cat
+cat
+cat on
+cat off
+# send SIGINT
+
+# rshell ignores signal in both
+ps
+exit
+# not finished because very first rshell didn't exit
+ps
+
+# control z:
+cat
+double
+of
+everything
+
+# now it's backgrounded
+ps
+# I implemented a basic jobs
+jobs
+fg
+double again
+
+# and we're back
+ps
+# back and forth:
+cat
+double
+
+fg
+a
+
+fg
+b
+
+fg
+c
+
+fg
+d
+
+fg
+e
+
+# still there (paused)
+jobs
+ps
+# bring it back and kill it
+fg
+
+jobs
+ps
+
+# new instance
+# test control-z recursed
+cat
+catted
+
+# one cat and one rshell
+ps
+# open up rshell (second time)
+bin/rshell
+# one cat and two rshells
+ps
+cat
+catly
+
+# two cats and two rshells
+ps
+jobs
+# kill this cat
+fg
+
+# cat is gone:
+jobs
+ps
+# stop this rshell
+exit
+# second rshell is gone:
+jobs
+ps
+# kill first cat
+fg
+
+# first cat is gone:
+jobs
+ps

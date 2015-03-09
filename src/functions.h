@@ -8,6 +8,7 @@
 
 std::string prompt;
 int globChild = 0;
+bool waiting = false;
 
 #define GETWORD     0
 #define TRIMSPACE   1
@@ -477,8 +478,10 @@ void printPrompt(const std::string& s) {
 void handleSig(int spec) {
   switch(spec) {
     case SIGINT:
-      fprintf(stdout, "\n");
-      printPrompt(prompt);
+      if (!waiting) {
+        fprintf(stdout, "\n");
+        printPrompt(prompt);
+      }
       break;
     case SIGTSTP:
       break;

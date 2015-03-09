@@ -11,12 +11,21 @@
 #include <string>
 #include <iostream>
 #include <limits.h>
+#include <signal.h>
 
 #include "functions.h"
 
 
 int main(int argc, char** argv) {
-  std::string prompt;
+  if (SIG_ERR == signal(SIGINT, handleSig)) {
+    perror("Trapping SIGINT");
+    exit(1);
+  }
+  if (SIG_ERR == signal(SIGTSTP, handleSig)) {
+    perror("Trapping SIGTSTP");
+    exit(1);
+  }
+
   getPrompt(prompt);
 
 
@@ -33,16 +42,8 @@ int main(int argc, char** argv) {
     // hold a raw line of input
     std::string line;
 
-    char cwd[4 * PATH_MAX];
-    if (NULL == getcwd(cwd + 1, 4 * PATH_MAX)) {
-      perror("getcwd");
-    }
-    cwd[0] = '[';
-
-    // print prompt and get a line of text (done in condition)
-    printf("%s", (cwd + ("] " + prompt)).c_str());
+    printPrompt(prompt);
     preProcessLine(line);
-
 
     int mode = GETWORD;
     unsigned begin = 0;
@@ -194,6 +195,7 @@ int main(int argc, char** argv) {
     for(unsigned cmdi = 0; cmdi < cmds.size(); ++cmdi) {
       size_t argsSize = cmds[cmdi].args.size();
       int exitStatus = 0;
+      bool custom = false;
 
       char* arg = cmds[cmdi].args[0];
       char** argv = argvs[cmdi];
@@ -206,13 +208,74 @@ int main(int argc, char** argv) {
         quit = true;
         break;
       } else if (strcmp(arg, "cd") == 0) {
+        custom = true;
         if (argv[1] == NULL) {
           if (-1 == chdir(getenv("HOME"))) {
             perror("cd");
+            exitStatus = 1;
+          } else {
+            exitStatus = 0;
           }
         } else {
           if (-1 == chdir(argv[1])) {
             perror("cd");
+            exitStatus = 1;
+          } else {
+            exitStatus = 0;
+          }
+        }
+      } else if (strcmp(arg, "fg") == 0) {
+        custom = true;
+        if (globChild == 0) {
+          fprintf(stderr, "fg: no current job\n");
+          exitStatus = 1;
+        } else {
+          kill(globChild, SIGCONT);
+          waiting = true;
+          if (-1 == waitpid(globChild, &exitStatus, WUNTRACED)) {
+            perror("waitpid");
+            exit(1);
+          }
+          else if (WIFSTOPPED(exitStatus)) {
+            exitStatus = 1;
+            fprintf(stdout, "process %d stopped\n", globChild);
+          } else {
+            globChild = 0;
+          }
+          waiting = false;
+        }
+      } else if (strcmp(arg, "bg") == 0) {
+        custom = true;
+        if (globChild == 0) {
+          fprintf(stderr, "bg: no current job\n");
+          exitStatus = 1;
+        } else {
+          if (-1 == kill(globChild, SIGCONT)) {
+            perror("kill");
+            exitStatus = 1;
+          } else {
+            fprintf(stdout, "the process %d has been backgrounded\n", globChild);
+            exitStatus = 0;
+          }
+        }
+      } else if (strcmp(arg, "jobs") == 0) {
+        custom = true;
+        if (globChild == 0) {
+          fprintf(stdout, "no jobs\n");
+        } else {
+          fprintf(stdout, "one stopped job: %d\n", globChild);
+        }
+        exitStatus = 0;
+      }
+
+      if (custom) {
+        if (WEXITSTATUS(exitStatus) == 0) { // all is good (0)
+          while (cmdi < cmds.size() && cmds[cmdi].connector == OR) {
+            ++cmdi;
+          }
+        } else { // last command failed
+          while (cmdi < cmds.size() && cmds[cmdi].connector == AND) {
+            ++cmdi;
           }
         }
         continue;
@@ -316,16 +379,25 @@ int main(int argc, char** argv) {
           }
         } */
         // only wait for non-pipes
-        if (cmds[cmdi].connector != PIPE && -1 == waitpid(pid, &exitStatus, 0)) {
+        // && -1 == waitpid(pid, &exitStatus, WUNTRACED)
+        // && !bg) {
+        // (cmds[cmdi].connector != PIPE
+        waiting = true;
+        if (cmds[cmdi].connector != PIPE && -1 == waitpid(pid, &exitStatus, WUNTRACED)) {
           perror("waitpid");
           exit(1);
         }
+        waiting = false;
       }
-      if (!exitStatus) { // all is good (0)
+      if (WIFSTOPPED(exitStatus)) {
+        globChild = pid;
+        fprintf(stdout, "process %d stopped\n", globChild);
+      }
+      else if (WIFEXITED(exitStatus) && WEXITSTATUS(exitStatus) == 0) { // all is good (0)
         while (cmdi < cmds.size() && cmds[cmdi].connector == OR) {
           ++cmdi;
         }
-      } else { // last command failed
+      } else if (WIFEXITED(exitStatus)) { // last command failed
         while (cmdi < cmds.size() && cmds[cmdi].connector == AND) {
           ++cmdi;
         }
