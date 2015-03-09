@@ -32,3 +32,25 @@ UCR CS100 Project
 ## Bugs (ls)
 * compared to the GNU ls, I sort things differently. I sort everything alphabetically including the preceding periods. GNU ls sorts everything based on the first letter, ignoring preceding periods
 * it does not gracefully handle improper flags - they cause fatal errors
+
+## Features (signals)
+* ignores ``SIGINT``
+  * ``SIGINT`` is recieved by child
+  * without children, ``SIGINT`` does not do anything
+  * handling of ``SIGINT`` is child-dependent
+* ignores ``SIGTSTP``
+  * ``SIGTSTP`` is received by child
+  * If the child goes into the background, it is remembered
+  * it can then be foregrounded or backgrounded as you please
+* ``cd`` is implemented
+* reads ``PATH`` to figure out which executable to run
+
+## Bugs (signals)
+* SIGINT
+  * running ``rshell`` inside of ``rshell`` and sending ``SIGINT`` causes the prompt to be printed twice
+* SIGTSTP / process handling
+  * when backgrouding (bg) a process that requires input (such as ``cat``), they run simultaneously and seem to fight for input. In the case of cat, the first thing typed goes to cat and the second thing typed goes to ``rshell``.
+* cd
+  * lacks many features
+* PATH
+  * The command to execute is appended to each path and then checked for existence, so subfolders and executables within them may be executed
