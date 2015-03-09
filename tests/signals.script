@@ -1,7 +1,11 @@
 Script started on Mon 09 Mar 2015 08:40:14 AM PDT
 mevan003@hammer $ pwd
 /home/csmajs/mevan003/git/rshell
-mevan003@hammer $ bin/rshell
+mevan003@hammer $ cs100-runtests bin/rshell tests/signals
+*****************
+* tests/signals *
+*****************
+================================================================================
 Welcome to rshell!
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > clear
 [H[2J[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # cd
@@ -16,33 +20,33 @@ Welcome to rshell!
 /home/csmajs/mevan003/git
 [/home/csmajs/mevan003/git] mevan003@hammer.cs.ucr.edu > ls
 bashAutoTest  rshell  tzick
+[/home/csmajs/mevan003] mevan003@hammer.cs.ucr.edu > # backward:
 [/home/csmajs/mevan003/git] mevan003@hammer.cs.ucr.edu > cd ..
-[/home/csmajs/mevan003] mevan003@hammer.cs.ucr.edu > # here    /
-[/home/csmajs/mevan003] mevan003@hammer.cs.ucr.edu > # /\ backward \/ h here
+[/home/csmajs/mevan003] mevan003@hammer.cs.ucr.edu > # here:
 [/home/csmajs/mevan003] mevan003@hammer.cs.ucr.edu > cd .
-[/home/csmajs/mevan003] mevan003@hammer.cs.ucr.edu > # go to absolue te /
+[/home/csmajs/mevan003] mevan003@hammer.cs.ucr.edu > # go to absolute /
 [/home/csmajs/mevan003] mevan003@hammer.cs.ucr.edu > cd /
-[/] mevan003@hammer.cs.ucr.edu > cd bin      # relatib ve forward
+[/] mevan003@hammer.cs.ucr.edu > # relative forward
 [/] mevan003@hammer.cs.ucr.edu > cd bin
 [/bin] mevan003@hammer.cs.ucr.edu > # absolute not /
 [/bin] mevan003@hammer.cs.ucr.edu > cd /usr/csshare/cs100
 [/usr/csshare/cs100] mevan003@hammer.cs.ucr.edu > # go home
 [/usr/csshare/cs100] mevan003@hammer.cs.ucr.edu > cd
-[/home/csmajs/mevan003] mevan003@hammer.cs.ucr.edu > # inval lo   id location:
+[/home/csmajs/mevan003] mevan003@hammer.cs.ucr.edu > # invalid location:
 [/home/csmajs/mevan003] mevan003@hammer.cs.ucr.edu > cd asdfasdfasdfasdf
 cd: No such file or directory
 [/home/csmajs/mevan003] mevan003@hammer.cs.ucr.edu > # multiple parameters:
-[/home/csmajs/mevan003] mevan003@hammer.cs.ucr.edu > cd / /bin/  /sbin
+[/home/csmajs/mevan003] mevan003@hammer.cs.ucr.edu > cd / /bin /sbin
 [/] mevan003@hammer.cs.ucr.edu > # (all except first are ignored)
-[/] mevan003@hammer.cs.ucr.edu > go back       # go back
+[/] mevan003@hammer.cs.ucr.edu > # go back to original rshell
 [/] mevan003@hammer.cs.ucr.edu > exit
 Goodbye!
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > 
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # e3x  xecv
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # execv
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > 
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # commands from different directories
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # from /usr/bin:
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > md5sum --help  
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > md5sum --help
 Usage: md5sum [OPTION]... [FILE]...
 Print or check MD5 (128-bit) checksums.
 With no FILE, or when FILE is -, read standard input.
@@ -69,7 +73,7 @@ Report md5sum bugs to bug-coreutils@gnu.org
 GNU coreutils home page: <http://www.gnu.org/software/coreutils/>
 General help using GNU software: <http://www.gnu.org/gethelp/>
 For complete documentation, run: info coreutils 'md5sum invocation'
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # from /su  usr/sbin:
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # from /usr/sbin:
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > ifconfig
 eth0      Link encap:Ethernet  HWaddr 00:30:48:FF:C6:5A  
           inet addr:169.235.31.72  Bcast:169.235.31.255  Mask:255.255.255.0
@@ -89,12 +93,12 @@ lo        Link encap:Local Loopback
           RX bytes:1174895876 (1.0 GiB)  TX bytes:1174895876 (1.0 GiB)
 
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # from /bin:
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > ls >  
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > ls 
 bin  infile  LICENSE  Makefile	README.md  src	tests
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # from /sbin:
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > mkfs --version
 mkfs (util-linux-ng 2.17.2)
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > #   
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # 
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # test control c:
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > ps
   PID TTY          TIME CMD
@@ -107,12 +111,12 @@ without exiting cat, the prompt won't show up
 and everything is double!
 and everything is double!
 ^C[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # and now it's finished
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > pw s
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > ps
   PID TTY          TIME CMD
 42105 pts/15   00:00:00 bash
 42110 pts/15   00:00:00 rshell
 42566 pts/15   00:00:00 ps
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # there  . dead.
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # there. dead.
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > 
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # now for a recursive test:
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > bin/rshell
@@ -122,7 +126,7 @@ cat on
 cat on
 cat off
 cat off
-# send s SIGINT:
+# send SIGINT:
 # send SIGINT:
 ^C[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > ps
   PID TTY          TIME CMD
@@ -130,7 +134,7 @@ cat off
 42110 pts/15   00:00:00 rshell
 42577 pts/15   00:00:00 rshell
 42608 pts/15   00:00:00 ps
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # two instal nces of rshell, and no cat! it worked
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # two instances of rshell, and no cat! it worked
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # rshell ignores both
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > exit
 Goodbye!
@@ -139,7 +143,7 @@ Goodbye!
 42105 pts/15   00:00:00 bash
 42110 pts/15   00:00:00 rshell
 42641 pts/15   00:00:00 ps
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # back to the ri  first instance
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # back to the first instance
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # of rshell
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > 
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # test control z:
@@ -151,19 +155,19 @@ of
 everything
 everything
 ^Zprocess 42651 stopped
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > now it's          # now it's in the        stopped
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # now it's stopped
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > ps
   PID TTY          TIME CMD
 42105 pts/15   00:00:00 bash
 42110 pts/15   00:00:00 rshell
 42651 pts/15   00:00:00 cat
 42670 pts/15   00:00:00 ps
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # there it i! s!
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # there it is!
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # I implemented jobs:
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # (very basic verison of it)
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > jobs
 one stopped job: 42651
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > jo  fg
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > fg
 double again!
 double again!
 it worked. :3
@@ -205,7 +209,7 @@ e
 f
 f
 ^Zprocess 42693 stopped
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # there. finished. S                    jobs
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > jobs
 one stopped job: 42693
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > ps
   PID TTY          TIME CMD
@@ -213,16 +217,16 @@ one stopped job: 42693
 42110 pts/15   00:00:00 rshell
 42693 pts/15   00:00:00 cat
 42762 pts/15   00:00:00 ps
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # jo    jobs
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # jobs
 one stopped job: 42693
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > fg
-^C[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > kill    # killed
+^C[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # killed
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > exit
 Goodbye!
 mevan003@hammer $ bin/rshell
 Welcome to rshell!
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > f # fresh start
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > now     # now for a recursive s test of control-z:
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # fresh start
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # now for a recursive test of control-z:
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > cat
 catted
 catted
@@ -248,7 +252,7 @@ Welcome to rshell!
 catly
 catly
 ^Zprocess 42796 stopped
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # two cats and two rshells                          ps
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > ps
   PID TTY          TIME CMD
 42105 pts/15   00:00:00 bash
 42769 pts/15   00:00:00 rshell
@@ -261,7 +265,7 @@ catly
 one stopped job: 42796
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # kill this cat:
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > fg
-^C[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > c # cat if s fo  gone:
+^C[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # cat is gone:
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > jobs
 no jobs
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > ps
@@ -271,7 +275,7 @@ no jobs
 42783 pts/15   00:00:00 cat
 42792 pts/15   00:00:00 rshell
 42804 pts/15   00:00:00 ps
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # stop this shell     rshell:
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # stop this rshell:
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > exit
 Goodbye!
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > jobs
@@ -282,7 +286,7 @@ one stopped job: 42783
 42769 pts/15   00:00:00 rshell
 42783 pts/15   00:00:00 cat
 42809 pts/15   00:00:00 ps
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # f kill first cat:
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # kill first cat:
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > fg
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > ^C
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > jobs
@@ -292,7 +296,7 @@ no jobs
 42105 pts/15   00:00:00 bash
 42769 pts/15   00:00:00 rshell
 42816 pts/15   00:00:00 ps
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # first cat is gone. :w
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # first cat is gone.
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > ps
   PID TTY          TIME CMD
 42105 pts/15   00:00:00 bash
@@ -312,9 +316,11 @@ no jobs
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > ^C
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > ^C
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > ^C
-[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # yaya . finished. :)
+[/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > # yay. finished. :)
 [/home/csmajs/mevan003/git/rshell] mevan003@hammer.cs.ucr.edu > exit
 Goodbye!
+
+================================================================================
 mevan003@hammer $ exit
 exit
 
