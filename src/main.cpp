@@ -132,7 +132,7 @@ int main(int argc, char** argv) {
     }
 
 
-    /*
+    /* code for debugging
     for(unsigned i = 0; i < cmds.size(); ++i) {
       for(unsigned j = 0; j < cmds[i].args.size(); ++j) {
         printf("cmd %d arg %d: \"%s\"\n", i, j, cmds[i].args[j]);
@@ -169,26 +169,30 @@ int main(int argc, char** argv) {
         }
       }
     }
-    // *///
+    // */
 
     // now to execute all the commands
+    // pipe
     int pa[2];
-    for(unsigned i = 0; i < cmds.size(); ++i) {
-      size_t argsSize = cmds[i].args.size();
+    std::vector<char*> paths;
+    // getPaths
+    fillPaths(paths);
+    for(unsigned cmdi = 0; cmdi < cmds.size(); ++cmdi) {
+      size_t argsSize = cmds[cmdi].args.size();
       int exitStatus = 0;
 
-      char* arg = cmds[i].args[0];
+      char* arg = cmds[cmdi].args[0];
       if (strcmp(arg, "exit") == 0) {
         quit = true;
         break;
       }
       char** argv = new char*[argsSize+1];
       for(unsigned j = 0; j < argsSize; ++j) {
-        argv[j] = cmds[i].args[j];
+        argv[j] = cmds[cmdi].args[j];
       }
       argv[argsSize] = 0;
 
-      if (cmds[i].connector == PIPE) {
+      if (cmds[cmdi].connector == PIPE) {
         // 1. make pipe
         if (-1 == pipe(pa)) {
           perror("pipe");
@@ -199,20 +203,20 @@ int main(int argc, char** argv) {
         fdChange_t outfdC(1, pa[1], OUTPUT);
         fdChange_t infdC(0, pa[0], INPUT);
 
-        cmds[i].fdChanges.push_back(outfdC);
-        cmds[i].closefd.push_back(pa[1]);
+        cmds[cmdi].fdChanges.push_back(outfdC);
+        cmds[cmdi].closefd.push_back(pa[1]);
         // next program:
-        cmds[i+1].fdChanges.push_back(infdC);
-        cmds[i+1].closefd.push_back(pa[0]);
+        cmds[cmdi+1].fdChanges.push_back(infdC);
+        cmds[cmdi+1].closefd.push_back(pa[0]);
 
       }
 
       std::map<int, fdData_t> fds;
-      for(unsigned j = 0; j < cmds[i].fdChanges.size(); ++j) {
-        int o           = cmds[i].fdChanges[j].orig;
-        int mt          = cmds[i].fdChanges[j].moveTo;
-        int t           = cmds[i].fdChanges[j].type;
-        std::string str = cmds[i].fdChanges[j].s;
+      for(unsigned j = 0; j < cmds[cmdi].fdChanges.size(); ++j) {
+        int o           = cmds[cmdi].fdChanges[j].orig;
+        int mt          = cmds[cmdi].fdChanges[j].moveTo;
+        int t           = cmds[cmdi].fdChanges[j].type;
+        std::string str = cmds[cmdi].fdChanges[j].s;
 
         if (t == INPUT) {
           if (mt == FILEIN) {
@@ -251,34 +255,49 @@ int main(int argc, char** argv) {
         exit(1); // fatal error
       } else if (0 == pid) { // child process
         deltaFD(fds);
-        if (-1 == execvp(arg, argv)) {
-          // if there's a return value (-1), there was a problem
-          perror(arg);
-          delete[] argv;
-          exit(1);
+        for(unsigned i = 0; i < paths.size(); ++i) {
+          char* executable = new char[strlen(paths[i]) + strlen(arg) + 2];
+          strcpy(executable, paths[i]);
+          strcat(executable, "/");
+          strcat(executable, arg);
+          struct stat statRes;
+          if (-1 != stat(executable, &statRes)) {
+            if (-1 == execv(executable, argv)) {
+              // if there's a return value (-1), there was a problem
+              debug("executing");
+              perror(executable);
+              delete[] argv;
+              delete[] executable;
+              exit(1);
+            }
+          }
+          errno = 0;
+          delete[] executable;
         }
+        fprintf(stderr, "%s: command not found\n", arg);
+        exit(1);
       } else { // parent process
         // close current fd's
         /*
-        for(unsigned j = 0; j < cmds[i].closefd.size(); ++j) {
-          if (-1 == close(cmds[i].closefd[j])) {
+        for(unsigned j = 0; j < cmds[cmdi].closefd.size(); ++j) {
+          if (-1 == close(cmds[cmdi].closefd[j])) {
             perror("closing in parent");
             exit(1);
           }
         } */
         // only wait for non-pipes
-        if (cmds[i].connector != PIPE && -1 == waitpid(pid, &exitStatus, 0)) {
+        if (cmds[cmdi].connector != PIPE && -1 == waitpid(pid, &exitStatus, 0)) {
           perror("waitpid");
           exit(1);
         }
       }
       if (!exitStatus) { // all is good (0)
-        while (i < cmds.size() && cmds[i].connector == OR) {
-          ++i;
+        while (cmdi < cmds.size() && cmds[cmdi].connector == OR) {
+          ++cmdi;
         }
       } else { // last command failed
-        while (i < cmds.size() && cmds[i].connector == AND) {
-          ++i;
+        while (cmdi < cmds.size() && cmds[cmdi].connector == AND) {
+          ++cmdi;
         }
       }
     }
@@ -288,6 +307,9 @@ int main(int argc, char** argv) {
       for(unsigned j = 0; j < cmds[i].args.size(); ++j) {
         delete[] cmds[i].args[j];
       }
+    }
+    for(unsigned i = 0; i < paths.size(); ++i) {
+      delete[] paths[i];
     }
   }
   printf("Goodbye!\n");
