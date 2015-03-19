@@ -9,10 +9,10 @@ ls -a
 ## output redirection (>)
 # creates a file
 ls -a >afile
-cat afile && rm afile
+cat afile
 # order doesn't matter
 ls >afile -a
-cat afile && rm afile
+cat afile
 >afile ls -a
 cat afile
 # take what would be printed on screen and put in file
@@ -38,57 +38,23 @@ cat <bfile
 cat <afile <bfile
 
 
-
 # overwrites and creates a file
-# overwrites and creates a file
-# overwrites and creates a file
-
-
 ls -a
 ls -a >afile
+ls -a >>afile
+# fails and goes to stderr:
+ls -J
+ls -J >>afile
+ls -J 2>>afile
+ls -J 2>>afile
+# with afile
 cat afile
-cat <afile
-
-
-cat 2<afile
-
-
-ls 
-ls 
-
-
-
-cat infile
+# with infile
 cat <infile
-cat 2<infile
+# control c:
 grep batch <infile
-grep batch 2<infile
-
-
-
-
-## extra credit
-# input redirection (<)
-read asdf 2<
 # input redirection (<<<)
 cat <<<"hello world!!! :D SO much text here. :)"
-
-# output redirection (>)
-# output redirection (>>)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# input redirection (<)
+cat 2<infile
 
