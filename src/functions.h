@@ -23,7 +23,7 @@ bool waiting = false;
 #define SEMI 3
 #define PIPE 4
 
-#define debug(A) std::cout << #A << ": " << A << std::endl
+#define debug(A) std::cout << #A << ": " << (A) << std::endl
 
 
 #define UNDEFINED -1
@@ -52,6 +52,7 @@ struct fdChange_t {
 #define DT_FOW  3
 #define DT_FOA  4
 #define DT_STR  5
+
 
 
 struct fdData_t {
@@ -396,11 +397,11 @@ void debugMap(const std::map<int, fdData_t>& fds) {
     } else if (it->second.t == DT_FDO) {
       printf("%d becomes %d\n", it->first, it->second.from);
     } else if (it->second.t == DT_FIN) {
-      printf("%d becomes \"%s\"\n", it->first, it->second.s.c_str());
+      printf("%d becomes \"%s\" (input)\n", it->first, it->second.s.c_str());
     } else if (it->second.t == DT_FOW) {
-      printf("\"%s\" becomes %d (overwrite)\n", it->second.s.c_str(), it->second.from);
+      printf("%d becomes \"%s\" (output overwrite)\n", it->second.from, it->second.s.c_str());
     } else if (it->second.t == DT_FOA) {
-      printf("\"%s\" becomes %d (append)\n", it->second.s.c_str(), it->second.from);
+      printf("%d becomes \"%s\" (output append)\n", it->second.from, it->second.s.c_str());
     } else if (it->second.t == DT_STR) {
       printf("%d becomes \"%s\"\n", it->first, it->second.s.c_str());
     } else {
@@ -428,6 +429,110 @@ void debugMap(const std::map<int, fdData_t>& fds) {
 
 
 void deltaFD(const std::map<int, fdData_t>& fds) {
+  /*
+  int savestdout, savestdin, savestderr;
+  if (-1 == (savestdout = dup(0))) {
+    perror("dup(0)");
+    exit(1);
+  }
+  if (-1 == (savestdin  = dup(1))) {
+    perror("dup(1)");
+    exit(1);
+  }
+  if (-1 == (savestderr = dup(2))) {
+    perror("dup(2)");
+    exit(1);
+  }
+  */
+
+  auto it = fds.begin();
+  while (it != fds.end()) {
+    fprintf(stderr, "going for a round\n");
+    debug(it->second.t);
+    if (it->second.t == DT_FDIN || it->second.t == DT_FDO) {
+      // printf("%d becomes %d\n", it->first, it->second.from);
+      if (-1 == close(it->first)) {
+        perror("close");
+        exit(1);
+      }
+      debug(it->second.from);
+      debug(it->first);
+      if (-1 == dup2(it->second.from, it->first)) {
+        perror("dup2");
+        exit(1);
+      }
+    } else if (it->second.t == DT_FIN) {
+      // printf("%d becomes \"%s\" (input)\n", it->first, it->second.s.c_str());
+      int file;
+      if (-1 == (file = open(it->second.s.c_str(), O_RDONLY))) {
+        debug("fuxing missing file");
+        perror(it->second.s.c_str());
+        exit(1);
+      }
+      if (-1 == close(it->first)) {
+        perror("close");
+        exit(1);
+      }
+      if (-1 == dup2(file, it->first)) {
+        perror("dup2");
+        exit(1);
+      }
+    } else if (it->second.t == DT_FOW) {
+      // printf("%d becomes \"%s\" (output overwrite)\n", it->second.from, it->second.s.c_str());
+      int file;
+      if (-1 == (file = open(it->second.s.c_str(), O_WRONLY|O_CREAT, 0644))) {
+        debug("fuxing missing file 2");
+        perror(it->second.s.c_str());
+        exit(1);
+      }
+      if (-1 == close(it->second.from)) {
+        perror("close");
+        exit(1);
+      }
+      if (-1 == dup2(file, it->second.from)) {
+        perror("dup2");
+        exit(1);
+      }
+    } else if (it->second.t == DT_FOA) {
+      // printf("%d becomes \"%s\" (output append)\n", it->second.from, it->second.s.c_str());
+      int file;
+      if (-1 == (file = open(it->second.s.c_str(), O_WRONLY|O_APPEND|O_CREAT, 0644))) {
+        perror(it->second.s.c_str());
+        exit(1);
+      }
+      if (-1 == close(it->second.from)) {
+        perror("close");
+        exit(1);
+      }
+      if (-1 == dup2(file, it->second.from)) {
+        perror("dup2");
+        exit(1);
+      }
+
+    } else if (it->second.t == DT_STR) {
+      // printf("%d becomes \"%s\"\n", it->first, it->second.s.c_str());
+      int fd2[2];
+      if (-1 == pipe(fd2)) {
+        perror("pipe");
+        exit(1);
+      }
+      if (-1 == close(it->first)) {
+        perror("close");
+        exit(1);
+      }
+      if (-1 == dup2(fd2[1], it->first)) {
+        perror("dup2");
+      }
+      dprintf(fd2[0], "%s", it->second.s.c_str());
+      if (-1 == close(fd2[0])) {
+        perror("close fd2[0]");
+        exit(1);
+      }
+    } else {
+      fprintf(stderr, "Unknown type...");
+    }
+    ++it;
+  }
 }
 
 
