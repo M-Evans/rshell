@@ -181,10 +181,10 @@ int main(int argc, char** argv) {
 
     // now to execute all the commands
     // pipe
-    int pa[2];
     std::vector<char*> paths;
     // getPaths
     fillPaths(paths);
+    bool checkPrevious = false;
 
     // prepare argv so I can delete them later
     std::vector<char**> argvs;
@@ -192,15 +192,35 @@ int main(int argc, char** argv) {
       argvs.push_back(new char*[cmds[i].args.size()+1]);
     }
 
-    for(unsigned cmdi = 0; cmdi < cmds.size(); ++cmdi) {
-      size_t argsSize = cmds[cmdi].args.size();
+    std::vector<int*> pipes;
+    int pc = 0;
+    int pt = 0;
+    for(unsigned i = 0; i < cmds.size(); ++i) {
+      if (cmds[i].connector == PIPE) {
+        int* ip = new int[2];
+        pt++;
+        if (-1 == pipe(ip)) {
+          perror("pipe");
+          break;
+        } else {
+          debug(pt);
+          debug(i);
+          debug(ip[0]);
+          debug(ip[1]);
+          pipes.push_back(ip);
+        }
+      }
+    }
+
+    for(unsigned i = 0; i < cmds.size(); ++i) {
+      size_t argsSize = cmds[i].args.size();
       int exitStatus = 0;
       bool custom = false;
 
-      char* arg = cmds[cmdi].args[0];
-      char** argv = argvs[cmdi];
+      char* arg = cmds[i].args[0];
+      char** argv = argvs[i];
       for(unsigned j = 0; j < argsSize; ++j) {
-        argv[j] = cmds[cmdi].args[j];
+        argv[j] = cmds[i].args[j];
       }
       argv[argsSize] = NULL;
 
@@ -272,42 +292,23 @@ int main(int argc, char** argv) {
 
       if (custom) {
         if (WEXITSTATUS(exitStatus) == 0) { // all is good (0)
-          while (cmdi < cmds.size() && cmds[cmdi].connector == OR) {
-            ++cmdi;
+          while (i < cmds.size() && cmds[i].connector == OR) {
+            ++i;
           }
         } else { // last command failed
-          while (cmdi < cmds.size() && cmds[cmdi].connector == AND) {
-            ++cmdi;
+          while (i < cmds.size() && cmds[i].connector == AND) {
+            ++i;
           }
         }
         continue;
       }
 
-      if (cmds[cmdi].connector == PIPE) {
-        // 1. make pipe
-        if (-1 == pipe(pa)) {
-          perror("pipe");
-          exit(1);
-        }
-        // 2. this program gets output and next program gets input
-        // this program:
-        fdChange_t outfdC(1, pa[1], OUTPUT);
-        fdChange_t infdC(0, pa[0], INPUT);
-
-        cmds[cmdi].fdChanges.push_back(outfdC);
-        cmds[cmdi].closefd.push_back(pa[1]);
-        // next program:
-        cmds[cmdi+1].fdChanges.push_back(infdC);
-        cmds[cmdi+1].closefd.push_back(pa[0]);
-
-      }
-
       std::map<int, fdData_t> fds;
-      for(unsigned j = 0; j < cmds[cmdi].fdChanges.size(); ++j) {
-        int o           = cmds[cmdi].fdChanges[j].orig;
-        int mt          = cmds[cmdi].fdChanges[j].moveTo;
-        int t           = cmds[cmdi].fdChanges[j].type;
-        std::string str = cmds[cmdi].fdChanges[j].s;
+      for(unsigned j = 0; j < cmds[i].fdChanges.size(); ++j) {
+        int o           = cmds[i].fdChanges[j].orig;
+        int mt          = cmds[i].fdChanges[j].moveTo;
+        int t           = cmds[i].fdChanges[j].type;
+        std::string str = cmds[i].fdChanges[j].s;
 
         if (t == INPUT) {
           if (mt == FILEIN) {
@@ -334,10 +335,21 @@ int main(int argc, char** argv) {
           }
         }
       }
-      debugMap(fds);
 
+      if (checkPrevious) {
+        if (fds.find(0) != fds.end()) fds.erase(0);
+        fds.insert(std::pair<int, fdData_t>(0, fdData_t(pipes[pc][1], DT_FDIN, "")));
+        pc++;
+      }
 
+      if (cmds[i].connector == PIPE) {
+        if (fds.find(1) != fds.end()) fds.erase(1);
+        std::cout << std::boolalpha;
+        fds.insert(std::pair<int, fdData_t>(1, fdData_t(pipes[pc][0], DT_FDO, "")));
+        checkPrevious = true;
+      }
 
+      // debugMap(fds);
 
       // arg and argv are now prepared
       pid_t pid = fork();
@@ -355,7 +367,6 @@ int main(int argc, char** argv) {
           if (-1 != stat(executable, &statRes)) {
             if (-1 == execv(executable, argv)) {
               // if there's a return value (-1), there was a problem
-              debug("executing");
               perror(executable);
               delete[] argv;
               delete[] executable;
@@ -372,20 +383,22 @@ int main(int argc, char** argv) {
         delete[] argv;
         exit(1);
       } else { // parent process
-        // close current fd's
-        /*
-        for(unsigned j = 0; j < cmds[cmdi].closefd.size(); ++j) {
-          if (-1 == close(cmds[cmdi].closefd[j])) {
-            perror("closing in parent");
-            exit(1);
+        if (cmds[i].connector != PIPE) {
+          checkPrevious = false;
+          for(int i = 0; i < pc; ++i) {
+            fprintf(stderr, "deleting %d\n", i);
+            if (-1 == close(pipes[i][0])) {
+              perror("close pipes[i][0]");
+            }
+            if (-1 == close(pipes[i][1])) {
+              perror("close pipes[i][1]");
+            }
+            delete[] pipes[i];
           }
-        } */
-        // only wait for non-pipes
-        // && -1 == waitpid(pid, &exitStatus, WUNTRACED)
-        // && !bg) {
-        // (cmds[cmdi].connector != PIPE
+        }
+
         waiting = true;
-        if (cmds[cmdi].connector != PIPE && -1 == waitpid(pid, &exitStatus, WUNTRACED)) {
+        if (cmds[i].connector != PIPE && -1 == waitpid(pid, &exitStatus, WUNTRACED)) {
           perror("waitpid");
           exit(1);
         }
@@ -396,12 +409,12 @@ int main(int argc, char** argv) {
         fprintf(stdout, "process %d stopped\n", globChild);
       }
       else if (WIFEXITED(exitStatus) && WEXITSTATUS(exitStatus) == 0) { // all is good (0)
-        while (cmdi < cmds.size() && cmds[cmdi].connector == OR) {
-          ++cmdi;
+        while (i < cmds.size() && cmds[i].connector == OR) {
+          ++i;
         }
       } else if (WIFEXITED(exitStatus)) { // last command failed
-        while (cmdi < cmds.size() && cmds[cmdi].connector == AND) {
-          ++cmdi;
+        while (i < cmds.size() && cmds[i].connector == AND) {
+          ++i;
         }
       }
     }
